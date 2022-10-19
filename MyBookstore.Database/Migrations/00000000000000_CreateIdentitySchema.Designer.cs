@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyBookStore.Data;
 using System;
 
-namespace MyBookStore.Data.Migrations
+namespace MyBookstore.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
