@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using MyBookstore.Database;
 using MyBookStore.Areas.Identity;
-using MyBookStore.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
