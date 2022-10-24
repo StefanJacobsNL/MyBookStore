@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyBookstore.Database.DTO
+namespace MyBookstore.Database.Entities
 {
     public class Genre
     {

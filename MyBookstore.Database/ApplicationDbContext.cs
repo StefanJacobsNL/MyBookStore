@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MyBookstore.Database.DTO;
+using MyBookstore.Database.Entities;
 
 namespace MyBookstore.Database
 {

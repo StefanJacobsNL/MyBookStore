@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Components\" />
+    <Folder Include="Pages\Book\" />
+    <Folder Include="Pages\Genre\" />
   </ItemGroup>
 
   <ItemGroup>
