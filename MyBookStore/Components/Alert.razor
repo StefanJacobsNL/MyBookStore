@@ -1,0 +1,34 @@
+﻿@if (showAlert)
+{
+    <div class="row">
+        <div class="col">
+            <div class="alert row mb-2 pb-0 @AlertCssStyle" role="alert">
+                @if (!string.IsNullOrEmpty(Icon))
+                {
+                    <div class="col-1">
+                        <i class="oi @Icon"></i>
+                    </div>
+                }
+                <div class="col">
+                    @if (ErrorList.Any())
+                    {
+                        <ul>
+                            @foreach (var error in ErrorList)
+                            {
+                                <li>@error</li>
+                            }
+                        </ul>
+                    }
+                    else if (CustomTextElement != null)
+                    {
+                        @CustomTextElement
+                    }
+                    else
+                    {
+                        @AlertText
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

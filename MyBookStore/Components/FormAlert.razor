@@ -1,0 +1,14 @@
+﻿<Alert @ref="Alert" Icon="oi-info" AlertCssStyle="@alertStyle"
+       ErrorList="ErrorList">
+    <CustomTextElement>
+        @if (EditContext != null && EditContext.Validate() && !ErrorList.Any())
+        {
+            Alert?.Close();
+        }
+        else if (EditContext != null && !EditContext.Validate())
+        {
+            <strong>Error</strong>
+            <ValidationSummary />
+        }
+    </CustomTextElement>
+</Alert>

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MyBookstore.Database.Entities
 {
-    public class BookAuthor
+    public class BookGenreDTO
     {
         public int Id { get; set; }
-        public Book Book { get; set; }
+        public BookDTO Book { get; set; }
         public int BookId { get; set; }
-        public Author Author { get; set; }
-        public int AuthorId { get; set; }
+        public GenreDTO Genre { get; set; }
+        public int GenreId { get; set; }
     }
 }

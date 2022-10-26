@@ -2,7 +2,7 @@
 
 namespace MyBookstore.Database.Entities
 {
-    public class Author
+    public class AuthorDTO
     {
         public int Id { get; set; }
         [Required]

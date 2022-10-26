@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Database.Entities
 {
-    public class Book
+    public class BookDTO
     {
         public int Id { get; set; }
         [Required]
@@ -15,8 +15,8 @@ namespace MyBookstore.Database.Entities
         public decimal Price { get; set; }
         public string ImagePath { get; set; }
         [Required]
-        public ICollection<BookGenre> BookGenres { get; set; }
+        public ICollection<BookGenreDTO> BookGenres { get; set; }
         [Required]
-        public ICollection<BookAuthor> BookAuthors { get; set; }
+        public ICollection<BookAuthorDTO> BookAuthors { get; set; }
     }
 }

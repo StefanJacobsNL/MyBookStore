@@ -1,0 +1,29 @@
+﻿@page "/admin/ManageGenre"
+<PageTitle>Manage Genre</PageTitle>
+
+<AuthorizeView>
+    <Authorized Context="loggedIn">
+        <div class="row">
+            <div class="col">
+                @if (editContext == null)
+                {
+                    <LoadingSpinner />
+                }
+                else
+                {
+                    <h3>Manage Genre</h3>
+                    <EditForm EditContext="editContext" OnInvalidSubmit="OnInvalidSubmit" OnValidSubmit="OnValidSubmit">
+                        <DataAnnotationsValidator />
+                        <FormAlert @ref="FormAlert" EditContext="context"
+                               ErrorList="errorList" formSucces="@((result != null && result.Succes) ? true : false)" />
+                        <label>Genre name</label>
+                        <InputText class="form-control" @bind-Value="genre.Name" />
+                        <button type="submit" class="btn btn-primary form-control mt-3">
+                            <span class="oi oi-plus" aria-hidden="true"></span> Add genre
+                        </button>
+                    </EditForm>
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>

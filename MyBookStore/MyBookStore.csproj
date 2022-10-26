@@ -19,13 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Components\" />
-    <Folder Include="Pages\Book\" />
-    <Folder Include="Pages\Genre\" />
+    <Folder Include="Pages\Books\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyBookstore.Database\MyBookstore.Database.csproj" />
+    <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
   </ItemGroup>
 
 </Project>

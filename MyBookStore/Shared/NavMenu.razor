@@ -19,23 +19,26 @@
                 <span class="oi oi-plus" aria-hidden="true"></span> Counter
             </NavLink>
         </div>
-        <div class="nav-item dropdown px-3">
-
-            <NavLink class="nav-link" @onclick="ToggleAdminDropDown">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
-            </NavLink>
-            @if (collapseAdminMenu)
-            {
-                <NavLink class="nav-link" href="admin/ManageGenre">
-                    <span class="oi oi-clipboard" aria-hidden="true"></span> Manage genres
+        <AuthorizeView>
+            <Authorized>
+            <div class="nav-item dropdown px-3">
+                <NavLink class="nav-link" @onclick="ToggleAdminDropDown">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Admin
                 </NavLink>
-                <NavLink class="nav-link" href="admin/ManageAuthor">
-                    <span class="oi oi-badge" aria-hidden="true"></span> Manage authors
-                </NavLink>
-                <NavLink class="nav-link" href="admin/ManageBooks">
-                    <span class="oi oi-book" aria-hidden="true"></span> Manage books
-                </NavLink>
-            }
-        </div>
+                @if (collapseAdminMenu)
+                {
+                    <NavLink class="nav-link" href="admin/ManageGenre">
+                        <span class="oi oi-clipboard" aria-hidden="true"></span> Manage genres
+                    </NavLink>
+                    <NavLink class="nav-link" href="admin/ManageAuthor">
+                        <span class="oi oi-badge" aria-hidden="true"></span> Manage authors
+                    </NavLink>
+                    <NavLink class="nav-link" href="admin/ManageBooks">
+                        <span class="oi oi-book" aria-hidden="true"></span> Manage books
+                    </NavLink>
+                }
+            </div>
+            </Authorized>
+        </AuthorizeView>
     </nav>
 </div>
