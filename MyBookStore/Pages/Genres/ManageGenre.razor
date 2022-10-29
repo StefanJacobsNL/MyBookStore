@@ -5,23 +5,76 @@
     <Authorized Context="loggedIn">
         <div class="row">
             <div class="col">
-                @if (editContext == null)
+                @if (genres == null)
                 {
                     <LoadingSpinner />
                 }
                 else
                 {
-                    <h3>Manage Genre</h3>
-                    <EditForm EditContext="editContext" OnInvalidSubmit="OnInvalidSubmit" OnValidSubmit="OnValidSubmit">
-                        <DataAnnotationsValidator />
-                        <FormAlert @ref="FormAlert" EditContext="context"
-                               ErrorList="errorList" formSucces="@((result != null && result.Succes) ? true : false)" />
-                        <label>Genre name</label>
-                        <InputText class="form-control" @bind-Value="genre.Name" />
-                        <button type="submit" class="btn btn-primary form-control mt-3">
-                            <span class="oi oi-plus" aria-hidden="true"></span> Add genre
-                        </button>
-                    </EditForm>
+                    <h3>Manage Genres</h3>
+                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconStrings.InfoIcon" />
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Genre</th>
+                                <th scope="col">Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (genres.Any())
+                            {
+                                @foreach (var genre in genres)
+                                {
+                                    <tr>
+                                        <td>@genre.Name</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-success" @onclick="@(() => OnEditBtnListClick(genre))">
+                                                <i class="@IconStrings.EditIcon"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" @onclick="@(() => OnDeleteBtnListClick(genre))">
+                                                <i class="@IconStrings.DeleteIcon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2" class="text-center">No genres added</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary form-control mb-3" @onclick="OnAddBtnClick">
+                        <span class="@IconStrings.AddIcon" aria-hidden="true"></span> Add genre
+                    </button>
+
+
+                    @if(ShowGenreForm)
+                    {
+                        <div class="row border-top pt-3">
+                            <div class="col">
+                                <h3>@FormAddEditText Genre</h3>
+                                <EditForm EditContext="editContext" OnInvalidSubmit="OnInvalidSubmit" OnValidSubmit="OnValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <FormAlert @ref="FormAlert" EditContext="context"
+                                       ErrorList="errorList" formSucces="@((result != null && result.Succes) ? true : false)" />
+                                    <label>Genre name</label>
+                                    <InputText class="form-control" @bind-Value="selectedGenre.Name" />
+                                    <button type="submit" class="btn btn-primary form-control mt-3">
+                                        <span class="@FormAddEditIcon" aria-hidden="true"></span> @FormAddEditText genre
+                                    </button>
+                                </EditForm>
+                            </div>
+                        </div>
+                    }
+
+                    <Modal @ref="Modal" HeaderText="Delete genre"
+                           BodyText="@($"Are you sure you want to delete '{ selectedGenre.Name }'?")"
+                           BtnConfirmTxt="Delete genre" BtnConfirmColour="danger"
+                           BtnConfirmIcon="@IconStrings.DeleteIcon"
+                           OnConfirmMethod="OnModalDeleteConfirm"/>
                 }
             </div>
         </div>

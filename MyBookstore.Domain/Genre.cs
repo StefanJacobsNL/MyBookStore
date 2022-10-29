@@ -19,8 +19,9 @@ namespace MyBookstore.Domain
 
         }
 
-        public Genre(string name)
+        public Genre(int id, string name)
         {
+            Id = id;
             Name = name;
         }
     }

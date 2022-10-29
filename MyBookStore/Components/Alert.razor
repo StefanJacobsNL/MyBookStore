@@ -6,14 +6,14 @@
                 @if (!string.IsNullOrEmpty(Icon))
                 {
                     <div class="col-1">
-                        <i class="oi @Icon"></i>
+                        <i class="@Icon"></i>
                     </div>
                 }
                 <div class="col">
-                    @if (ErrorList.Any())
+                    @if (AlertList.Any())
                     {
                         <ul>
-                            @foreach (var error in ErrorList)
+                            @foreach (var error in AlertList)
                             {
                                 <li>@error</li>
                             }

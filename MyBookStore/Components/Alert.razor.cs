@@ -5,7 +5,7 @@ namespace MyBookStore.Components
     public partial class Alert
     {
         [Parameter]
-        public List<string> ErrorList { get; set; } = new();
+        public List<string> AlertList { get; set; } = new();
         [Parameter]
         public string AlertCssStyle { get; set; } = string.Empty;
         [Parameter] 

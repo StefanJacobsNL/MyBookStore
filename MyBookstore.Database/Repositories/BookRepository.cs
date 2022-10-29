@@ -29,6 +29,21 @@ namespace MyBookstore.Database.Repositories
             return books;
         }
 
+        #region Genre Functions
+
+        /// <summary>
+        /// Gets all the genres that exist
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Genre>> GetGenres()
+        {
+            List<Genre> getGenres = new();
+
+            getGenres = await dbContext.Genres.Select(x => new Genre(x.Id, x.Name)).ToListAsync();
+
+            return getGenres;
+        }
+
         /// <summary>
         /// Adds a new genre to the database
         /// </summary>
@@ -52,5 +67,43 @@ namespace MyBookstore.Database.Repositories
                 return Result.Fail($"The genre '{genreDTO.Name}' already exists");
             }
         }
+
+        public async Task<Result> UpdateGenre(Genre genre)
+        {
+            var getGenre = await dbContext.Genres.FirstOrDefaultAsync(x => x.Id == genre.Id);
+
+            if (getGenre != null)
+            {
+                getGenre.Name = genre.Name;
+
+                dbContext.Genres.Update(getGenre);
+                await dbContext.SaveChangesAsync();
+
+                return Result.OK($"The genre '{getGenre.Name}' has been updated");
+            }
+            else
+            {
+                return Result.Fail($"The given genre doesn't exist");
+            }
+        }
+
+        public async Task<Result> DeleteGenre(int genreId)
+        {
+            var getGenre = await dbContext.Genres.FirstOrDefaultAsync(x => x.Id == genreId);
+
+            if (getGenre != null)
+            {
+                dbContext.Genres.Remove(getGenre);
+                await dbContext.SaveChangesAsync();
+
+                return Result.OK($"The genre '{getGenre.Name}' has been deleted");
+            }
+            else
+            {
+                return Result.Fail($"The given genre doesn't exist");
+            }
+        }
+
+        #endregion
     }
 }
