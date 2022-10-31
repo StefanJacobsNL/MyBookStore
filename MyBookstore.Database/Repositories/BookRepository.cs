@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using MyBookstore.Database.Entities;
 using MyBookstore.Database.Model;
 using MyBookstore.Domain;
@@ -101,6 +102,75 @@ namespace MyBookstore.Database.Repositories
             else
             {
                 return Result.Fail($"The given genre doesn't exist");
+            }
+        }
+
+        #endregion
+
+        #region Author Functions
+
+        /// <summary>
+        /// Gets all the authors that exist
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Author>> GetAuthors()
+        {
+            List<Author> getAuthors = new();
+
+            getAuthors = await dbContext.Authors.Select(x => new Author(x.Id, x.Name, x.BirthDay)).ToListAsync();
+
+            return getAuthors;
+        }
+
+        /// <summary>
+        /// Adds a new author to the database
+        /// </summary>
+        /// <param name="author"></param>
+        /// <returns>Result class with the response</returns>
+        public async Task<Result> AddAuthor(Author author)
+        {
+            AuthorDTO authorDTO = new(author);
+
+            dbContext.Authors.Add(authorDTO);
+            await dbContext.SaveChangesAsync();
+
+            return Result.OK($"The author '{authorDTO.Name}' has been added");
+        }
+
+        public async Task<Result> UpdateAuthor(Author author)
+        {
+            var getAuthor = await dbContext.Authors.FirstOrDefaultAsync(x => x.Id == author.Id);
+
+            if (getAuthor != null)
+            {
+                getAuthor.Name = author.Name;
+                getAuthor.BirthDay = author.BirthDay;
+
+                dbContext.Authors.Update(getAuthor);
+                await dbContext.SaveChangesAsync();
+
+                return Result.OK($"The author '{getAuthor.Name}' has been updated");
+            }
+            else
+            {
+                return Result.Fail($"The given author doesn't exist");
+            }
+        }
+
+        public async Task<Result> DeleteAuthor(int authorId)
+        {
+            var getAuthor = await dbContext.Authors.FirstOrDefaultAsync(x => x.Id == authorId);
+
+            if (getAuthor != null)
+            {
+                dbContext.Authors.Remove(getAuthor);
+                await dbContext.SaveChangesAsync();
+
+                return Result.OK($"The author '{getAuthor.Name}' has been deleted");
+            }
+            else
+            {
+                return Result.Fail($"The given author doesn't exist");
             }
         }
 
