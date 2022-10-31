@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MyBookstore.Database.Entities;
 using MyBookstore.Database.Model;
-using MyBookstore.Domain;
 using MyBookstore.Domain.DomainModels;
 
 namespace MyBookstore.Database.Repositories

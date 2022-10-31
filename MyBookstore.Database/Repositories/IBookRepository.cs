@@ -1,5 +1,5 @@
 ﻿using MyBookstore.Database.Model;
-using MyBookstore.Domain;
+using MyBookstore.Domain.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

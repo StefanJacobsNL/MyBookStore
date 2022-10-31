@@ -4,7 +4,7 @@ using MyBookstore.Database;
 using MyBookstore.Database.Entities;
 using MyBookstore.Database.Model;
 using MyBookstore.Database.Repositories;
-using MyBookstore.Domain;
+using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 using MyBookStore.Components.Modal;
 using MyBookStore.Helper;

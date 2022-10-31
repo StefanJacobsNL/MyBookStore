@@ -1,4 +1,4 @@
-﻿using MyBookstore.Domain;
+﻿using MyBookstore.Domain.DomainModels;
 
 namespace MyBookstore.Database.Entities
 {

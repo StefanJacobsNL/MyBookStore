@@ -6,19 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBookstore.Domain
+namespace MyBookstore.Domain.DomainModels
 {
     public class Author
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A author name is required")]
         public string Name { get; set; }
-        [CustomDateAttribute(errorMessage: "A birthdate is required")]
+        [CustomDate(errorMessage: "A birthdate is required")]
         public DateTime BirthDay { get; set; }
 
         public Author()
         {
-            
+
         }
 
         public Author(int id, string name, DateTime birthday)

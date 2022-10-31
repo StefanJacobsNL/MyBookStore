@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyBookstore.Domain.DomainModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Database.Entities
@@ -18,5 +19,18 @@ namespace MyBookstore.Database.Entities
         public ICollection<BookGenreDTO> BookGenres { get; set; }
         [Required]
         public ICollection<BookAuthorDTO> BookAuthors { get; set; }
+
+        public BookDTO()
+        {
+
+        }
+
+        public BookDTO(Book book)
+        {
+            Name = book.Name;
+            Description = book.Description;
+            Price = book.Price;
+            ImagePath = book.ImagePath;
+        }
     }
 }

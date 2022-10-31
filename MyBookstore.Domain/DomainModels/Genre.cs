@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyBookstore.Domain.DomainModels;
 
-namespace MyBookstore.Domain
+namespace MyBookstore.Domain.DomainModels
 {
     public class Genre
     {
