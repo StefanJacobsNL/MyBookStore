@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Database;
-using MyBookstore.Database.Entities;
 using MyBookstore.Database.Model;
 using MyBookstore.Database.Repositories;
 using MyBookstore.Domain;
@@ -9,9 +7,9 @@ using MyBookStore.Components;
 using MyBookStore.Components.Modal;
 using MyBookStore.Helper;
 
-namespace MyBookStore.Pages.Genres
+namespace MyBookStore.Pages.Authors
 {
-    public partial class ManageGenre
+    public partial class ManageAuthor
     {
         [Inject]
         public IBookRepository BookRepository { get; set; } = default!;
@@ -22,52 +20,51 @@ namespace MyBookStore.Pages.Genres
         private FormAlert? FormAlert { get; set; }
         private List<string> errorList = new();
         private Result? result;
-        private bool ShowGenreForm;
+        private bool ShowAuthorForm;
         private string FormAddEditText = string.Empty;
         private string FormAddEditIcon = string.Empty;
 
         #endregion
 
-        private Genre selectedGenre = new();
-
-        private List<Genre>? genres;
+        private Author selectedAuthor = new();
+        private List<Author>? authors;
         private Modal? Modal { get; set; }
         private Alert? MainAlert { get; set; }
 
         protected async override Task OnInitializedAsync()
         {
-            await LoadGenreData();
+            await LoadAuthorData();
 
-            editContext = new EditContext(selectedGenre);
+            editContext = new EditContext(selectedAuthor);
         }
 
-        private async Task LoadGenreData()
+        private async Task LoadAuthorData()
         {
-            genres = await BookRepository.GetGenres();
+            authors = await BookRepository.GetAuthors();
         }
 
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
             FormAddEditIcon = IconStrings.AddIcon;
-            selectedGenre = new();
-            editContext = new EditContext(selectedGenre);
-            ShowGenreForm = true;
+            selectedAuthor = new();
+            editContext = new EditContext(selectedAuthor);
+            ShowAuthorForm = true;
         }
 
-        private void OnEditBtnListClick(Genre genre)
+        private void OnEditBtnListClick(Author author)
         {
             FormAddEditIcon = IconStrings.EditIcon;
             FormAddEditText = "Edit";
-            selectedGenre = genre;
-            editContext = new EditContext(selectedGenre);
-            ShowGenreForm = true;
+            selectedAuthor = author;
+            editContext = new EditContext(selectedAuthor);
+            ShowAuthorForm = true;
         }
 
-        private void OnDeleteBtnListClick(Genre genre)
+        private void OnDeleteBtnListClick(Author author)
         {
-            selectedGenre = genre;
-            ShowGenreForm = false;
+            selectedAuthor = author;
+            ShowAuthorForm = false;
             Modal?.Show();
         }
 
@@ -80,19 +77,19 @@ namespace MyBookStore.Pages.Genres
 
             if (editContext != null && editContext.Validate() && editContext.IsModified())
             {
-                if (selectedGenre.Id > 0)
+                if (selectedAuthor.Id > 0)
                 {
-                    result = await BookRepository.UpdateGenre(selectedGenre);
+                    result = await BookRepository.UpdateAuthor(selectedAuthor);
                 }
                 else
                 {
-                    result = await BookRepository.AddGenre(selectedGenre);
+                    result = await BookRepository.AddAuthor(selectedAuthor);
                 }
 
                 errorList.Add(result.Error);
 
                 FormAlert?.Show();
-                await LoadGenreData();
+                await LoadAuthorData();
             }
             else
             {
@@ -111,13 +108,13 @@ namespace MyBookStore.Pages.Genres
         {
             result = Result.Reset();
 
-            result = await BookRepository.DeleteGenre(selectedGenre.Id);
+            result = await BookRepository.DeleteAuthor(selectedAuthor.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);
             MainAlert?.Show();
             Modal?.Close();
-            await LoadGenreData();
+            await LoadAuthorData();
         }
     }
 }

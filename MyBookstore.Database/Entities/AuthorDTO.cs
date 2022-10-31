@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MyBookstore.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Database.Entities
 {
@@ -10,5 +11,16 @@ namespace MyBookstore.Database.Entities
         [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDay { get; set; }
+
+        public AuthorDTO()
+        {
+
+        }
+
+        public AuthorDTO(Author author)
+        {
+            Name = author.Name;
+            BirthDay = author.BirthDay;
+        }
     }
 }
