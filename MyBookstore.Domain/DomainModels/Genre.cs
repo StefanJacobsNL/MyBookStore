@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MyBookstore.Database.Entities;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.DomainModels
 {
@@ -18,10 +14,10 @@ namespace MyBookstore.Domain.DomainModels
 
         }
 
-        public Genre(int id, string name)
+        public Genre(GenreDTO genre)
         {
-            Id = id;
-            Name = name;
+            Id = genre.Id;
+            Name = genre.Name;
         }
     }
 }

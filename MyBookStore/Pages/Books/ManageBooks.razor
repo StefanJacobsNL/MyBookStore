@@ -1,0 +1,18 @@
+﻿@page "/admin/ManageBooks"
+<PageTitle>Manage Genres</PageTitle>
+
+<AuthorizeView>
+    <Authorized Context="loggedIn">
+        <div class="row">
+            <div class="col">
+                @if (books == null)
+                {
+                    <LoadingSpinner />
+                }
+                else
+                {
+                }
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>

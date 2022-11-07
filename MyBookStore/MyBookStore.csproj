@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Books\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyBookstore.Database\MyBookstore.Database.csproj" />
     <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
   </ItemGroup>

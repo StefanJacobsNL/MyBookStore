@@ -1,22 +1,20 @@
-﻿using MyBookstore.Database.Model;
-using MyBookstore.Domain.DomainModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MyBookstore.Database.Entities;
 
 namespace MyBookstore.Database.Repositories
 {
     public interface IBookRepository
     {
-        Task<Result> AddAuthor(Author author);
-        Task<Result> AddGenre(Genre genre);
-        Task<Result> DeleteAuthor(int authorId);
-        Task<Result> DeleteGenre(int genreId);
-        Task<List<Author>> GetAuthors();
-        Task<List<Genre>> GetGenres();
-        Task<Result> UpdateAuthor(Author author);
-        Task<Result> UpdateGenre(Genre genre);
+        Task AddAuthor(AuthorDTO author);
+        Task AddGenre(GenreDTO genre);
+        Task DeleteAuthor(int authorId);
+        Task DeleteGenre(int genreId);
+        Task<AuthorDTO> GetAuthor(int authorId);
+        Task<List<AuthorDTO>> GetAuthors();
+        Task<List<BookDTO>> GetBooks();
+        Task<GenreDTO> GetGenre(int genreId);
+        Task<GenreDTO> GetGenreByName(string genreName);
+        Task<List<GenreDTO>> GetGenres();
+        Task UpdateAuthor(AuthorDTO author);
+        Task UpdateGenre(GenreDTO genre);
     }
 }

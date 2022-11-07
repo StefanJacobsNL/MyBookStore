@@ -14,7 +14,7 @@ namespace MyBookstore.Domain.Helper
             ErrorMessage = errorMessage;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object value, ValidationContext validationContext)
         {
             var date = (DateTime)value;
             var minimalDate = DateTime.MinValue.AddDays(1);
