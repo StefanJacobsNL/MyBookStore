@@ -13,6 +13,8 @@ namespace MyBookstore.Database.Entities
         [Required]
         [Precision(18, 2)]
         public decimal Price { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ReleaseDate { get; set; }
         public string ImagePath { get; set; } = string.Empty;
         [Required]
         public ICollection<BookGenreDTO> BookGenres { get; set; } = new List<BookGenreDTO>();
@@ -24,10 +26,11 @@ namespace MyBookstore.Database.Entities
 
         }
 
-        public BookDTO(string name, string description, decimal price, string imagePath)
+        public BookDTO(string name, string description, DateTime releaseDate, decimal price, string imagePath)
         {
             Name = name;
             Description = description;
+            ReleaseDate = releaseDate;
             Price = price;
             ImagePath = imagePath;
         }

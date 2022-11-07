@@ -6,7 +6,7 @@ namespace MyBookstore.Database.Entities
     {
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDay { get; set; }

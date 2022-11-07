@@ -1,4 +1,5 @@
 ﻿using MyBookstore.Database.Entities;
+using MyBookstore.Domain.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +16,9 @@ namespace MyBookstore.Domain.DomainModels
         public string Name { get; set; } = string.Empty;
         [Required(ErrorMessage = "A book description is required")]
         public string Description { get; set; } = string.Empty;
+        [CustomDate(errorMessage: "A release date is required")]
+        [DataType(DataType.Date)]
+        public DateTime ReleaseDate { get; set; }
         [Required(ErrorMessage = "A price is required")]
         public decimal Price { get; set; }
         [Required(ErrorMessage = "A image is required")]
@@ -30,6 +34,9 @@ namespace MyBookstore.Domain.DomainModels
             Id = book.Id;
             Name = book.Name;
             Description = book.Description;
+            ReleaseDate = book.ReleaseDate;
+            Price = book.Price;
+            ImagePath = book.ImagePath;
         }
     }
 }

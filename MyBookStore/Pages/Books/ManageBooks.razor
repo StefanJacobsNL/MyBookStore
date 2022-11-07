@@ -11,6 +11,79 @@
                 }
                 else
                 {
+                    <h3>Manage Books</h3>
+                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconStrings.InfoIcon" />
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Release date</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Option</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (books.Any())
+                            {
+                                @foreach (var book in books)
+                                {
+                                    <tr>
+                                        <td>@book.Name</td>
+                                        <td>@book.ReleaseDate.ToString("dd-MM-yyyy")</td>
+                                        <td>€ @book.Price</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-success" @onclick="@(() => OnEditBtnListClick(book))">
+                                                <i class="@IconStrings.EditIcon"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger" @onclick="@(() => OnDeleteBtnListClick(book))">
+                                                <i class="@IconStrings.DeleteIcon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center">No books added</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary form-control mb-3" @onclick="OnAddBtnClick">
+                        <span class="@IconStrings.AddIcon" aria-hidden="true"></span> Add book
+                    </button>
+                    @if (ShowBookForm)
+                    {
+                        <div class="row border-top pt-3">
+                            <div class="col">
+                                <h3>@FormAddEditText authors</h3>
+                                <EditForm EditContext="editContext" OnInvalidSubmit="OnInvalidSubmit" OnValidSubmit="OnValidSubmit">
+                                    <DataAnnotationsValidator />
+                                    <FormAlert @ref="FormAlert" EditContext="context"
+                                       ErrorList="errorList" formSucces="@((result != null && result.Succes) ? true : false)" />
+                                    <div class="mb-3">
+                                        <label>Book name</label>
+                                        <InputText class="form-control" @bind-Value="selectedBook.Name" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Release date</label>
+                                        <InputDate class="form-control" @bind-Value="selectedBook.ReleaseDate" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary form-control mt-3">
+                                        <span class="@FormAddEditIcon" aria-hidden="true"></span> @FormAddEditText Book
+                                    </button>
+                                </EditForm>
+                            </div>
+                        </div>
+                    }
+
+
+                    <Modal @ref="Modal" HeaderText="Delete book"
+                           BodyText="@($"Are you sure you want to delete '{ selectedBook.Name }'?")"
+                           BtnConfirmTxt="Delete book" BtnConfirmColour="danger"
+                           BtnConfirmIcon="@IconStrings.DeleteIcon"
+                           OnConfirmMethod="OnModalDeleteConfirm" />
                 }
             </div>
         </div>
