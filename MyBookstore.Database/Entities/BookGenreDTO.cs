@@ -9,9 +9,20 @@ namespace MyBookstore.Database.Entities
     public class BookGenreDTO
     {
         public int Id { get; set; }
-        public BookDTO Book { get; set; } = new BookDTO();
+        public BookDTO Book { get; set; }
         public int BookId { get; set; }
-        public GenreDTO Genre { get; set; } = new GenreDTO();
+        public GenreDTO Genre { get; set; }
         public int GenreId { get; set; }
+
+        public BookGenreDTO()
+        {
+
+        }
+
+        public BookGenreDTO(int bookId, int genreId)
+        {
+            BookId = bookId;
+            GenreId = genreId;
+        }
     }
 }

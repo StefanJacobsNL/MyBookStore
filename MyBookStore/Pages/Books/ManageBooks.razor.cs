@@ -5,6 +5,8 @@ using MyBookstore.Domain.DomainModels;
 using Microsoft.AspNetCore.Components.Forms;
 using MyBookstore.Domain.Catalog;
 using MyBookStore.Helper;
+using System.IO;
+using MyBookStore.Components.Selector;
 
 namespace MyBookStore.Pages.Books
 {
@@ -23,12 +25,23 @@ namespace MyBookStore.Pages.Books
         private string FormAddEditText = string.Empty;
         private string FormAddEditIcon = string.Empty;
 
+        #region Select Genres
+
+        private List<Genre> AllGenres = new();
+        private List<Genre> UnSelectedGenres = new();
+
+        #endregion
+
+        private List<Author> AllAuthors = new();
+        private List<Author> UnSelectedAuthors = new();
+
         #endregion
 
         private Book selectedBook = new();
         private List<Book>? books;
         private Modal? Modal { get; set; }
         private Alert? MainAlert { get; set; }
+        private readonly string uploadPath = "wwwroot/img/bookcover";
 
         protected async override Task OnInitializedAsync()
         {
@@ -39,25 +52,40 @@ namespace MyBookStore.Pages.Books
 
         private async Task LoadBookData()
         {
+            selectedBook = new();
             books = await BookCatalog.GetBooks();
+            AllAuthors = await BookCatalog.GetAuthors();
+            AllGenres = await BookCatalog.GetGenres();
         }
 
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.AddIcon;
+            FormAddEditIcon = IconStrings.Add;
             selectedBook = new();
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
+
+            UnSelectedGenres = AllGenres;
+            selectedBook.Genres = new();
+
+            UnSelectedAuthors = AllAuthors;
+            selectedBook.Authors = new();
         }
 
         private void OnEditBtnListClick(Book book)
         {
-            FormAddEditIcon = IconStrings.EditIcon;
+            FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedBook = book;
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
+
+            var getAllGenreNames = selectedBook.Genres.Select(x => x.Name).ToList();
+            var getAllAuthorNames = selectedBook.Authors.Select(x => x.Name).ToList();
+
+            UnSelectedGenres = AllGenres.Where(x => !getAllGenreNames.Contains(x.Name)).ToList();
+            UnSelectedAuthors = AllAuthors.Where(x => !getAllAuthorNames.Contains(x.Name)).ToList();
         }
 
         private void OnDeleteBtnListClick(Book book)
@@ -78,17 +106,28 @@ namespace MyBookStore.Pages.Books
             {
                 if (selectedBook.Id > 0)
                 {
-                    //result = await BookCatalog.Updatebook(selectedBook);
+                    result = await BookCatalog.UpdateBook(selectedBook);
                 }
                 else
                 {
-                    //result = await BookCatalog.AddBook(selectedBook);
+
+                    var getFileExtension = selectedBook.FileUpload.Name.Split('.')[1];
+                    selectedBook.ImagePath = Path.Combine(uploadPath, $"{selectedBook.Name}.{getFileExtension}");
+
+                    await using FileStream fs = new(selectedBook.ImagePath, FileMode.Create);
+                    await selectedBook.FileUpload.OpenReadStream().CopyToAsync(fs);
+
+                    result = await BookCatalog.AddBook(selectedBook);
                 }
 
                 errorList.Add(result.Error);
 
                 FormAlert?.Show();
-                await LoadBookData();
+
+                if (result.Succes)
+                {
+                    await LoadBookData();
+                }
             }
             else
             {
@@ -103,11 +142,17 @@ namespace MyBookStore.Pages.Books
             FormAlert?.Show();
         }
 
+        private void SetUploadBook(InputFileChangeEventArgs e)
+        {
+            selectedBook.FileUpload = e.File;
+            selectedBook.ImagePath = e.File.Name;
+        }
+
         private async Task OnModalDeleteConfirm()
         {
             result = Result.Reset();
 
-            result = await BookCatalog.DeleteAuthor(selectedBook.Id);
+            result = await BookCatalog.DeleteBook(selectedBook.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);

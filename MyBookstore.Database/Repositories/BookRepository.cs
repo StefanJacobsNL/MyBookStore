@@ -13,14 +13,70 @@ namespace MyBookstore.Database.Repositories
             this.dbContext = dbContext;
         }
 
+        #region Book Functions
+
         public async Task<List<BookDTO>> GetBooks()
         {
             List<BookDTO> books = new();
 
-            books = await dbContext.Books.ToListAsync();
+            books = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+                                         .Include(x => x.BookAuthors).ThenInclude(a => a.Author).ToListAsync();
 
             return books;
         }
+
+        public async Task<BookDTO> GetBook(int bookId)
+        {
+            BookDTO book = new BookDTO();
+
+            var getBook = await dbContext.Books.FirstOrDefaultAsync(x => x.Id == bookId);
+
+            if (getBook != null)
+            {
+                book = getBook;
+            }
+
+            return book;
+        }
+
+        public async Task<BookDTO> GetBookByName(string bookName)
+        {
+            BookDTO book = new BookDTO();
+
+            var checkObject = await dbContext.Books.FirstOrDefaultAsync(x => x.Name.ToLower() == bookName.ToLower());
+
+            if (checkObject != null)
+            {
+                book = checkObject;
+            }
+
+            return book;
+        }
+
+        public async Task AddBook(BookDTO book)
+        {
+            dbContext.Books.Add(book);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateBook(BookDTO book)
+        {
+            dbContext.Books.Update(book);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteBook(int bookId)
+        {
+            var getBook = await GetBook(bookId);
+
+            if (getBook != null)
+            {
+                dbContext.Books.Remove(getBook);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        #endregion
 
         #region Genre Functions
 

@@ -46,7 +46,7 @@ namespace MyBookStore.Pages.Genres
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.AddIcon;
+            FormAddEditIcon = IconStrings.Add;
             selectedGenre = new();
             editContext = new EditContext(selectedGenre);
             ShowGenreForm = true;
@@ -54,7 +54,7 @@ namespace MyBookStore.Pages.Genres
 
         private void OnEditBtnListClick(Genre genre)
         {
-            FormAddEditIcon = IconStrings.EditIcon;
+            FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedGenre = genre;
             editContext = new EditContext(selectedGenre);

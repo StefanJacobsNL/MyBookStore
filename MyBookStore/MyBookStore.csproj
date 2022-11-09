@@ -23,4 +23,8 @@
     <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\BookCover\" />
+  </ItemGroup>
+
 </Project>

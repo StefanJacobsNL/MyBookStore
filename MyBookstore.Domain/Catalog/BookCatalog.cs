@@ -32,6 +32,71 @@ namespace MyBookstore.Domain.Catalog
             return getBooks;
         }
 
+        public async Task<Result> AddBook(Book book)
+        {
+            var checkIfBookExists = await BookRepository.GetBookByName(book.Name);
+
+            if (checkIfBookExists != null && checkIfBookExists.Id == 0)
+            {
+                BookDTO bookDTO = new(book.Name, book.Description, book.ReleaseDate, book.Price, book.ImagePath);
+
+                foreach (var genre in book.Genres)
+                {
+                    bookDTO.BookGenres.Add(new BookGenreDTO(bookDTO.Id, genre.Id));
+                }
+
+                foreach (var author in book.Authors)
+                {
+                    bookDTO.BookAuthors.Add(new BookAuthorDTO(bookDTO.Id, author.Id));
+                }
+
+                await BookRepository.AddBook(bookDTO);
+
+                return Result.OK($"The book '{book.Name}' has been added");
+            }
+            else
+            {
+                return Result.Fail($"The book '{book.Name}' already exists");
+            }
+        }
+
+        public async Task<Result> UpdateBook(Book book)
+        {
+            var getBook = await BookRepository.GetBook(book.Id);
+
+            if (getBook != null && book.Id > 0)
+            {
+                //TODO SET PARAMETERS
+
+                //getBook.Name = book.Name;
+
+                await BookRepository.UpdateBook(getBook);
+
+                return Result.OK($"The book '{getBook.Name}' has been updated");
+            }
+            else
+            {
+                return Result.Fail($"The given book doesn't exist");
+            }
+        }
+
+        public async Task<Result> DeleteBook(int bookId)
+        {
+            var getBook = await BookRepository.GetBook(bookId);
+
+            if (getBook != null && getBook.Id > 0)
+            {
+                await BookRepository.DeleteBook(getBook.Id);
+
+                return Result.OK($"The book '{getBook.Name}' has been deleted");
+            }
+            else
+            {
+                return Result.Fail($"The given book doesn't exist");
+            }
+        }
+
+
         #endregion
 
         #region Genre functions

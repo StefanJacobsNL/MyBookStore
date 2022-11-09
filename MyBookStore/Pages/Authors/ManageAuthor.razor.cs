@@ -45,7 +45,7 @@ namespace MyBookStore.Pages.Authors
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.AddIcon;
+            FormAddEditIcon = IconStrings.Add;
             selectedAuthor = new();
             editContext = new EditContext(selectedAuthor);
             ShowAuthorForm = true;
@@ -53,7 +53,7 @@ namespace MyBookStore.Pages.Authors
 
         private void OnEditBtnListClick(Author author)
         {
-            FormAddEditIcon = IconStrings.EditIcon;
+            FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedAuthor = author;
             editContext = new EditContext(selectedAuthor);

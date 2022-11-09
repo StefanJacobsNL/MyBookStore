@@ -9,9 +9,20 @@ namespace MyBookstore.Database.Entities
     public class BookAuthorDTO
     {
         public int Id { get; set; }
-        public BookDTO Book { get; set; } = new BookDTO();
+        public BookDTO Book { get; set; }
         public int BookId { get; set; }
-        public AuthorDTO Author { get; set; } = new AuthorDTO();
+        public AuthorDTO Author { get; set; }
         public int AuthorId { get; set; }
+
+        public BookAuthorDTO()
+        {
+
+        }
+
+        public BookAuthorDTO(int bookId, int authorId)
+        {
+            BookId = bookId;
+            AuthorId = authorId;
+        }
     }
 }
