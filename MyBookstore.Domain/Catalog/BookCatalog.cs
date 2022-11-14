@@ -32,6 +32,20 @@ namespace MyBookstore.Domain.Catalog
             return getBooks;
         }
 
+        public async Task<Book> GetBook(int bookId)
+        {
+            Book getBook = new();
+
+            var resultBook = await BookRepository.GetBook(bookId);
+
+            if (resultBook != null && resultBook.Id > 0)
+            {
+                getBook = new Book(resultBook);
+            }
+
+            return getBook;
+        }
+
         public async Task<Result> AddBook(Book book)
         {
             var checkIfBookExists = await BookRepository.GetBookByName(book.Name);
@@ -66,9 +80,17 @@ namespace MyBookstore.Domain.Catalog
 
             if (getBook != null && book.Id > 0)
             {
-                //TODO SET PARAMETERS
+                getBook.Name = book.Name;
+                getBook.Description = book.Description;
+                getBook.ReleaseDate = book.ReleaseDate;
+                getBook.Price = book.Price;
+                getBook.BookGenres = book.Genres.Select(x => new BookGenreDTO(book.Id, x.Id)).ToList();
+                getBook.BookAuthors = book.Authors.Select(x => new BookAuthorDTO(book.Id, x.Id)).ToList();
 
-                //getBook.Name = book.Name;
+                if (!string.IsNullOrWhiteSpace(book.ImagePath))
+                {
+                    getBook.ImagePath = book.ImagePath;
+                }
 
                 await BookRepository.UpdateBook(getBook);
 
