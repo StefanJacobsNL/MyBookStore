@@ -13,5 +13,16 @@ namespace MyBookstore.Database.Entities
         public int BookId { get; set; }
         public GenreDTO Genre { get; set; }
         public int GenreId { get; set; }
+
+        public BookGenreDTO()
+        {
+
+        }
+
+        public BookGenreDTO(int bookId, int genreId)
+        {
+            BookId = bookId;
+            GenreId = genreId;
+        }
     }
 }

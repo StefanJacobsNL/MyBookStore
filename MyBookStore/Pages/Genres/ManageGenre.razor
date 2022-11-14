@@ -12,7 +12,7 @@
                 else
                 {
                     <h3>Manage Genres</h3>
-                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconStrings.InfoIcon" />
+                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconStrings.Info" />
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -29,10 +29,10 @@
                                         <td>@genre.Name</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-success" @onclick="@(() => OnEditBtnListClick(genre))">
-                                                <i class="@IconStrings.EditIcon"></i>
+                                                <i class="@IconStrings.Edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-outline-danger" @onclick="@(() => OnDeleteBtnListClick(genre))">
-                                                <i class="@IconStrings.DeleteIcon"></i>
+                                                <i class="@IconStrings.Delete"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -47,7 +47,7 @@
                         </tbody>
                     </table>
                     <button type="button" class="btn btn-primary form-control mb-3" @onclick="OnAddBtnClick">
-                        <span class="@IconStrings.AddIcon" aria-hidden="true"></span> Add genre
+                        <span class="@IconStrings.Add" aria-hidden="true"></span> Add genre
                     </button>
 
 
@@ -73,7 +73,7 @@
                     <Modal @ref="Modal" HeaderText="Delete genre"
                            BodyText="@($"Are you sure you want to delete '{ selectedGenre.Name }'?")"
                            BtnConfirmTxt="Delete genre" BtnConfirmColour="danger"
-                           BtnConfirmIcon="@IconStrings.DeleteIcon"
+                           BtnConfirmIcon="@IconStrings.Delete"
                            OnConfirmMethod="OnModalDeleteConfirm"/>
                 }
             </div>

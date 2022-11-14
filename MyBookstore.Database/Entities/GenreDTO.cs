@@ -1,20 +1,24 @@
-﻿using MyBookstore.Domain;
-
-namespace MyBookstore.Database.Entities
+﻿namespace MyBookstore.Database.Entities
 {
     public class GenreDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public GenreDTO()
         {
 
         }
 
-        public GenreDTO(Genre genre)
+        public GenreDTO(string name)
         {
-            Name = genre.Name;
+            Name = name;
+        }
+
+        public GenreDTO(int id, string name)
+        {
+            Id = id;
+            Name = name;
         }
     }
 }

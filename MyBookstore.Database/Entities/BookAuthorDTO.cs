@@ -13,5 +13,16 @@ namespace MyBookstore.Database.Entities
         public int BookId { get; set; }
         public AuthorDTO Author { get; set; }
         public int AuthorId { get; set; }
+
+        public BookAuthorDTO()
+        {
+
+        }
+
+        public BookAuthorDTO(int bookId, int authorId)
+        {
+            BookId = bookId;
+            AuthorId = authorId;
+        }
     }
 }

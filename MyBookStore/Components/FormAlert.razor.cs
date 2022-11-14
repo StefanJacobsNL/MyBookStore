@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Database.Model;
 
 namespace MyBookStore.Components
 {

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Database;
-using MyBookstore.Database.Entities;
-using MyBookstore.Database.Model;
-using MyBookstore.Database.Repositories;
-using MyBookstore.Domain;
+using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 using MyBookStore.Components.Modal;
 using MyBookStore.Helper;
@@ -14,7 +11,7 @@ namespace MyBookStore.Pages.Genres
     public partial class ManageGenre
     {
         [Inject]
-        public IBookRepository BookRepository { get; set; } = default!;
+        public IBookCatalog BookCatalog { get; set; } = default!;
 
         #region GenreForm
 
@@ -43,13 +40,13 @@ namespace MyBookStore.Pages.Genres
 
         private async Task LoadGenreData()
         {
-            genres = await BookRepository.GetGenres();
+            genres = await BookCatalog.GetGenres();
         }
 
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.AddIcon;
+            FormAddEditIcon = IconStrings.Add;
             selectedGenre = new();
             editContext = new EditContext(selectedGenre);
             ShowGenreForm = true;
@@ -57,7 +54,7 @@ namespace MyBookStore.Pages.Genres
 
         private void OnEditBtnListClick(Genre genre)
         {
-            FormAddEditIcon = IconStrings.EditIcon;
+            FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedGenre = genre;
             editContext = new EditContext(selectedGenre);
@@ -82,11 +79,11 @@ namespace MyBookStore.Pages.Genres
             {
                 if (selectedGenre.Id > 0)
                 {
-                    result = await BookRepository.UpdateGenre(selectedGenre);
+                    result = await BookCatalog.UpdateGenre(selectedGenre);
                 }
                 else
                 {
-                    result = await BookRepository.AddGenre(selectedGenre);
+                    result = await BookCatalog.AddGenre(selectedGenre);
                 }
 
                 errorList.Add(result.Error);
@@ -111,7 +108,7 @@ namespace MyBookStore.Pages.Genres
         {
             result = Result.Reset();
 
-            result = await BookRepository.DeleteGenre(selectedGenre.Id);
+            result = await BookCatalog.DeleteGenre(selectedGenre.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);

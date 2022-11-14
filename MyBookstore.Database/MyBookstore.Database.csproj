@@ -17,8 +17,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using MyBookstore.Database;
 using MyBookstore.Database.Repositories;
+using MyBookstore.Domain.Catalog;
 using MyBookStore.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookCatalog, BookCatalog>();
 
 
 var app = builder.Build();

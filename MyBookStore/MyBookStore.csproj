@@ -19,12 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Books\" />
+    <ProjectReference Include="..\MyBookstore.Database\MyBookstore.Database.csproj" />
+    <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyBookstore.Database\MyBookstore.Database.csproj" />
-    <ProjectReference Include="..\MyBookstore.Domain\MyBookstore.Domain.csproj" />
+    <Folder Include="wwwroot\img\BookCover\" />
   </ItemGroup>
 
 </Project>

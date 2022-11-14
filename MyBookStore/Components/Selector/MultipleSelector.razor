@@ -1,0 +1,51 @@
+﻿@typeparam T
+
+@if (!string.IsNullOrWhiteSpace(Selector))
+{
+    <div class="row">
+        <div class="col-4">
+            <label>Available @Label</label>
+            <ul class="list-group">
+                @if (UnSelected.Any())
+                {
+                    @foreach (var item in UnSelected)
+                    {
+                        var getObjectProperty = item.GetType().GetProperty(Selector);
+                        if (getObjectProperty != null)
+                        {
+                            <li class="list-group-item" @onclick="@(() => Select(item))">@getObjectProperty.GetValue(item)</li>
+                        }
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item">Everything has been added O.o</li>
+                }
+            </ul>
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-primary" @onclick="SelectAll"><i class="@IconStrings.SkipForwards"></i></button>
+            <button type="button" class="btn btn-primary" @onclick="DeselectAll"><i class="@IconStrings.SkipBackwards"></i></button>
+        </div>
+        <div class="col-4">
+            <label>Added @Label</label>
+            <ul class="list-group">
+                @if (Selected.Any())
+                {
+                    @foreach (var item in Selected)
+                    {
+                        var getObjectProperty = item.GetType().GetProperty(Selector);
+                        if (getObjectProperty != null)
+                        {
+                            <li class="list-group-item" @onclick="@(() => Deselect(item))">@getObjectProperty.GetValue(item)</li>
+                        }
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item">Nothing here yet...</li>
+                }
+            </ul>
+        </div>
+    </div>
+}

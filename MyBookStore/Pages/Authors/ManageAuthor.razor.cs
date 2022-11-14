@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Database.Model;
-using MyBookstore.Database.Repositories;
-using MyBookstore.Domain;
+using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 using MyBookStore.Components.Modal;
 using MyBookStore.Helper;
@@ -12,9 +11,9 @@ namespace MyBookStore.Pages.Authors
     public partial class ManageAuthor
     {
         [Inject]
-        public IBookRepository BookRepository { get; set; } = default!;
+        public IBookCatalog BookCatalog { get; set; } = default!;
 
-        #region GenreForm
+        #region AuthorForm
 
         private EditContext? editContext;
         private FormAlert? FormAlert { get; set; }
@@ -40,13 +39,13 @@ namespace MyBookStore.Pages.Authors
 
         private async Task LoadAuthorData()
         {
-            authors = await BookRepository.GetAuthors();
+            authors = await BookCatalog.GetAuthors();
         }
 
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.AddIcon;
+            FormAddEditIcon = IconStrings.Add;
             selectedAuthor = new();
             editContext = new EditContext(selectedAuthor);
             ShowAuthorForm = true;
@@ -54,7 +53,7 @@ namespace MyBookStore.Pages.Authors
 
         private void OnEditBtnListClick(Author author)
         {
-            FormAddEditIcon = IconStrings.EditIcon;
+            FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedAuthor = author;
             editContext = new EditContext(selectedAuthor);
@@ -79,11 +78,11 @@ namespace MyBookStore.Pages.Authors
             {
                 if (selectedAuthor.Id > 0)
                 {
-                    result = await BookRepository.UpdateAuthor(selectedAuthor);
+                    result = await BookCatalog.UpdateAuthor(selectedAuthor);
                 }
                 else
                 {
-                    result = await BookRepository.AddAuthor(selectedAuthor);
+                    result = await BookCatalog.AddAuthor(selectedAuthor);
                 }
 
                 errorList.Add(result.Error);
@@ -108,7 +107,7 @@ namespace MyBookStore.Pages.Authors
         {
             result = Result.Reset();
 
-            result = await BookRepository.DeleteAuthor(selectedAuthor.Id);
+            result = await BookCatalog.DeleteAuthor(selectedAuthor.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);

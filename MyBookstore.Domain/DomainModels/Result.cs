@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBookstore.Database.Model
+namespace MyBookstore.Domain.DomainModels
 {
     public class Result
     {
