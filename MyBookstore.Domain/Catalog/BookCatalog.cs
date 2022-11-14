@@ -188,7 +188,6 @@ namespace MyBookstore.Domain.Catalog
 
         #endregion
 
-
         #region Author functions
 
         public async Task<List<Author>> GetAuthors()

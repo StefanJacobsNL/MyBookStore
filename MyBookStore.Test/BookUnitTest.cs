@@ -18,7 +18,7 @@ namespace MyBookStore.Test
             List<Book> getFakeBooks = getFakeBooksDTO.Select(x => new Book(x)).ToList();
 
             // Mock the Repository
-            var bookRepo = new Mock<IBookRepository>();
+            Mock<IBookRepository> bookRepo = new Mock<IBookRepository>();
 
             // Setup the return values
             bookRepo.Setup(x => x.GetBooks()).Returns(Task.FromResult(getFakeBooksDTO));
@@ -186,27 +186,13 @@ namespace MyBookStore.Test
             return new List<BookDTO>()
             {
                 GetFakeDTOBook(),
-                new BookDTO()
-                {
-                    Id = 2,
-                    Name = "Book test",
-                    Description = "Long text sdadfsaasfdasdfsadfsadffsda",
-                    ReleaseDate = new DateTime(2019, 4, 30),
-                    Price = 60
-                }
+                new BookDTO(2, "Book test", "Long text sdadfsaasfdasdfsadfsadffsda", new DateTime(2019, 4, 30), 60, "img/test")
             };
         }
 
         internal static BookDTO GetFakeDTOBook()
         {
-            return new BookDTO()
-            {
-                Id = 1,
-                Name = "Test",
-                Description = "Long text",
-                ReleaseDate = new DateTime(2022, 4, 30),
-                Price = (decimal)10.5
-            };
+            return new BookDTO(1, "Test", "Long text", new DateTime(2022, 4, 30), (decimal)10.5, "img/test");
         }
     }
 }

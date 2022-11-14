@@ -21,5 +21,12 @@ namespace MyBookstore.Database.Entities
             Name = name;
             BirthDay = birthDay;
         }
+
+        public AuthorDTO(int id, string name, DateTime birthDay)
+        {
+            Id = id;
+            Name = name;
+            BirthDay = birthDay;
+        }
     }
 }

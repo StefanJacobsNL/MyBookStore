@@ -34,5 +34,15 @@ namespace MyBookstore.Database.Entities
             Price = price;
             ImagePath = imagePath;
         }
+
+        public BookDTO(int id, string name, string description, DateTime releaseDate, decimal price, string imagePath)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            ReleaseDate = releaseDate;
+            Price = price;
+            ImagePath = imagePath;
+        }
     }
 }
