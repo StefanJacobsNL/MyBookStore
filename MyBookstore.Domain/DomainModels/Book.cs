@@ -26,6 +26,7 @@ namespace MyBookstore.Domain.DomainModels
         public string ImagePath { get; set; } = string.Empty;
         public IBrowserFile FileUpload { get; set; }
         public List<Genre> Genres { get; set; } = new List<Genre>();
+        [Required]
         public List<Author> Authors { get; set; } = new List<Author>();
 
 
@@ -57,6 +58,30 @@ namespace MyBookstore.Domain.DomainModels
                 {
                     Authors.Add(new Author(author.Author));
                 }
+            }
+        }
+
+        public bool CheckIfBookHasGenres()
+        {
+            if (Genres.Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CheckIfBookHasAuthors()
+        {
+            if (Genres.Any())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

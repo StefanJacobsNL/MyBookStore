@@ -104,35 +104,62 @@ namespace MyBookStore.Pages.Books
 
             if (editContext != null && editContext.Validate() && editContext.IsModified())
             {
-                if (selectedBook.Id > 0)
+                CheckIfListsAreValid();
+
+                if (!errorList.Any())
                 {
-                    result = await BookCatalog.UpdateBook(selectedBook);
+                    if (selectedBook.Id > 0)
+                    {
+                        result = await BookCatalog.UpdateBook(selectedBook);
+                    }
+                    else
+                    {
+                        result = await BookCatalog.AddBook(selectedBook);
+                    }
+
+                    if (selectedBook.FileUpload != null)
+                    {
+                        var getFileExtension = selectedBook.FileUpload.Name.Split('.')[1];
+                        selectedBook.ImagePath = Path.Combine(uploadPath, $"{selectedBook.Name}.{getFileExtension}");
+
+                        await using FileStream fs = new(selectedBook.ImagePath, FileMode.Create);
+                        await selectedBook.FileUpload.OpenReadStream().CopyToAsync(fs);
+                    }
+
+                    errorList.Add(result.Error);
+
+                    FormAlert?.Show();
+
+                    if (result.Succes)
+                    {
+                        await LoadBookData();
+                    }
                 }
                 else
                 {
-
-                    var getFileExtension = selectedBook.FileUpload.Name.Split('.')[1];
-                    selectedBook.ImagePath = Path.Combine(uploadPath, $"{selectedBook.Name}.{getFileExtension}");
-
-                    await using FileStream fs = new(selectedBook.ImagePath, FileMode.Create);
-                    await selectedBook.FileUpload.OpenReadStream().CopyToAsync(fs);
-
-                    result = await BookCatalog.AddBook(selectedBook);
-                }
-
-                errorList.Add(result.Error);
-
-                FormAlert?.Show();
-
-                if (result.Succes)
-                {
-                    await LoadBookData();
+                    FormAlert?.Show();
                 }
             }
             else
             {
                 errorList.Add("No changes found");
                 FormAlert?.Show();
+            }
+        }
+
+        /// <summary>
+        /// Checks the added Genres and Authors of the book
+        /// </summary>
+        private void CheckIfListsAreValid()
+        {
+            if (!selectedBook.CheckIfBookHasGenres())
+            {
+                errorList.Add("No added genres");
+            }
+
+            if (!selectedBook.CheckIfBookHasAuthors())
+            {
+                errorList.Add("No added authors");
             }
         }
 
