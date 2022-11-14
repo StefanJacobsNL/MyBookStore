@@ -11,6 +11,7 @@ namespace MyBookstore.Domain.Catalog
         Task<Result> DeleteBook(int bookId);
         Task<Result> DeleteGenre(int genreId);
         Task<List<Author>> GetAuthors();
+        Task<Book> GetBook(int bookId);
         Task<List<Book>> GetBooks();
         Task<List<Genre>> GetGenres();
         Task<Result> UpdateAuthor(Author author);
