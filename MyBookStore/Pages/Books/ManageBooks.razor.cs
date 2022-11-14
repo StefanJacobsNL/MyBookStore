@@ -7,6 +7,8 @@ using MyBookstore.Domain.Catalog;
 using MyBookStore.Helper;
 using System.IO;
 using MyBookStore.Components.Selector;
+using static System.Reflection.Metadata.BlobBuilder;
+using MyBookstore.Domain.Comparators;
 
 namespace MyBookStore.Pages.Books
 {
@@ -54,6 +56,8 @@ namespace MyBookStore.Pages.Books
         {
             selectedBook = new();
             books = await BookCatalog.GetBooks();
+            books.Sort(new BookNameComparator());
+
             AllAuthors = await BookCatalog.GetAuthors();
             AllGenres = await BookCatalog.GetGenres();
         }

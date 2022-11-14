@@ -181,7 +181,6 @@ namespace MyBookStore.Test
             Assert.True(response.Succes, response.Error);
         }
 
-
         internal static List<BookDTO> GetFakeDTOBooks()
         {
             return new List<BookDTO>()
