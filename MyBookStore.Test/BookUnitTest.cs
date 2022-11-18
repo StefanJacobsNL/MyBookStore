@@ -14,7 +14,7 @@ namespace MyBookStore.Test
             // Get the fake objects
             var getFakeBooksDTO = GetFakeDTOBooks();
 
-            // Converts to fake items to the Book list
+            // Converts to fake items to the list
             List<Book> getFakeBooks = getFakeBooksDTO.Select(x => new Book(x)).ToList();
 
             // Mock the Repository
