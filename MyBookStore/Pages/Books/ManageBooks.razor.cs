@@ -5,9 +5,6 @@ using MyBookstore.Domain.DomainModels;
 using Microsoft.AspNetCore.Components.Forms;
 using MyBookstore.Domain.Catalog;
 using MyBookStore.Helper;
-using System.IO;
-using MyBookStore.Components.Selector;
-using static System.Reflection.Metadata.BlobBuilder;
 using MyBookstore.Domain.Comparators;
 
 namespace MyBookStore.Pages.Books
@@ -26,6 +23,7 @@ namespace MyBookStore.Pages.Books
         private bool ShowBookForm;
         private string FormAddEditText = string.Empty;
         private string FormAddEditIcon = string.Empty;
+        private List<Warehouse> warehouses = new();
 
         #region Select Genres
 
@@ -34,8 +32,12 @@ namespace MyBookStore.Pages.Books
 
         #endregion
 
+        #region Select Authors
+
         private List<Author> AllAuthors = new();
         private List<Author> UnSelectedAuthors = new();
+
+        #endregion
 
         #endregion
 
@@ -55,11 +57,13 @@ namespace MyBookStore.Pages.Books
         private async Task LoadBookData()
         {
             selectedBook = new();
+            selectedBook.Warehouses = warehouses;
             books = await BookCatalog.GetBooks();
             books.Sort(new BookNameComparator());
 
             AllAuthors = await BookCatalog.GetAuthors();
             AllGenres = await BookCatalog.GetGenres();
+            warehouses = await BookCatalog.GetWarehouses();
         }
 
         private void OnAddBtnClick()
@@ -67,6 +71,7 @@ namespace MyBookStore.Pages.Books
             FormAddEditText = "Add";
             FormAddEditIcon = IconStrings.Add;
             selectedBook = new();
+            selectedBook.Warehouses = warehouses;
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
 
@@ -82,6 +87,10 @@ namespace MyBookStore.Pages.Books
             FormAddEditIcon = IconStrings.Edit;
             FormAddEditText = "Edit";
             selectedBook = book;
+
+            var getUnusedWarehouses = warehouses.Where(x => !selectedBook.Warehouses.Select(w => w.Id).Contains(x.Id));
+
+            selectedBook.Warehouses.AddRange(getUnusedWarehouses);
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
 

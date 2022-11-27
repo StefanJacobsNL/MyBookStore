@@ -20,7 +20,8 @@ namespace MyBookstore.Database.Repositories
             List<BookDTO> books = new();
 
             books = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
-                                         .Include(x => x.BookAuthors).ThenInclude(a => a.Author).ToListAsync();
+                                         .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
+                                         .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).ToListAsync();
 
             return books;
         }
@@ -29,7 +30,9 @@ namespace MyBookstore.Database.Repositories
         {
             BookDTO book = new BookDTO();
 
-            var getBook = await dbContext.Books.FirstOrDefaultAsync(x => x.Id == bookId);
+            var getBook = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+                                                 .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
+                                                 .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).FirstOrDefaultAsync(x => x.Id == bookId);
 
             if (getBook != null)
             {
@@ -69,7 +72,7 @@ namespace MyBookstore.Database.Repositories
         {
             var getBook = await GetBook(bookId);
 
-            if (getBook != null)
+            if (getBook != null && getBook.Id > 0)
             {
                 dbContext.Books.Remove(getBook);
                 await dbContext.SaveChangesAsync();
@@ -204,6 +207,60 @@ namespace MyBookstore.Database.Repositories
             if (getAuthor.Id > 0)
             {
                 dbContext.Authors.Remove(getAuthor);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        #endregion
+
+        #region Author Functions
+
+        /// <summary>
+        /// Gets all the warehouses that exist
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<WarehouseDTO>> GetWarehouses()
+        {
+            List<WarehouseDTO> getWarehouses = new();
+
+            getWarehouses = await dbContext.Warehouses.ToListAsync();
+
+            return getWarehouses;
+        }
+
+        public async Task<WarehouseDTO> GetWarehouse(int warehouseId)
+        {
+            WarehouseDTO warehouse = new WarehouseDTO();
+
+            var getWarehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id == warehouseId);
+
+            if (getWarehouse != null)
+            {
+                warehouse = getWarehouse;
+            }
+
+            return warehouse;
+        }
+
+        public async Task AddWarehouse(WarehouseDTO warehouse)
+        {
+            dbContext.Warehouses.Add(warehouse);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateWarehouse(WarehouseDTO warehouse)
+        {
+            dbContext.Warehouses.Update(warehouse);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteWarehouse(int warehouseId)
+        {
+            var getWarehouse = await GetWarehouse(warehouseId);
+
+            if (getWarehouse.Id > 0)
+            {
+                dbContext.Warehouses.Remove(getWarehouse);
                 await dbContext.SaveChangesAsync();
             }
         }

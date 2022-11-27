@@ -12,5 +12,6 @@
         public static string Badge { get { return "oi oi-badge"; } }
         public static string Clipboard { get { return "oi oi-clipboard"; } }
         public static string ListRich { get { return "oi oi-list-rich"; } }
+        public static string Box { get { return "oi oi-box"; } }
     }
 }

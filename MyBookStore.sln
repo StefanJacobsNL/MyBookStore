@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBookstore.Database", "MyB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBookstore.Domain", "MyBookstore.Domain\MyBookstore.Domain.csproj", "{F3B63A8C-993A-479A-AC61-6D73D7157C0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBookStore.Test", "MyBookStore.Test\MyBookStore.Test.csproj", "{3262F43D-3B57-447B-B2B3-9E88D0809AAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBookStore.Test", "MyBookStore.Test\MyBookStore.Test.csproj", "{3262F43D-3B57-447B-B2B3-9E88D0809AAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

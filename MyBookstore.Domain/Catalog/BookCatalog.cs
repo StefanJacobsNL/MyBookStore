@@ -64,6 +64,11 @@ namespace MyBookstore.Domain.Catalog
                     bookDTO.BookAuthors.Add(new BookAuthorDTO(bookDTO.Id, author.Id));
                 }
 
+                foreach (var warehouse in book.Warehouses.Where(x => x.Amount > 0))
+                {
+                    bookDTO.BookWarehouses.Add(new WarehouseBookDTO(warehouse.Id, bookDTO.Id, warehouse.Amount));
+                }
+
                 await BookRepository.AddBook(bookDTO);
 
                 return Result.OK($"The book '{book.Name}' has been added");
@@ -86,6 +91,7 @@ namespace MyBookstore.Domain.Catalog
                 getBook.Price = book.Price;
                 getBook.BookGenres = book.Genres.Select(x => new BookGenreDTO(book.Id, x.Id)).ToList();
                 getBook.BookAuthors = book.Authors.Select(x => new BookAuthorDTO(book.Id, x.Id)).ToList();
+                getBook.BookWarehouses = book.Warehouses.Where(x => x.Amount > 0).Select(x => new WarehouseBookDTO(x.Id ,book.Id, x.Amount)).ToList();
 
                 if (!string.IsNullOrWhiteSpace(book.ImagePath))
                 {
@@ -242,6 +248,66 @@ namespace MyBookstore.Domain.Catalog
             else
             {
                 return Result.Fail($"The given author doesn't exist");
+            }
+        }
+
+        #endregion
+
+        #region Warehouse Functions
+
+        public async Task<List<Warehouse>> GetWarehouses()
+        {
+            List<Warehouse> getWarehouse = new();
+
+            var resultWarehouses = await BookRepository.GetWarehouses();
+
+            getWarehouse = resultWarehouses.Select(x => new Warehouse(x)).ToList();
+
+            return getWarehouse;
+        }
+
+        public async Task<Result> AddWarehouse(Warehouse warehouse)
+        {
+            WarehouseDTO warehouseDTO = new(warehouse.Name, warehouse.Address, warehouse.City);
+
+            await BookRepository.AddWarehouse(warehouseDTO);
+
+            return Result.OK($"The warehouse '{warehouse.Name}' has been added");
+        }
+
+        public async Task<Result> UpdateWarehouse(Warehouse warehouse)
+        {
+            var getWarehouse = await BookRepository.GetWarehouse(warehouse.Id);
+
+            if (getWarehouse != null)
+            {
+                getWarehouse.Name = warehouse.Name;
+                getWarehouse.Address = warehouse.Address;
+                getWarehouse.City = warehouse.City;
+
+                await BookRepository.UpdateWarehouse(getWarehouse);
+
+                return Result.OK($"The warehouse '{getWarehouse.Name}' has been updated");
+            }
+            else
+            {
+                return Result.Fail($"The given warehouse doesn't exist");
+            }
+        }
+
+        public async Task<Result> DeleteWarehouse(int warehouseId)
+        {
+            var getWarehouse = await BookRepository.GetWarehouse(warehouseId);
+
+            if (getWarehouse != null && getWarehouse.Id > 0)
+            {
+                await BookRepository.DeleteWarehouse(getWarehouse.Id);
+
+                return Result.OK($"The warehouse '{getWarehouse.Name}' has been deleted");
+            }
+            else
+            {
+                return Result.Fail($"The given warehouse doesn't exist");
             }
         }
 
