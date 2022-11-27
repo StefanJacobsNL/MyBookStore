@@ -3,6 +3,7 @@ using MyBookstore.Database.Entities;
 using MyBookstore.Database.Repositories;
 using MyBookstore.Domain.Catalog;
 using MyBookstore.Domain.DomainModels;
+using MyBookStore.Test.Data;
 
 namespace MyBookStore.Test
 {
@@ -12,7 +13,7 @@ namespace MyBookStore.Test
         public void Get_AllBooks()
         {
             // Get the fake objects
-            var getFakeBooksDTO = GetFakeDTOBooks();
+            var getFakeBooksDTO = BookData.GetBooksInfo();
 
             // Converts to fake items to the list
             List<Book> getFakeBooks = getFakeBooksDTO.Select(x => new Book(x)).ToList();
@@ -39,7 +40,7 @@ namespace MyBookStore.Test
         public void Get_Book()
         {
             // Get the fake objects
-            var getFakeBookDTO = GetFakeDTOBook();
+            var getFakeBookDTO = BookData.GetBookInfo();
 
             // Converts to fake item to the Book object
             Book getFakeBook = new Book(getFakeBookDTO);
@@ -67,7 +68,7 @@ namespace MyBookStore.Test
         public void Add_Book()
         {
             // Get the fake objects
-            var getFakeBookDTO = GetFakeDTOBook();
+            var getFakeBookDTO = BookData.GetBookInfo();
 
             // Converts to fake item to the Book object
             Book setupBook = new(getFakeBookDTO);
@@ -96,7 +97,7 @@ namespace MyBookStore.Test
         public void Add_Book_WithExistingName()
         {
             // Get the fake objects
-            var getFakeBookDTO = GetFakeDTOBook();
+            var getFakeBookDTO = BookData.GetBookInfo();
 
             // Converts to fake item to the Book object
             Book setupBook = new(getFakeBookDTO);
@@ -125,7 +126,7 @@ namespace MyBookStore.Test
         public void Update_Book()
         {
             // Get the fake objects
-            var getFakeBookDTO = GetFakeDTOBook();
+            var getFakeBookDTO = BookData.GetBookInfo();
 
             // Converts to fake item to the Book object
             Book setupBook = new(getFakeBookDTO);
@@ -156,7 +157,7 @@ namespace MyBookStore.Test
         public void Delete_Book()
         {
             // Get the fake objects
-            var getFakeBookDTO = GetFakeDTOBook();
+            var getFakeBookDTO = BookData.GetBookInfo();
 
             // Converts to fake item to the Book object
             Book setupBook = new(getFakeBookDTO);
@@ -181,18 +182,17 @@ namespace MyBookStore.Test
             Assert.True(response.Succes, response.Error);
         }
 
-        internal static List<BookDTO> GetFakeDTOBooks()
+        [Fact]
+        public void Get_TotalAmountWarehouseBooks()
         {
-            return new List<BookDTO>()
-            {
-                GetFakeDTOBook(),
-                new BookDTO(2, "Book test", "Long text sdadfsaasfdasdfsadfsadffsda", new DateTime(2019, 4, 30), 60, "img/test")
-            };
-        }
+            var getFakeBookDTO = BookData.GetBookInfo();
+            Book book = new Book(getFakeBookDTO);
+            int expectedAmount = 14;
 
-        internal static BookDTO GetFakeDTOBook()
-        {
-            return new BookDTO(1, "Test", "Long text", new DateTime(2022, 4, 30), (decimal)10.5, "img/test");
+            int amountOfBook = book.GetTotalAmountBooks();
+
+            // Checks if the lists has the same amount of items
+            Assert.Equal(amountOfBook, expectedAmount);
         }
     }
 }

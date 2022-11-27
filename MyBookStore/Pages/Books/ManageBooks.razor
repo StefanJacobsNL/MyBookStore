@@ -94,6 +94,20 @@
                                                           UnSelected="UnSelectedAuthors"
                                                           Selected="selectedBook.Authors" />
                                     </div>
+                                    <div class="mb-3">
+                                        <label>Warehouse stock</label>
+                                        @foreach (var warehouse in selectedBook.Warehouses.OrderBy(x => x.Id))
+                                        {
+                                            <div class="row mb-1">
+                                                <div class="col">
+                                                    <label>@warehouse.Name:</label>
+                                                </div>
+                                                <div class="col">
+                                                    <InputNumber class="form-control" min="0" @bind-Value="warehouse.Amount" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
                                     <button type="submit" class="btn btn-primary form-control mt-3">
                                         <span class="@FormAddEditIcon" aria-hidden="true"></span> @FormAddEditText Book
                                     </button>

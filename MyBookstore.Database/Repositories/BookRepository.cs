@@ -20,7 +20,8 @@ namespace MyBookstore.Database.Repositories
             List<BookDTO> books = new();
 
             books = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
-                                         .Include(x => x.BookAuthors).ThenInclude(a => a.Author).ToListAsync();
+                                         .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
+                                         .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).ToListAsync();
 
             return books;
         }
@@ -29,7 +30,9 @@ namespace MyBookstore.Database.Repositories
         {
             BookDTO book = new BookDTO();
 
-            var getBook = await dbContext.Books.FirstOrDefaultAsync(x => x.Id == bookId);
+            var getBook = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+                                                 .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
+                                                 .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).FirstOrDefaultAsync(x => x.Id == bookId);
 
             if (getBook != null)
             {
@@ -69,7 +72,7 @@ namespace MyBookstore.Database.Repositories
         {
             var getBook = await GetBook(bookId);
 
-            if (getBook != null)
+            if (getBook != null && getBook.Id > 0)
             {
                 dbContext.Books.Remove(getBook);
                 await dbContext.SaveChangesAsync();

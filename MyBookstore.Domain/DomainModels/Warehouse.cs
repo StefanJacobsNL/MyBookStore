@@ -17,6 +17,8 @@ namespace MyBookstore.Domain.DomainModels
         public string Address { get; set; } = string.Empty;
         [Required(ErrorMessage = "A city is required")]
         public string City { get; set; } = string.Empty;
+        [Range(0, int.MaxValue)]
+        public int Amount { get; set; }
 
         public Warehouse()
         {
@@ -29,6 +31,15 @@ namespace MyBookstore.Domain.DomainModels
             Name = warehouseDTO.Name;
             Address = warehouseDTO.Address;
             City = warehouseDTO.City;
+        }
+
+        public Warehouse(WarehouseBookDTO warehouseBookDTO)
+        {
+            Id = warehouseBookDTO.Warehouse.Id;
+            Name = warehouseBookDTO.Warehouse.Name;
+            Address = warehouseBookDTO.Warehouse.Address;
+            City = warehouseBookDTO.Warehouse.City;
+            Amount = warehouseBookDTO.Amount;
         }
     }
 }

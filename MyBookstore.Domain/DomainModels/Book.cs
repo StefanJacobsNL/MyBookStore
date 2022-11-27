@@ -26,8 +26,8 @@ namespace MyBookstore.Domain.DomainModels
         public string ImagePath { get; set; } = string.Empty;
         public IBrowserFile FileUpload { get; set; }
         public List<Genre> Genres { get; set; } = new List<Genre>();
-        [Required]
         public List<Author> Authors { get; set; } = new List<Author>();
+        public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
 
 
         public Book()
@@ -59,6 +59,19 @@ namespace MyBookstore.Domain.DomainModels
                     Authors.Add(new Author(author.Author));
                 }
             }
+
+            if (book.BookWarehouses != null)
+            {
+                foreach (var warehouse in book.BookWarehouses)
+                {
+                    Warehouses.Add(new Warehouse(warehouse));
+                }
+            }
+        }
+
+        public int CompareTo(Book? other)
+        {
+            return this.Name.CompareTo(other?.Name);
         }
 
         public bool CheckIfBookHasGenres()
@@ -85,9 +98,16 @@ namespace MyBookstore.Domain.DomainModels
             }
         }
 
-        public int CompareTo(Book? other)
+        public int GetTotalAmountBooks()
         {
-            return this.Name.CompareTo(other?.Name);
+            int amountOfBooks = 0;
+
+            if (Warehouses != null)
+            {
+                amountOfBooks += Warehouses.Sum(x => x.Amount);
+            }
+
+            return amountOfBooks;
         }
     }
 }

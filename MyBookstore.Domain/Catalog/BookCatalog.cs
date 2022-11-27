@@ -64,6 +64,11 @@ namespace MyBookstore.Domain.Catalog
                     bookDTO.BookAuthors.Add(new BookAuthorDTO(bookDTO.Id, author.Id));
                 }
 
+                foreach (var warehouse in book.Warehouses.Where(x => x.Amount > 0))
+                {
+                    bookDTO.BookWarehouses.Add(new WarehouseBookDTO(warehouse.Id, bookDTO.Id, warehouse.Amount));
+                }
+
                 await BookRepository.AddBook(bookDTO);
 
                 return Result.OK($"The book '{book.Name}' has been added");
@@ -86,6 +91,7 @@ namespace MyBookstore.Domain.Catalog
                 getBook.Price = book.Price;
                 getBook.BookGenres = book.Genres.Select(x => new BookGenreDTO(book.Id, x.Id)).ToList();
                 getBook.BookAuthors = book.Authors.Select(x => new BookAuthorDTO(book.Id, x.Id)).ToList();
+                getBook.BookWarehouses = book.Warehouses.Where(x => x.Amount > 0).Select(x => new WarehouseBookDTO(x.Id ,book.Id, x.Amount)).ToList();
 
                 if (!string.IsNullOrWhiteSpace(book.ImagePath))
                 {

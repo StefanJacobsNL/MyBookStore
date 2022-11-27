@@ -20,10 +20,11 @@ namespace MyBookstore.Database.Entities
 
         }
 
-        public WarehouseBookDTO(int warehouseId, int bookId)
+        public WarehouseBookDTO(int warehouseId, int bookId, int amount)
         {
             WarehouseId = warehouseId;
             BookId = bookId;
+            Amount = amount;
         }
     }
 }
