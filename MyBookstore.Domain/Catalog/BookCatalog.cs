@@ -246,5 +246,65 @@ namespace MyBookstore.Domain.Catalog
         }
 
         #endregion
+
+        #region Warehouse Functions
+
+        public async Task<List<Warehouse>> GetWarehouses()
+        {
+            List<Warehouse> getWarehouse = new();
+
+            var resultWarehouses = await BookRepository.GetWarehouses();
+
+            getWarehouse = resultWarehouses.Select(x => new Warehouse(x)).ToList();
+
+            return getWarehouse;
+        }
+
+        public async Task<Result> AddWarehouse(Warehouse warehouse)
+        {
+            WarehouseDTO warehouseDTO = new(warehouse.Name, warehouse.Address, warehouse.City);
+
+            await BookRepository.AddWarehouse(warehouseDTO);
+
+            return Result.OK($"The warehouse '{warehouse.Name}' has been added");
+        }
+
+        public async Task<Result> UpdateWarehouse(Warehouse warehouse)
+        {
+            var getWarehouse = await BookRepository.GetWarehouse(warehouse.Id);
+
+            if (getWarehouse != null)
+            {
+                getWarehouse.Name = warehouse.Name;
+                getWarehouse.Address = warehouse.Address;
+                getWarehouse.City = warehouse.City;
+
+                await BookRepository.UpdateWarehouse(getWarehouse);
+
+                return Result.OK($"The warehouse '{getWarehouse.Name}' has been updated");
+            }
+            else
+            {
+                return Result.Fail($"The given warehouse doesn't exist");
+            }
+        }
+
+        public async Task<Result> DeleteWarehouse(int warehouseId)
+        {
+            var getWarehouse = await BookRepository.GetWarehouse(warehouseId);
+
+            if (getWarehouse != null && getWarehouse.Id > 0)
+            {
+                await BookRepository.DeleteWarehouse(getWarehouse.Id);
+
+                return Result.OK($"The warehouse '{getWarehouse.Name}' has been deleted");
+            }
+            else
+            {
+                return Result.Fail($"The given warehouse doesn't exist");
+            }
+        }
+
+        #endregion
     }
 }

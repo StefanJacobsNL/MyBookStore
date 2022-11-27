@@ -209,5 +209,59 @@ namespace MyBookstore.Database.Repositories
         }
 
         #endregion
+
+        #region Author Functions
+
+        /// <summary>
+        /// Gets all the warehouses that exist
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<WarehouseDTO>> GetWarehouses()
+        {
+            List<WarehouseDTO> getWarehouses = new();
+
+            getWarehouses = await dbContext.Warehouses.ToListAsync();
+
+            return getWarehouses;
+        }
+
+        public async Task<WarehouseDTO> GetWarehouse(int warehouseId)
+        {
+            WarehouseDTO warehouse = new WarehouseDTO();
+
+            var getWarehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id == warehouseId);
+
+            if (getWarehouse != null)
+            {
+                warehouse = getWarehouse;
+            }
+
+            return warehouse;
+        }
+
+        public async Task AddWarehouse(WarehouseDTO warehouse)
+        {
+            dbContext.Warehouses.Add(warehouse);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateWarehouse(WarehouseDTO warehouse)
+        {
+            dbContext.Warehouses.Update(warehouse);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteWarehouse(int warehouseId)
+        {
+            var getWarehouse = await GetWarehouse(warehouseId);
+
+            if (getWarehouse.Id > 0)
+            {
+                dbContext.Warehouses.Remove(getWarehouse);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        #endregion
     }
 }
