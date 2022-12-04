@@ -1,7 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MyBookstore.Database.Entities;
-using MyBookstore.Database.Repositories;
+﻿using AutoMapper;
 using MyBookstore.Domain.DomainModels;
+using MyBookstore.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +22,7 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<List<Book>> GetBooks()
         {
-            List<Book> getBooks = new();
-
-            var resultBooks = await BookRepository.GetBooks();
-
-            getBooks = resultBooks.Select(x => new Book(x)).ToList();
-
-            return getBooks;
+            return await BookRepository.GetBooks();
         }
 
         public async Task<Book> GetBook(int bookId)
@@ -40,7 +33,7 @@ namespace MyBookstore.Domain.Catalog
 
             if (resultBook != null && resultBook.Id > 0)
             {
-                getBook = new Book(resultBook);
+                getBook = resultBook;
             }
 
             return getBook;
@@ -52,24 +45,7 @@ namespace MyBookstore.Domain.Catalog
 
             if (checkIfBookExists != null && checkIfBookExists.Id == 0)
             {
-                BookDTO bookDTO = new(book.Name, book.Description, book.ReleaseDate, book.Price, book.ImagePath);
-
-                foreach (var genre in book.Genres)
-                {
-                    bookDTO.BookGenres.Add(new BookGenreDTO(bookDTO.Id, genre.Id));
-                }
-
-                foreach (var author in book.Authors)
-                {
-                    bookDTO.BookAuthors.Add(new BookAuthorDTO(bookDTO.Id, author.Id));
-                }
-
-                foreach (var warehouse in book.Warehouses.Where(x => x.Amount > 0))
-                {
-                    bookDTO.BookWarehouses.Add(new WarehouseBookDTO(warehouse.Id, bookDTO.Id, warehouse.Amount));
-                }
-
-                await BookRepository.AddBook(bookDTO);
+                await BookRepository.AddBook(book);
 
                 return Result.OK($"The book '{book.Name}' has been added");
             }
@@ -81,26 +57,13 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<Result> UpdateBook(Book book)
         {
-            var getBook = await BookRepository.GetBook(book.Id);
+            var checkBook = await BookRepository.GetBook(book.Id);
 
-            if (getBook != null && book.Id > 0)
+            if (checkBook != null && book.Id > 0)
             {
-                getBook.Name = book.Name;
-                getBook.Description = book.Description;
-                getBook.ReleaseDate = book.ReleaseDate;
-                getBook.Price = book.Price;
-                getBook.BookGenres = book.Genres.Select(x => new BookGenreDTO(book.Id, x.Id)).ToList();
-                getBook.BookAuthors = book.Authors.Select(x => new BookAuthorDTO(book.Id, x.Id)).ToList();
-                getBook.BookWarehouses = book.Warehouses.Where(x => x.Amount > 0).Select(x => new WarehouseBookDTO(x.Id ,book.Id, x.Amount)).ToList();
+                await BookRepository.UpdateBook(book);
 
-                if (!string.IsNullOrWhiteSpace(book.ImagePath))
-                {
-                    getBook.ImagePath = book.ImagePath;
-                }
-
-                await BookRepository.UpdateBook(getBook);
-
-                return Result.OK($"The book '{getBook.Name}' has been updated");
+                return Result.OK($"The book '{checkBook.Name}' has been updated");
             }
             else
             {
@@ -131,13 +94,7 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<List<Genre>> GetGenres()
         {
-            List<Genre> getGenres = new();
-
-            var resultGenres = await BookRepository.GetGenres();
-
-            getGenres = resultGenres.Select(x => new Genre(x)).ToList();
-
-            return getGenres;
+            return await BookRepository.GetGenres();
         }
 
         public async Task<Result> AddGenre(Genre genre)
@@ -146,9 +103,7 @@ namespace MyBookstore.Domain.Catalog
 
             if (checkIfGenreExist != null && checkIfGenreExist.Id == 0)
             {
-                GenreDTO genreDTO = new(genre.Name);
-
-                await BookRepository.AddGenre(genreDTO);
+                await BookRepository.AddGenre(genre);
 
                 return Result.OK($"The genre '{genre.Name}' has been added");
             }
@@ -164,9 +119,7 @@ namespace MyBookstore.Domain.Catalog
 
             if (getGenre != null && genre.Id > 0)
             {
-                getGenre.Name = genre.Name;
-
-                await BookRepository.UpdateGenre(getGenre);
+                await BookRepository.UpdateGenre(genre);
 
                 return Result.OK($"The genre '{getGenre.Name}' has been updated");
             }
@@ -198,20 +151,12 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<List<Author>> GetAuthors()
         {
-            List<Author> getAuthors = new();
-
-            var resultAuthors = await BookRepository.GetAuthors();
-
-            getAuthors = resultAuthors.Select(x => new Author(x)).ToList();
-
-            return getAuthors;
+            return await BookRepository.GetAuthors();
         }
 
         public async Task<Result> AddAuthor(Author author)
         {
-            AuthorDTO authorDTO = new(author.Name, author.BirthDay);
-
-            await BookRepository.AddAuthor(authorDTO);
+            await BookRepository.AddAuthor(author);
 
             return Result.OK($"The author '{author.Name}' has been added");
         }
@@ -257,20 +202,12 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<List<Warehouse>> GetWarehouses()
         {
-            List<Warehouse> getWarehouse = new();
-
-            var resultWarehouses = await BookRepository.GetWarehouses();
-
-            getWarehouse = resultWarehouses.Select(x => new Warehouse(x)).ToList();
-
-            return getWarehouse;
+            return await BookRepository.GetWarehouses();
         }
 
         public async Task<Result> AddWarehouse(Warehouse warehouse)
         {
-            WarehouseDTO warehouseDTO = new(warehouse.Name, warehouse.Address, warehouse.City);
-
-            await BookRepository.AddWarehouse(warehouseDTO);
+            await BookRepository.AddWarehouse(warehouse);
 
             return Result.OK($"The warehouse '{warehouse.Name}' has been added");
         }

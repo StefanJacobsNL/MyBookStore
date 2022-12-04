@@ -1,10 +1,4 @@
-﻿using MyBookstore.Database.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Domain.DomainModels
 {
@@ -23,23 +17,6 @@ namespace MyBookstore.Domain.DomainModels
         public Warehouse()
         {
 
-        }
-
-        public Warehouse(WarehouseDTO warehouseDTO)
-        {
-            Id = warehouseDTO.Id;
-            Name = warehouseDTO.Name;
-            Address = warehouseDTO.Address;
-            City = warehouseDTO.City;
-        }
-
-        public Warehouse(WarehouseBookDTO warehouseBookDTO)
-        {
-            Id = warehouseBookDTO.Warehouse.Id;
-            Name = warehouseBookDTO.Warehouse.Name;
-            Address = warehouseBookDTO.Warehouse.Address;
-            City = warehouseBookDTO.Warehouse.City;
-            Amount = warehouseBookDTO.Amount;
         }
     }
 }

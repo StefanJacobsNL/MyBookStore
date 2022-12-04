@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Database.Entities;
 using MyBookstore.Domain.Helper;
 using System;
 using System.Collections.Generic;
@@ -33,40 +32,6 @@ namespace MyBookstore.Domain.DomainModels
         public Book()
         {
 
-        }
-
-        public Book(BookDTO book)
-        {
-            Id = book.Id;
-            Name = book.Name;
-            Description = book.Description;
-            ReleaseDate = book.ReleaseDate;
-            Price = book.Price;
-            ImagePath = book.ImagePath;
-
-            if (book.BookGenres != null)
-            {
-                foreach (var genre in book.BookGenres)
-                {
-                    Genres.Add(new Genre(genre.Genre));
-                }
-            }
-
-            if (book.BookAuthors != null)
-            {
-                foreach (var author in book.BookAuthors)
-                {
-                    Authors.Add(new Author(author.Author));
-                }
-            }
-
-            if (book.BookWarehouses != null)
-            {
-                foreach (var warehouse in book.BookWarehouses)
-                {
-                    Warehouses.Add(new Warehouse(warehouse));
-                }
-            }
         }
 
         public int CompareTo(Book? other)

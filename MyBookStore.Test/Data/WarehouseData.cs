@@ -1,4 +1,4 @@
-﻿using MyBookstore.Database.Entities;
+﻿using MyBookstore.Domain.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +9,31 @@ namespace MyBookStore.Test.Data
 {
     internal static class WarehouseData
     {
-        internal static WarehouseDTO GetWarehouseData()
+        internal static Warehouse GetWarehouseData()
         {
-            return new WarehouseDTO(1, "Strijp P", "Schoolstraat 1", "Eindhoven");
+            return new Warehouse()
+            {
+                Id = 1,
+                Name = "Strijp P",
+                Address = "SchoolStraat 12",
+                City = "Eindhoven",
+                Amount = 10
+            };
         }
 
-        internal static List<WarehouseDTO> GetWarehousesData()
+        internal static List<Warehouse> GetWarehousesData()
         {
-            return new List<WarehouseDTO>()
+            return new List<Warehouse>()
             {
                 GetWarehouseData(),
-                new WarehouseDTO(2, "Astrid C", "Kerkstraat 3", "Helmond")
+                new Warehouse()
+                {
+                    Id = 2,
+                    Name = "Astrid C",
+                    Address = "Kerkstraat 3",
+                    City = "Helmond",
+                    Amount = 4
+                }
             };
         }
     }

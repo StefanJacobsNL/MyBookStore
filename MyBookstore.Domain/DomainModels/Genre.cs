@@ -1,5 +1,4 @@
-﻿using MyBookstore.Database.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Domain.DomainModels
 {
@@ -12,12 +11,6 @@ namespace MyBookstore.Domain.DomainModels
         public Genre()
         {
 
-        }
-
-        public Genre(GenreDTO genre)
-        {
-            Id = genre.Id;
-            Name = genre.Name;
         }
     }
 }

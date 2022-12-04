@@ -1,34 +1,42 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using MyBookstore.Database.Entities;
+using MyBookstore.Domain.DomainModels;
+using MyBookstore.Domain.Repositories;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MyBookstore.Database.Repositories
 {
     public class BookRepository : IBookRepository
     {
         private ApplicationDbContext dbContext;
+        private IMapper Mapper;
 
-        public BookRepository(ApplicationDbContext dbContext)
+        public BookRepository(ApplicationDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
+            Mapper = mapper;
         }
 
         #region Book Functions
 
-        public async Task<List<BookDTO>> GetBooks()
+        public async Task<List<Book>> GetBooks()
         {
-            List<BookDTO> books = new();
+            List<Book> books = new();
 
-            books = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+            var getBooks = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
                                          .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
                                          .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).ToListAsync();
+
+            books = Mapper.Map<List<Book>>(getBooks);
 
             return books;
         }
 
-        public async Task<BookDTO> GetBook(int bookId)
+        public async Task<Book> GetBook(int bookId)
         {
-            BookDTO book = new BookDTO();
+            Book book = new Book();
 
             var getBook = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
                                                  .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
@@ -36,35 +44,39 @@ namespace MyBookstore.Database.Repositories
 
             if (getBook != null)
             {
-                book = getBook;
+                book = Mapper.Map<Book>(getBook);
             }
 
             return book;
         }
 
-        public async Task<BookDTO> GetBookByName(string bookName)
+        public async Task<Book> GetBookByName(string bookName)
         {
-            BookDTO book = new BookDTO();
+            Book book = new Book();
 
             var checkObject = await dbContext.Books.FirstOrDefaultAsync(x => x.Name.ToLower() == bookName.ToLower());
 
             if (checkObject != null)
             {
-                book = checkObject;
+                book = Mapper.Map<Book>(checkObject);
             }
 
             return book;
         }
 
-        public async Task AddBook(BookDTO book)
+        public async Task AddBook(Book book)
         {
-            dbContext.Books.Add(book);
+            BookDTO bookDTO = Mapper.Map<BookDTO>(book);
+
+            dbContext.Books.Add(bookDTO);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateBook(BookDTO book)
+        public async Task UpdateBook(Book book)
         {
-            dbContext.Books.Update(book);
+            BookDTO bookDTO = Mapper.Map<BookDTO>(book);
+
+            dbContext.Books.Update(bookDTO);
             await dbContext.SaveChangesAsync();
         }
 
@@ -74,7 +86,8 @@ namespace MyBookstore.Database.Repositories
 
             if (getBook != null && getBook.Id > 0)
             {
-                dbContext.Books.Remove(getBook);
+                BookDTO bookDTO = Mapper.Map<BookDTO>(getBook);
+                dbContext.Books.Remove(bookDTO);
                 await dbContext.SaveChangesAsync();
             }
         }
@@ -87,38 +100,37 @@ namespace MyBookstore.Database.Repositories
         /// Gets all the genres that exist
         /// </summary>
         /// <returns></returns>
-        public async Task<List<GenreDTO>> GetGenres()
+        public async Task<List<Genre>> GetGenres()
         {
-            List<GenreDTO> getGenres = new();
+            var getGenres = await dbContext.Genres.ToListAsync();
+            List<Genre> genres = Mapper.Map<List<Genre>>(getGenres);
 
-            getGenres = await dbContext.Genres.ToListAsync();
-
-            return getGenres;
+            return genres;
         }
 
-        public async Task<GenreDTO> GetGenre(int genreId)
+        public async Task<Genre> GetGenre(int genreId)
         {
-            GenreDTO genre = new GenreDTO();
+            Genre genre = new();
 
             var getGenre = await dbContext.Genres.FirstOrDefaultAsync(x => x.Id == genreId);
 
             if (getGenre != null)
             {
-                genre = getGenre;
+                genre = Mapper.Map<Genre>(getGenre);
             }
 
             return genre;
         }
 
-        public async Task<GenreDTO> GetGenreByName(string genreName)
+        public async Task<Genre> GetGenreByName(string genreName)
         {
-            GenreDTO genre = new GenreDTO();
+            Genre genre = new Genre();
 
             var checkObject = await dbContext.Genres.FirstOrDefaultAsync(x => x.Name.ToLower() == genreName.ToLower());
 
             if (checkObject != null)
             {
-                genre = checkObject;
+                genre = Mapper.Map<Genre>(checkObject);
             }
 
             return genre;
@@ -129,15 +141,19 @@ namespace MyBookstore.Database.Repositories
         /// </summary>
         /// <param name="genre"></param>
         /// <returns>Result class with the response</returns>
-        public async Task AddGenre(GenreDTO genre)
+        public async Task AddGenre(Genre genre)
         {
-            dbContext.Genres.Add(genre);
+            GenreDTO genreDTO = Mapper.Map<GenreDTO>(genre);
+
+            dbContext.Genres.Add(genreDTO);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateGenre(GenreDTO genre)
+        public async Task UpdateGenre(Genre genre)
         {
-            dbContext.Genres.Update(genre);
+            GenreDTO genreDTO = Mapper.Map<GenreDTO>(genre);
+
+            dbContext.Genres.Update(genreDTO);
             await dbContext.SaveChangesAsync();
         }
 
@@ -147,7 +163,9 @@ namespace MyBookstore.Database.Repositories
 
             if (getGenre != null)
             {
-                dbContext.Genres.Remove(getGenre);
+                GenreDTO genreDTO = Mapper.Map<GenreDTO>(getGenre);
+
+                dbContext.Genres.Remove(genreDTO);
                 await dbContext.SaveChangesAsync();
             }
         }
@@ -160,24 +178,24 @@ namespace MyBookstore.Database.Repositories
         /// Gets all the authors that exist
         /// </summary>
         /// <returns></returns>
-        public async Task<List<AuthorDTO>> GetAuthors()
+        public async Task<List<Author>> GetAuthors()
         {
-            List<AuthorDTO> getAuthors = new();
+            var getAuthors = await dbContext.Authors.ToListAsync();
 
-            getAuthors = await dbContext.Authors.ToListAsync();
+            List<Author> authors = Mapper.Map<List<Author>>(getAuthors); ;
 
-            return getAuthors;
+            return authors;
         }
 
-        public async Task<AuthorDTO> GetAuthor(int authorId)
+        public async Task<Author> GetAuthor(int authorId)
         {
-            AuthorDTO author = new AuthorDTO();
+            Author author = new();
 
             var getAuthor = await dbContext.Authors.FirstOrDefaultAsync(x => x.Id == authorId);
 
             if (getAuthor != null)
             {
-                author = getAuthor;
+                author = Mapper.Map<Author>(getAuthor);
             }
 
             return author;
@@ -188,24 +206,27 @@ namespace MyBookstore.Database.Repositories
         /// </summary>
         /// <param name="author"></param>
         /// <returns>Result class with the response</returns>
-        public async Task AddAuthor(AuthorDTO author)
+        public async Task AddAuthor(Author author)
         {
-            dbContext.Authors.Add(author);
+            AuthorDTO getAuthor = Mapper.Map<AuthorDTO>(author);
+            dbContext.Authors.Add(getAuthor);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateAuthor(AuthorDTO author)
+        public async Task UpdateAuthor(Author author)
         {
-            dbContext.Authors.Update(author);
+            AuthorDTO getAuthor = Mapper.Map<AuthorDTO>(author);
+            dbContext.Authors.Update(getAuthor);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAuthor(int authorId)
         {
-            var getAuthor = await GetAuthor(authorId);
+            var checkAuthor = await GetAuthor(authorId);
 
-            if (getAuthor.Id > 0)
+            if (checkAuthor.Id > 0)
             {
+                AuthorDTO getAuthor = Mapper.Map<AuthorDTO>(checkAuthor);
                 dbContext.Authors.Remove(getAuthor);
                 await dbContext.SaveChangesAsync();
             }
@@ -213,53 +234,56 @@ namespace MyBookstore.Database.Repositories
 
         #endregion
 
-        #region Author Functions
+        #region Warehouse Functions
 
         /// <summary>
         /// Gets all the warehouses that exist
         /// </summary>
         /// <returns></returns>
-        public async Task<List<WarehouseDTO>> GetWarehouses()
+        public async Task<List<Warehouse>> GetWarehouses()
         {
-            List<WarehouseDTO> getWarehouses = new();
+            var getWarehouses = await dbContext.Warehouses.ToListAsync();
 
-            getWarehouses = await dbContext.Warehouses.ToListAsync();
+            List<Warehouse> warehouses = Mapper.Map<List<Warehouse>>(getWarehouses);
 
-            return getWarehouses;
+            return warehouses;
         }
 
-        public async Task<WarehouseDTO> GetWarehouse(int warehouseId)
+        public async Task<Warehouse> GetWarehouse(int warehouseId)
         {
-            WarehouseDTO warehouse = new WarehouseDTO();
+            Warehouse warehouse = new();
 
             var getWarehouse = await dbContext.Warehouses.FirstOrDefaultAsync(x => x.Id == warehouseId);
 
             if (getWarehouse != null)
             {
-                warehouse = getWarehouse;
+                warehouse = Mapper.Map<Warehouse>(getWarehouse);
             }
 
             return warehouse;
         }
 
-        public async Task AddWarehouse(WarehouseDTO warehouse)
+        public async Task AddWarehouse(Warehouse warehouse)
         {
-            dbContext.Warehouses.Add(warehouse);
+            WarehouseDTO getWarehouse = Mapper.Map<WarehouseDTO>(warehouse);
+            dbContext.Warehouses.Add(getWarehouse);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateWarehouse(WarehouseDTO warehouse)
+        public async Task UpdateWarehouse(Warehouse warehouse)
         {
-            dbContext.Warehouses.Update(warehouse);
+            WarehouseDTO getWarehouse = Mapper.Map<WarehouseDTO>(warehouse);
+            dbContext.Warehouses.Update(getWarehouse);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteWarehouse(int warehouseId)
         {
-            var getWarehouse = await GetWarehouse(warehouseId);
+            var checkWarehouse = await GetWarehouse(warehouseId);
 
-            if (getWarehouse.Id > 0)
+            if (checkWarehouse.Id > 0)
             {
+                WarehouseDTO getWarehouse = Mapper.Map<WarehouseDTO>(checkWarehouse);
                 dbContext.Warehouses.Remove(getWarehouse);
                 await dbContext.SaveChangesAsync();
             }
