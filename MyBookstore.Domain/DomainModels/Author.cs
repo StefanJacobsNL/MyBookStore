@@ -1,5 +1,4 @@
-﻿using MyBookstore.Database.Entities;
-using MyBookstore.Domain.Helper;
+﻿using MyBookstore.Domain.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,13 +19,6 @@ namespace MyBookstore.Domain.DomainModels
         public Author()
         {
 
-        }
-
-        public Author(AuthorDTO authorDTO)
-        {
-            Id = authorDTO.Id;
-            Name = authorDTO.Name;
-            BirthDay = authorDTO.BirthDay;
         }
     }
 }
