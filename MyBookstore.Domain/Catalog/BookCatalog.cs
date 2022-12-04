@@ -115,7 +115,7 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<Result> UpdateGenre(Genre genre)
         {
-            var getGenre = await BookRepository.GetGenre(genre.Id);
+            Genre getGenre = await BookRepository.GetGenre(genre.Id);
 
             if (getGenre != null && genre.Id > 0)
             {
