@@ -19,7 +19,7 @@ namespace MyBookStore.Test.Data
                 ReleaseDate = new DateTime(2022, 4, 30),
                 Price = (decimal)10.5,
                 ImagePath = "img/test",
-                Warehouses = WarehouseData.GetWarehousesData()
+                BookStocks = BookStockData.GetBookStocksInfo()
             };
         }
         internal static List<Book> GetBooksInfo()
@@ -35,7 +35,7 @@ namespace MyBookStore.Test.Data
                     ReleaseDate = new DateTime(2019, 4, 30),
                     Price = (decimal)60,
                     ImagePath = "img/test",
-                    Warehouses = WarehouseData.GetWarehousesData()
+                    BookStocks = BookStockData.GetBookStocksInfo()
                 }
             };
 

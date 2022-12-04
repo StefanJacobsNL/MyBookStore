@@ -23,7 +23,7 @@ namespace MyBookStore.Pages.Books
         private bool ShowBookForm;
         private string FormAddEditText = string.Empty;
         private string FormAddEditIcon = string.Empty;
-        private List<Warehouse> warehouses = new();
+        private List<BookStock> bookStocks = new();
 
         #region Select Genres
 
@@ -57,13 +57,13 @@ namespace MyBookStore.Pages.Books
         private async Task LoadBookData()
         {
             selectedBook = new();
-            selectedBook.Warehouses = warehouses;
+            selectedBook.BookStocks = new();
             books = await BookCatalog.GetBooks();
             books.Sort(new BookNameComparator());
 
             AllAuthors = await BookCatalog.GetAuthors();
             AllGenres = await BookCatalog.GetGenres();
-            warehouses = await BookCatalog.GetWarehouses();
+            bookStocks = await BookCatalog.GetBookStocksBasedOnWarehouses();
         }
 
         private void OnAddBtnClick()
@@ -71,7 +71,7 @@ namespace MyBookStore.Pages.Books
             FormAddEditText = "Add";
             FormAddEditIcon = IconStrings.Add;
             selectedBook = new();
-            selectedBook.Warehouses = warehouses;
+            selectedBook.BookStocks = bookStocks;
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
 
@@ -88,9 +88,9 @@ namespace MyBookStore.Pages.Books
             FormAddEditText = "Edit";
             selectedBook = book;
 
-            var getUnusedWarehouses = warehouses.Where(x => !selectedBook.Warehouses.Select(w => w.Id).Contains(x.Id));
+            var getUnusedWarehouses = bookStocks.Where(x => !selectedBook.BookStocks.Select(w => w.WarehouseId).Contains(x.WarehouseId));
 
-            selectedBook.Warehouses.AddRange(getUnusedWarehouses);
+            selectedBook.BookStocks.AddRange(getUnusedWarehouses);
             editContext = new EditContext(selectedBook);
             ShowBookForm = true;
 

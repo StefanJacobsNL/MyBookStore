@@ -15,6 +15,7 @@ namespace MyBookstore.Domain.Catalog
         Task<List<Author>> GetAuthors();
         Task<Book> GetBook(int bookId);
         Task<List<Book>> GetBooks();
+        Task<List<BookStock>> GetBookStocksBasedOnWarehouses();
         Task<List<Genre>> GetGenres();
         Task<List<Warehouse>> GetWarehouses();
         Task<Result> UpdateAuthor(Author author);

@@ -16,8 +16,7 @@ namespace MyBookStore.Test.Data
                 Id = 1,
                 Name = "Strijp P",
                 Address = "SchoolStraat 12",
-                City = "Eindhoven",
-                Amount = 10
+                City = "Eindhoven"
             };
         }
 
@@ -31,8 +30,7 @@ namespace MyBookStore.Test.Data
                     Id = 2,
                     Name = "Astrid C",
                     Address = "Kerkstraat 3",
-                    City = "Helmond",
-                    Amount = 4
+                    City = "Helmond"
                 }
             };
         }

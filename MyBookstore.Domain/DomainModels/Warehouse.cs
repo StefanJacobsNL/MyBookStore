@@ -11,8 +11,6 @@ namespace MyBookstore.Domain.DomainModels
         public string Address { get; set; } = string.Empty;
         [Required(ErrorMessage = "A city is required")]
         public string City { get; set; } = string.Empty;
-        [Range(0, int.MaxValue)]
-        public int Amount { get; set; }
 
         public Warehouse()
         {

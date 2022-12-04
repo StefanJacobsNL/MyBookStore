@@ -96,11 +96,11 @@
                                     </div>
                                     <div class="mb-3">
                                         <label>Warehouse stock</label>
-                                        @foreach (var warehouse in selectedBook.Warehouses.OrderBy(x => x.Id))
+                                        @foreach (var warehouse in selectedBook.BookStocks.OrderBy(x => x.WarehouseId))
                                         {
                                             <div class="row mb-1">
                                                 <div class="col">
-                                                    <label>@warehouse.Name:</label>
+                                                    <label>@warehouse.WarehouseName:</label>
                                                 </div>
                                                 <div class="col">
                                                     <InputNumber class="form-control" min="0" @bind-Value="warehouse.Amount" />
