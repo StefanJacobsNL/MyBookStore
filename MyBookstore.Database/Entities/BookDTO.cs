@@ -21,6 +21,7 @@ namespace MyBookstore.Database.Entities
         [Required]
         public ICollection<BookAuthorDTO> BookAuthors { get; set; } = new List<BookAuthorDTO>();
         public ICollection<WarehouseBookDTO> BookWarehouses { get; set; } = new List<WarehouseBookDTO>();
+        public ICollection<BookDiscountDTO> BookDiscounts { get; set; } = new List<BookDiscountDTO>();
 
         public BookDTO()
         {
