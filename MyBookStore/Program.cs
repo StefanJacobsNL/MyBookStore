@@ -37,11 +37,8 @@ var mapperConfig = new MapperConfiguration(mc =>
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
-//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookCatalog, BookCatalog>();
-
 
 var app = builder.Build();
 
