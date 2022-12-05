@@ -26,7 +26,7 @@ namespace MyBookstore.Domain.DomainModels
         public IBrowserFile FileUpload { get; set; }
         public List<Genre> Genres { get; set; } = new List<Genre>();
         public List<Author> Authors { get; set; } = new List<Author>();
-        public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
+        public List<BookStock> BookStocks { get; set; } = new();
 
 
         public Book()
@@ -67,9 +67,9 @@ namespace MyBookstore.Domain.DomainModels
         {
             int amountOfBooks = 0;
 
-            if (Warehouses != null)
+            if (BookStocks != null)
             {
-                amountOfBooks += Warehouses.Sum(x => x.Amount);
+                amountOfBooks += BookStocks.Sum(x => x.Amount);
             }
 
             return amountOfBooks;

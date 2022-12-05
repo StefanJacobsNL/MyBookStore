@@ -90,6 +90,23 @@ namespace MyBookstore.Domain.Catalog
 
         #endregion
 
+        #region BookStocks
+
+        public async Task<List<BookStock>> GetBookStocksBasedOnWarehouses()
+        {
+            List<BookStock> bookStocks = new();
+            List<Warehouse> getWarehouses = await GetWarehouses();
+
+            foreach (var warehouse in getWarehouses)
+            {
+                bookStocks.Add(new BookStock(warehouse.Id, warehouse.Name));
+            }
+
+            return bookStocks;
+        }
+
+        #endregion
+
         #region Genre functions
 
         public async Task<List<Genre>> GetGenres()
@@ -115,7 +132,7 @@ namespace MyBookstore.Domain.Catalog
 
         public async Task<Result> UpdateGenre(Genre genre)
         {
-            var getGenre = await BookRepository.GetGenre(genre.Id);
+            Genre getGenre = await BookRepository.GetGenre(genre.Id);
 
             if (getGenre != null && genre.Id > 0)
             {
