@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Moq;
 using MyBookstore.Domain.Catalog;
 using MyBookstore.Domain.DomainModels;
@@ -110,6 +111,26 @@ namespace MyBookStore.Test
             int amountOfBook = book.GetTotalAmountBooks();
 
             Assert.Equal(amountOfBook, expectedAmount);
+        }
+
+        [Fact]
+        public void Calculate_Discount()
+        {
+            Book book = BookData.GetBookInfo();
+
+            var getDiscount = book.CalculateDiscount();
+
+            Assert.Equal(getDiscount, (decimal)2);
+        }
+
+        [Fact]
+        public void Calculate_DiscountedPrice()
+        {
+            Book book = BookData.GetBookInfo();
+
+            var getDiscount = book.CalculateDiscountedPrice();
+
+            Assert.Equal(getDiscount, (decimal)8);
         }
     }
 }

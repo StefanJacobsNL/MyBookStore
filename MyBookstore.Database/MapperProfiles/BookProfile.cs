@@ -6,8 +6,6 @@ namespace MyBookstore.Database.MapperProfiles
 {
     public class BookProfile : Profile
     {
-        
-
         public BookProfile()
         {
             CreateMap<Book, BookDTO>()
@@ -37,6 +35,10 @@ namespace MyBookstore.Database.MapperProfiles
             CreateMap<AuthorDTO, Author>();
             CreateMap<Genre, GenreDTO>();
             CreateMap<GenreDTO, Genre>();
+            CreateMap<Discount, DiscountDTO>()
+                .ForMember(dst => dst.Discount, opt => opt.MapFrom(src => src.Amount));
+            CreateMap<DiscountDTO, Discount>()
+                .ForMember(dst => dst.Amount, opt => opt.MapFrom(src => src.Discount));
         }
     }
 }

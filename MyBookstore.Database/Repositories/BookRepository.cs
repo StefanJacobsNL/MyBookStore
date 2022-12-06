@@ -29,8 +29,7 @@ namespace MyBookstore.Database.Repositories
             var getBooks = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
                                          .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
                                          .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse)
-                                         .Include(x => x.BookDiscounts.Where(x => x.Discount.StartDate >= DateTime.Now && x.Discount.EndDate <= DateTime.Now))
-                                                    .ThenInclude(x => x.Discount).ToListAsync();
+                                         .Include(x => x.Discount).ToListAsync();
 
             books = Mapper.Map<List<Book>>(getBooks);
 

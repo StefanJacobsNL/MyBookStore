@@ -17,9 +17,10 @@ namespace MyBookStore.Test.Data
                 Name = "BookOne",
                 Description = "This is a book",
                 ReleaseDate = new DateTime(2022, 4, 30),
-                Price = (decimal)10.5,
+                Price = (decimal)10,
                 ImagePath = "img/test",
-                BookStocks = BookStockData.GetBookStocksInfo()
+                BookStocks = BookStockData.GetBookStocksInfo(),
+                Discount = DiscountData.GetDiscountInfo()
             };
         }
         internal static List<Book> GetBooksInfo()

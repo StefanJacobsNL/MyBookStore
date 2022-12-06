@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using MyBookstore.Domain.Helper;
 using MyBookstore.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.DomainModels
 {
@@ -78,9 +73,23 @@ namespace MyBookstore.Domain.DomainModels
 
         public decimal CalculateDiscount()
         {
-            if (Price > 0)
+            if (Price > 0 && Discount.CheckIfDateIsValid())
             {
-                return (Price / 100) * 96 ;
+                return (Price / 100) * Discount.Amount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public decimal CalculateDiscountedPrice()
+        {
+            decimal getDiscount = CalculateDiscount();
+
+            if (getDiscount > 0)
+            {
+                return Price - getDiscount;
             }
             else
             {

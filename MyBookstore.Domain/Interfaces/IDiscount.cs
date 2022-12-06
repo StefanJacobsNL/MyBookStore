@@ -9,5 +9,6 @@ namespace MyBookstore.Domain.Interfaces
     public interface IDiscount
     {
         public decimal CalculateDiscount();
+        public decimal CalculateDiscountedPrice();
     }
 }

@@ -200,5 +200,10 @@ namespace MyBookStore.Pages.Books
             Modal?.Close();
             await LoadBookData();
         }
+
+        private void CreateDiscountObject()
+        {
+            selectedBook.Discount = new();
+        }
     }
 }

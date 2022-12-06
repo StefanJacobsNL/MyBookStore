@@ -11,6 +11,8 @@ namespace MyBookstore.Database.Entities
         public int Id { get; set; }
         public bool SentToCustomer { get; set; }
         public bool Paid { get; set; }
+        public DiscountDTO Discount { get; set; }
+        public int? DiscountId { get; set; }
 
         public OrderDTO()
         {
