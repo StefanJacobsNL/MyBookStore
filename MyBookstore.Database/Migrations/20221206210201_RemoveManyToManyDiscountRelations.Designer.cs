@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyBookstore.Database;
 
 #nullable disable
 
-namespace MyBookStore.Data.Migrations
+namespace MyBookstore.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221206210201_RemoveManyToManyDiscountRelations")]
+    partial class RemoveManyToManyDiscountRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -279,9 +281,6 @@ namespace MyBookStore.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DiscountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
@@ -297,8 +296,6 @@ namespace MyBookStore.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountId");
 
                     b.ToTable("Books");
                 });
@@ -357,15 +354,10 @@ namespace MyBookStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("DiscountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountId");
 
                     b.ToTable("Genres");
                 });
@@ -404,9 +396,6 @@ namespace MyBookStore.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("DiscountId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
@@ -414,8 +403,6 @@ namespace MyBookStore.Data.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DiscountId");
 
                     b.ToTable("Orders");
                 });
@@ -541,15 +528,6 @@ namespace MyBookStore.Data.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("MyBookstore.Database.Entities.BookDTO", b =>
-                {
-                    b.HasOne("MyBookstore.Database.Entities.DiscountDTO", "Discount")
-                        .WithMany()
-                        .HasForeignKey("DiscountId");
-
-                    b.Navigation("Discount");
-                });
-
             modelBuilder.Entity("MyBookstore.Database.Entities.BookGenreDTO", b =>
                 {
                     b.HasOne("MyBookstore.Database.Entities.BookDTO", "Book")
@@ -569,15 +547,6 @@ namespace MyBookStore.Data.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("MyBookstore.Database.Entities.GenreDTO", b =>
-                {
-                    b.HasOne("MyBookstore.Database.Entities.DiscountDTO", "Discount")
-                        .WithMany()
-                        .HasForeignKey("DiscountId");
-
-                    b.Navigation("Discount");
-                });
-
             modelBuilder.Entity("MyBookstore.Database.Entities.OrderBooksDTO", b =>
                 {
                     b.HasOne("MyBookstore.Database.Entities.BookDTO", "Book")
@@ -595,15 +564,6 @@ namespace MyBookStore.Data.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("MyBookstore.Database.Entities.OrderDTO", b =>
-                {
-                    b.HasOne("MyBookstore.Database.Entities.DiscountDTO", "Discount")
-                        .WithMany()
-                        .HasForeignKey("DiscountId");
-
-                    b.Navigation("Discount");
                 });
 
             modelBuilder.Entity("MyBookstore.Database.Entities.WarehouseBookDTO", b =>

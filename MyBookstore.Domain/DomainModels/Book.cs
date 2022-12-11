@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using MyBookstore.Domain.Helper;
-using System;
-using System.Collections.Generic;
+using MyBookstore.Domain.Interfaces;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.DomainModels
 {
-    public class Book : IComparable<Book>
+    public class Book : IComparable<Book>, IDiscount
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A book name is required")]
@@ -27,7 +23,7 @@ namespace MyBookstore.Domain.DomainModels
         public List<Genre> Genres { get; set; } = new List<Genre>();
         public List<Author> Authors { get; set; } = new List<Author>();
         public List<BookStock> BookStocks { get; set; } = new();
-
+        public Discount Discount { get; set; }
 
         public Book()
         {
@@ -73,6 +69,32 @@ namespace MyBookstore.Domain.DomainModels
             }
 
             return amountOfBooks;
+        }
+
+        public decimal CalculateDiscount()
+        {
+            if (Price > 0 && Discount != null && Discount.CheckIfDateIsValid())
+            {
+                return (Price / 100) * Discount.Amount;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public decimal CalculateDiscountedPrice()
+        {
+            decimal getDiscount = CalculateDiscount();
+
+            if (getDiscount > 0)
+            {
+                return Price - getDiscount;
+            }
+            else
+            {
+                return Price;
+            }
         }
     }
 }
