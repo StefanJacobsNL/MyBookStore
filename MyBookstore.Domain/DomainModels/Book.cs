@@ -75,7 +75,7 @@ namespace MyBookstore.Domain.DomainModels
         {
             if (Price > 0 && Discount != null && Discount.CheckIfDateIsValid())
             {
-                return (Price / 100) * Discount.Amount;
+                return Math.Round((Price / 100) * Discount.Amount, 2);
             }
             else
             {
@@ -89,11 +89,11 @@ namespace MyBookstore.Domain.DomainModels
 
             if (getDiscount > 0)
             {
-                return Price - getDiscount;
+                return Math.Round(Price - getDiscount, 2);
             }
             else
             {
-                return Price;
+                return Math.Round(Price, 2);
             }
         }
     }
