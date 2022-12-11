@@ -73,7 +73,7 @@ namespace MyBookstore.Domain.DomainModels
 
         public decimal CalculateDiscount()
         {
-            if (Price > 0 && Discount.CheckIfDateIsValid())
+            if (Price > 0 && Discount != null && Discount.CheckIfDateIsValid())
             {
                 return (Price / 100) * Discount.Amount;
             }

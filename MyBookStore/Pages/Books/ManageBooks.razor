@@ -97,7 +97,7 @@
                                                           Selected="selectedBook.Authors" />
                                     </div>
                                     <div class="mb-3">
-                                        <label>Warehouse stock</label>
+                                        <h5>Warehouse stock</h5>
                                         @if(selectedBook.BookStocks.Any())
                                         {
                                             @foreach (var warehouse in selectedBook.BookStocks.OrderBy(x => x.WarehouseId))
@@ -122,7 +122,7 @@
                                         }
                                     </div>
                                     <div class="mb-3">
-                                        <label>Discount</label>
+                                        <h5>Discount</h5>
                                         @if (selectedBook.Discount != null)
                                         {
                                             <div class="row mb-3">
