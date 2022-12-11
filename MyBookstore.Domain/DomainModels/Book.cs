@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Domain.DomainModels
 {
-    public class Book : IComparable<Book>, IDiscount
+    public class Book : IDiscount
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A book name is required")]
@@ -29,12 +29,6 @@ namespace MyBookstore.Domain.DomainModels
         {
 
         }
-
-        public int CompareTo(Book? other)
-        {
-            return this.Name.CompareTo(other?.Name);
-        }
-
         public bool CheckIfBookHasGenres()
         {
             if (Genres.Any())
@@ -47,15 +41,39 @@ namespace MyBookstore.Domain.DomainModels
             }
         }
 
-        public bool CheckIfBookHasAuthors()
+        public string GetGenresString()
         {
             if (Genres.Any())
+            {
+                return string.Join(", ", Genres.Select(x => x.Name));
+            }
+            else
+            {
+                return "-";
+            }
+        }
+
+        public bool CheckIfBookHasAuthors()
+        {
+            if (Authors.Any())
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        public string GetAuthorsString()
+        {
+            if (Authors.Any())
+            {
+                return string.Join(", ", Authors.Select(x => x.Name));
+            }
+            else
+            {
+                return "-";
             }
         }
 
@@ -75,7 +93,7 @@ namespace MyBookstore.Domain.DomainModels
         {
             if (Price > 0 && Discount != null && Discount.CheckIfDateIsValid())
             {
-                return (Price / 100) * Discount.Amount;
+                return Math.Round((Price / 100) * Discount.Amount, 2);
             }
             else
             {
@@ -89,11 +107,11 @@ namespace MyBookstore.Domain.DomainModels
 
             if (getDiscount > 0)
             {
-                return Price - getDiscount;
+                return Math.Round(Price - getDiscount, 2);
             }
             else
             {
-                return Price;
+                return Math.Round(Price, 2);
             }
         }
     }

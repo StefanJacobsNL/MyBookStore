@@ -1,0 +1,67 @@
+﻿@page "/book/{BookId:int}"
+<PageTitle>MyBookStore</PageTitle>
+
+@if (book == null)
+{
+    <div class="row">
+        <div class="col">
+            <LoadingSpinner />
+        </div>
+    </div>
+}
+else if (book.Id == 0)
+{
+    <div class="row">
+        <div class="col">
+            <h5 class="text-center">No book found</h5>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <h5 class="card-header">@book.Name</h5>
+        <div class="card-body">
+            <Alert @ref="MainAlert" Icon="@IconString.Info" AlertCssStyle="alert-success" >
+                <CustomTextElement> <label>@($"Added {book.Name} to the basket")</label></CustomTextElement>
+            </Alert>
+            <div class="row">
+                <div class="col">
+                    <img src="@book.ImagePath" class="img-thumbnail detailBookImg" alt="@book.Name">
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <ul class="list-group">
+                            <li class="list-group-item"><strong>Book info</strong></li>
+                            <li class="list-group-item"><label><strong>Author(s):</strong> @book.GetAuthorsString()</label></li>
+                            <li class="list-group-item"><label><strong>Genre(s):</strong> @book.GetGenresString()</label></li>
+                            <li class="list-group-item"><label><strong>Description:</strong> @book.Description</label></li>
+                            @if (book.CalculateDiscount() == 0)
+                            {
+                                <li class="list-group-item"><label><strong>Price:</strong>€ @book.Price</label></li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item"><label><strong>Discount:</strong>@book.Discount.Amount%</label></li>
+                                <li class="list-group-item"><label><strong>Total discount:</strong>€ @book.CalculateDiscount()</label></li>
+                                <li class="list-group-item"><label><strong>Price:</strong>€ <del class="me-1 text-danger">@book.Price</del> @book.CalculateDiscountedPrice()</label></li>
+                            }
+                            <li class="list-group-item">
+                                <button type="button" class="btn btn-primary form-control" @onclick="AddToBasket">
+                                    <i class="@IconString.Basket"></i> Add to basket
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h4></h4>
+        </div>
+    </div>
+    
+}

@@ -45,7 +45,8 @@ namespace MyBookStore.Pages.Books
         private List<Book>? books;
         private Modal? Modal { get; set; }
         private Alert? MainAlert { get; set; }
-        private readonly string uploadPath = "wwwroot/img/bookcover";
+        private readonly string uploadPath = "wwwroot\\img\\bookcover";
+        private readonly string savePath = "img\\bookcover";
 
         protected async override Task OnInitializedAsync()
         {
@@ -69,7 +70,7 @@ namespace MyBookStore.Pages.Books
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.Add;
+            FormAddEditIcon = IconString.Add;
             selectedBook = new();
             selectedBook.BookStocks = bookStocks;
             editContext = new EditContext(selectedBook);
@@ -84,7 +85,7 @@ namespace MyBookStore.Pages.Books
 
         private void OnEditBtnListClick(Book book)
         {
-            FormAddEditIcon = IconStrings.Edit;
+            FormAddEditIcon = IconString.Edit;
             FormAddEditText = "Edit";
             selectedBook = book;
 
@@ -121,6 +122,16 @@ namespace MyBookStore.Pages.Books
 
                 if (!errorList.Any())
                 {
+                    if (selectedBook.FileUpload != null)
+                    {
+                        var getFileExtension = selectedBook.FileUpload.Name.Split('.')[1];
+                        selectedBook.ImagePath = Path.Combine(savePath, $"{selectedBook.Name}.{getFileExtension}");
+
+                        string setUploadPath = Path.Combine(uploadPath, $"{selectedBook.Name}.{getFileExtension}");
+                        await using FileStream fs = new(setUploadPath, FileMode.Create);
+                        await selectedBook.FileUpload.OpenReadStream().CopyToAsync(fs);
+                    }
+
                     if (selectedBook.Id > 0)
                     {
                         result = await BookCatalog.UpdateBook(selectedBook);
@@ -128,15 +139,6 @@ namespace MyBookStore.Pages.Books
                     else
                     {
                         result = await BookCatalog.AddBook(selectedBook);
-                    }
-
-                    if (selectedBook.FileUpload != null)
-                    {
-                        var getFileExtension = selectedBook.FileUpload.Name.Split('.')[1];
-                        selectedBook.ImagePath = Path.Combine(uploadPath, $"{selectedBook.Name}.{getFileExtension}");
-
-                        await using FileStream fs = new(selectedBook.ImagePath, FileMode.Create);
-                        await selectedBook.FileUpload.OpenReadStream().CopyToAsync(fs);
                     }
 
                     errorList.Add(result.Error);

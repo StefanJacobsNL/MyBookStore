@@ -14,7 +14,7 @@ namespace MyBookstore.Domain.Catalog
         Task<Result> DeleteWarehouse(int warehouseId);
         Task<List<Author>> GetAuthors();
         Task<Book> GetBook(int bookId);
-        Task<List<Book>> GetBooks();
+        Task<List<Book>> GetBooks(SearchFilter? bookFilter = null);
         Task<List<BookStock>> GetBookStocksBasedOnWarehouses();
         Task<List<Genre>> GetGenres();
         Task<List<Warehouse>> GetWarehouses();

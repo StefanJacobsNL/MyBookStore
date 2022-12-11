@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using MyBookstore.Domain.Comparators;
 using MyBookstore.Domain.DomainModels;
+using MyBookstore.Domain.Filters;
+using MyBookstore.Domain.Interfaces;
 using MyBookstore.Domain.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,9 +23,37 @@ namespace MyBookstore.Domain.Catalog
 
         #region Book functions
 
-        public async Task<List<Book>> GetBooks()
+        public async Task<List<Book>> GetBooks(SearchFilter? bookFilter = null)
         {
-            return await BookRepository.GetBooks();
+            List<Book> getbooks = await BookRepository.GetBooks();
+            List<Book> filteredBooks = new();
+
+            if (bookFilter != null)
+            {
+                List<IBookFilter> bookFilters = new()
+                {
+                    new BookFilterBookName(),
+                    new BookFilterBookGenre(),
+                    new BookFilterBookAuthor()
+                };
+
+                foreach (var filter in bookFilters)
+                {
+                    var filterBooks = filter.Filter(getbooks, bookFilter);
+
+                    
+
+                    filteredBooks.AddRange(filterBooks.Where(x => !filteredBooks.Contains(x)));
+                }
+            }
+            else
+            {
+                filteredBooks = getbooks;
+            }
+
+            filteredBooks.Sort(new BookNameComparator());
+
+            return filteredBooks;
         }
 
         public async Task<Book> GetBook(int bookId)

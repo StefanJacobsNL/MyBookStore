@@ -1,8 +1,90 @@
 ﻿@page "/"
+<PageTitle>MyBookStore</PageTitle>
 
-<PageTitle>Index</PageTitle>
+<div class="row">
+    <div class="col">
+        <h1 class="display-5 text-center">MyBookStore</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        @if (books == null)
+        {
+            <LoadingSpinner />
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">
+                    <EditForm EditContext="searchContext" OnValidSubmit="OnFilterBook">
+                        <div class="mb-3 input-group">
+                            <InputText class="form-control" @bind-Value="bookFilter.Search" placeholder="Search..." />
+                            <button class="btn btn-primary" type="submit"><i class="@IconString.Search"></i></button>
+                        </div>
+                    </EditForm>
+                </div>
+                <div class="col">
+                    <div class="mb-3">
+                        <select class="form-select" @onchange="SortBooks">
+                            @foreach (var sortOption in SortDict)
+                            {
+                                <option value="@sortOption.Key">@sortOption.Key</option>
+                            }
+                                
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @if (books.Any())
+            {
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+                    @foreach (var book in books)
+                    {
+                        <div class="col mb-1">
+                            <div class="card imgCard">
+                                <img src="@book.ImagePath" class="card-img-top pt-1" alt="@book.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title">@book.Name</h5>
+                                    <h6>@book.Authors.First().Name</h6>
+                                    <p class="card-text">
+                                        @if (book.Genres.Any())
+                                        {
+                                            @foreach (var genre in book.Genres)
+                                            {
+                                                <span class="badge bg-primary m-1">@genre.Name</span>
+                                            }
+                                        }
+                                    </p>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5>
+                                                €
+                                                @if (book.CalculateDiscountedPrice() != book.Price)
+                                                {
+                                                    <del class="me-1 text-danger">@book.Price</del>
+                                                }
+                                                @book.CalculateDiscountedPrice()
+                                            </h5>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
+                                        </div>
+                                        <div class="col">
+                                            <a href="@($"book/{ book.Id}")" class="btn btn-primary form-control">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col">
+                        <h5 class="text-center">No books found...</h5>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
