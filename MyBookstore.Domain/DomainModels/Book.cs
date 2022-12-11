@@ -41,15 +41,39 @@ namespace MyBookstore.Domain.DomainModels
             }
         }
 
-        public bool CheckIfBookHasAuthors()
+        public string GetGenresString()
         {
             if (Genres.Any())
+            {
+                return string.Join(", ", Genres.Select(x => x.Name));
+            }
+            else
+            {
+                return "-";
+            }
+        }
+
+        public bool CheckIfBookHasAuthors()
+        {
+            if (Authors.Any())
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        public string GetAuthorsString()
+        {
+            if (Authors.Any())
+            {
+                return string.Join(", ", Authors.Select(x => x.Name));
+            }
+            else
+            {
+                return "-";
             }
         }
 

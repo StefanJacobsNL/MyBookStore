@@ -3,3 +3,8 @@
     height: 200px;
     object-fit: contain;
 }
+
+.detailBookImg {
+    max-height: 400px;
+    object-fit: contain;
+}

@@ -14,5 +14,6 @@
         public static string ListRich { get { return "oi oi-list-rich"; } }
         public static string Box { get { return "oi oi-box"; } }
         public static string Search { get { return "oi oi-magnifying-glass"; } }
+        public static string Basket { get { return "oi oi-basket"; } }
     }
 }

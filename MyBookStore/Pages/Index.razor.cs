@@ -26,7 +26,6 @@ namespace MyBookStore.Pages
 
         protected async override Task OnInitializedAsync()
         {
-            
             searchContext = new EditContext(bookFilter);
 
             books = await BookCatalog.GetBooks();

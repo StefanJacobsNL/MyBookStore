@@ -10,6 +10,7 @@ using MyBookstore.Database;
 using MyBookstore.Database.MapperProfiles;
 using MyBookstore.Database.Repositories;
 using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Areas.Identity;
 using System.Reflection;
@@ -39,6 +40,7 @@ builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookCatalog, BookCatalog>();
+builder.Services.AddSingleton<Cart>();
 
 var app = builder.Build();
 
