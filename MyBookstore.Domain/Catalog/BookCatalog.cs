@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MyBookstore.Domain.Comparators;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Filters;
 using MyBookstore.Domain.Interfaces;
@@ -49,6 +50,8 @@ namespace MyBookstore.Domain.Catalog
             {
                 filteredBooks = getbooks;
             }
+
+            filteredBooks.Sort(new BookNameComparator());
 
             return filteredBooks;
         }

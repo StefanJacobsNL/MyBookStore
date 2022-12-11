@@ -9,5 +9,6 @@ namespace MyBookstore.Domain.DomainModels
     public class SearchFilter
     {
         public string? Search { get; set; }
+        public string? SortBy { get; set; }
     }
 }

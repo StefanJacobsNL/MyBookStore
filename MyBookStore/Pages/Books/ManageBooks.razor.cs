@@ -70,7 +70,7 @@ namespace MyBookStore.Pages.Books
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.Add;
+            FormAddEditIcon = IconString.Add;
             selectedBook = new();
             selectedBook.BookStocks = bookStocks;
             editContext = new EditContext(selectedBook);
@@ -85,7 +85,7 @@ namespace MyBookStore.Pages.Books
 
         private void OnEditBtnListClick(Book book)
         {
-            FormAddEditIcon = IconStrings.Edit;
+            FormAddEditIcon = IconString.Edit;
             FormAddEditText = "Edit";
             selectedBook = book;
 

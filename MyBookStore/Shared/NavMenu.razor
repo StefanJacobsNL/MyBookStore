@@ -21,21 +21,21 @@
             <Authorized>
             <div class="nav-item dropdown px-3">
                 <NavLink class="nav-link" @onclick="ToggleAdminDropDown">
-                    <span class="@IconStrings.ListRich" aria-hidden="true"></span> Admin
+                    <span class="@IconString.ListRich" aria-hidden="true"></span> Admin
                 </NavLink>
                 @if (collapseAdminMenu)
                 {
                     <NavLink class="nav-link" href="admin/ManageGenre">
-                        <span class="@IconStrings.Clipboard" aria-hidden="true"></span> Manage genres
+                        <span class="@IconString.Clipboard" aria-hidden="true"></span> Manage genres
                     </NavLink>
                     <NavLink class="nav-link" href="admin/ManageAuthor">
-                        <span class="@IconStrings.Badge" aria-hidden="true"></span> Manage authors
+                        <span class="@IconString.Badge" aria-hidden="true"></span> Manage authors
                     </NavLink>
                     <NavLink class="nav-link" href="admin/Books">
-                        <span class="@IconStrings.Book" aria-hidden="true"></span> Manage books
+                        <span class="@IconString.Book" aria-hidden="true"></span> Manage books
                     </NavLink>
                     <NavLink class="nav-link" href="admin/Warehouses">
-                        <span class="@IconStrings.Box" aria-hidden="true"></span> Manage warehouses
+                        <span class="@IconString.Box" aria-hidden="true"></span> Manage warehouses
                     </NavLink>
                 }
             </div>

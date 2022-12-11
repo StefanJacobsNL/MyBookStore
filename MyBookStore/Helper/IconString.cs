@@ -1,6 +1,6 @@
 ﻿namespace MyBookStore.Helper
 {
-    public static class IconStrings
+    public static class IconString
     {
         public static string Add { get { return "oi oi-plus"; } }
         public static string Edit { get { return "oi oi-pencil"; } }
@@ -13,5 +13,6 @@
         public static string Clipboard { get { return "oi oi-clipboard"; } }
         public static string ListRich { get { return "oi oi-list-rich"; } }
         public static string Box { get { return "oi oi-box"; } }
+        public static string Search { get { return "oi oi-magnifying-glass"; } }
     }
 }

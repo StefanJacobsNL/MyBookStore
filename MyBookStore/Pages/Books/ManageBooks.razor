@@ -12,7 +12,7 @@
                 else
                 {
                     <h3>Manage Books</h3>
-                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconStrings.Info" />
+                    <Alert @ref="MainAlert" AlertList="errorList" Icon="@IconString.Info" />
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -35,10 +35,10 @@
                                         <td>€ @Math.Round(book.CalculateDiscount(), 2)</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-success" @onclick="@(() => OnEditBtnListClick(book))">
-                                                <i class="@IconStrings.Edit"></i>
+                                                <i class="@IconString.Edit"></i>
                                             </button>
                                             <button type="button" class="btn btn-outline-danger" @onclick="@(() => OnDeleteBtnListClick(book))">
-                                                <i class="@IconStrings.Delete"></i>
+                                                <i class="@IconString.Delete"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -53,7 +53,7 @@
                         </tbody>
                     </table>
                     <button type="button" class="btn btn-primary form-control mb-3" @onclick="OnAddBtnClick">
-                        <span class="@IconStrings.Add" aria-hidden="true"></span> Add book
+                        <span class="@IconString.Add" aria-hidden="true"></span> Add book
                     </button>
                     @if (ShowBookForm)
                     {
@@ -156,7 +156,7 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <button type="button" class="btn btn-primary form-control" @onclick="CreateDiscountObject">
-                                                        <i class="@IconStrings.Add"></i> Add discount
+                                                        <i class="@IconString.Add"></i> Add discount
                                                     </button>
                                                 </div>
                                             </div>
@@ -172,7 +172,7 @@
                     <Modal @ref="Modal" HeaderText="Delete book"
                            BodyText="@($"Are you sure you want to delete '{ selectedBook.Name }'?")"
                            BtnConfirmTxt="Delete book" BtnConfirmColour="danger"
-                           BtnConfirmIcon="@IconStrings.Delete"
+                           BtnConfirmIcon="@IconString.Delete"
                            OnConfirmMethod="OnModalDeleteConfirm" />
                 }
             </div>

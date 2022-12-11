@@ -46,7 +46,7 @@ namespace MyBookStore.Pages.Books
         private void OnAddBtnClick()
         {
             FormAddEditText = "Add";
-            FormAddEditIcon = IconStrings.Add;
+            FormAddEditIcon = IconString.Add;
             selectedWarehouse = new();
             editContext = new EditContext(selectedWarehouse);
             ShowWarehouseForm = true;
@@ -54,7 +54,7 @@ namespace MyBookStore.Pages.Books
 
         private void OnEditBtnListClick(Warehouse warehouse)
         {
-            FormAddEditIcon = IconStrings.Edit;
+            FormAddEditIcon = IconString.Edit;
             FormAddEditText = "Edit";
             selectedWarehouse = warehouse;
             editContext = new EditContext(selectedWarehouse);

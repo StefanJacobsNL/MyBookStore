@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Domain.DomainModels
 {
-    public class Book : IComparable<Book>, IDiscount
+    public class Book : IDiscount
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A book name is required")]
@@ -29,12 +29,6 @@ namespace MyBookstore.Domain.DomainModels
         {
 
         }
-
-        public int CompareTo(Book? other)
-        {
-            return this.Name.CompareTo(other?.Name);
-        }
-
         public bool CheckIfBookHasGenres()
         {
             if (Genres.Any())

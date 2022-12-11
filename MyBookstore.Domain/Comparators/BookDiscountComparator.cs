@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.Comparators
 {
-    public class BookPriceComparator : IComparer<Book>
+    public class BookDiscountComparator : IComparer<Book>
     {
         public int Compare(Book? bookOne, Book? booktwo)
         {
@@ -21,7 +21,7 @@ namespace MyBookstore.Domain.Comparators
             }
             else
             {
-                return bookOne.CalculateDiscountedPrice().CompareTo(booktwo.CalculateDiscountedPrice());
+                return bookOne.CalculateDiscount().CompareTo(booktwo.CalculateDiscount());
             }
         }
     }
