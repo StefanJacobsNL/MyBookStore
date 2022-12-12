@@ -12,13 +12,16 @@ namespace MyBookStore.Pages.Books
     public partial class ManageBooks
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
 
         [Inject]
         public IAuthorService AuthorService { get; set; } = default!;
 
         [Inject]
         public IGenreService GenreService { get; set; } = default!;
+
+        [Inject]
+        public IWarehouseService WarehouseService { get; set; } = default!;
 
         #region BookForm
 
@@ -70,7 +73,7 @@ namespace MyBookStore.Pages.Books
 
             AllAuthors = await AuthorService.GetAuthors();
             AllGenres = await GenreService.GetGenres();
-            bookStocks = await BookCatalog.GetBookStocksBasedOnWarehouses();
+            bookStocks = await WarehouseService.GetBookStocksBasedOnWarehouses();
         }
 
         private void OnAddBtnClick()

@@ -23,7 +23,7 @@ namespace MyBookStore.Test
                 List<Warehouse> getWarehouseData = WarehouseData.GetWarehousesData();
                 Mock<IBookRepository> mockBookRepo = new();
                 mockBookRepo.Setup(x => x.GetWarehouses()).Returns(Task.FromResult(getWarehouseData));
-                var bookService = new BookCatalog(mockBookRepo.Object);
+                WarehouseService bookService = new(mockBookRepo.Object);
 
                 List<Warehouse> getWarehouses = bookService.GetWarehouses().Result;
 
@@ -37,7 +37,7 @@ namespace MyBookStore.Test
                 Warehouse setupWarehouse = WarehouseData.GetWarehouseData();
                 var mockBookRepo = new Mock<IBookRepository>();
                 mockBookRepo.Setup(x => x.AddWarehouse(It.IsAny<Warehouse>()));
-                var bookService = new BookCatalog(mockBookRepo.Object);
+                WarehouseService bookService = new(mockBookRepo.Object);
 
                 Result response = bookService.AddWarehouse(setupWarehouse).Result;
 
@@ -53,7 +53,7 @@ namespace MyBookStore.Test
                 var mockBookRepo = new Mock<IBookRepository>();
                 mockBookRepo.Setup(x => x.GetWarehouse(It.IsAny<int>())).Returns(Task.FromResult(setupWarehouse));
                 mockBookRepo.Setup(x => x.UpdateWarehouse(It.IsAny<Warehouse>()));
-                var bookService = new BookCatalog(mockBookRepo.Object);
+                WarehouseService bookService = new(mockBookRepo.Object);
 
                 updateObject.Name = "sdasdasda";
                 Result response = bookService.UpdateWarehouse(updateObject).Result;
@@ -70,7 +70,7 @@ namespace MyBookStore.Test
                 var mockBookRepo = new Mock<IBookRepository>();
                 mockBookRepo.Setup(x => x.GetWarehouse(It.IsAny<int>())).Returns(Task.FromResult(setupWarehouse));
                 mockBookRepo.Setup(x => x.DeleteWarehouse(It.IsAny<int>()));
-                var bookService = new BookCatalog(mockBookRepo.Object);
+                WarehouseService bookService = new(mockBookRepo.Object);
 
                 Result response = bookService.DeleteWarehouse(setupWarehouse.Id).Result;
 

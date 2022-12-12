@@ -9,7 +9,7 @@ namespace MyBookStore.Pages
     public partial class Index
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
 
         private List<Book>? books;
         private EditContext? searchContext;

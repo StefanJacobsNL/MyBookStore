@@ -34,9 +34,10 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookCatalog, BookCatalog>();
+builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 builder.Services.AddSingleton<Cart>();
 
 var app = builder.Build();

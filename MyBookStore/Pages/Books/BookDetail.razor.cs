@@ -11,7 +11,7 @@ namespace MyBookStore.Pages.Books
         public int BookId { get; set; }
 
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
 
         [Inject]
         public Cart Cart { get; set; } = default!;
