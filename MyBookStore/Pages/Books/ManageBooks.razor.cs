@@ -15,7 +15,10 @@ namespace MyBookStore.Pages.Books
         public IBookCatalog BookCatalog { get; set; } = default!;
 
         [Inject]
-        public IAuthorService AuthorLogic { get; set; } = default!;
+        public IAuthorService AuthorService { get; set; } = default!;
+
+        [Inject]
+        public IGenreService GenreService { get; set; } = default!;
 
         #region BookForm
 
@@ -65,8 +68,8 @@ namespace MyBookStore.Pages.Books
             books = await BookCatalog.GetBooks();
             books.Sort(new BookNameComparator());
 
-            AllAuthors = await AuthorLogic.GetAuthors();
-            AllGenres = await BookCatalog.GetGenres();
+            AllAuthors = await AuthorService.GetAuthors();
+            AllGenres = await GenreService.GetGenres();
             bookStocks = await BookCatalog.GetBookStocksBasedOnWarehouses();
         }
 

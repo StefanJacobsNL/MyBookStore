@@ -11,7 +11,7 @@ namespace MyBookStore.Pages
         [Inject]
         public IBookCatalog BookCatalog { get; set; } = default!;
 
-        private List<Book> books;
+        private List<Book>? books;
         private EditContext? searchContext;
         private SearchFilter bookFilter = new();
         private Dictionary<string, IComparer<Book>> SortDict = new()
@@ -45,7 +45,7 @@ namespace MyBookStore.Pages
                 bookFilter.SortBy = (string)changeEvent.Value;
             }
 
-            if (bookFilter.SortBy != null)
+            if (bookFilter.SortBy != null && books != null)
             {
                 books.Sort(SortDict[bookFilter.SortBy]);
             }

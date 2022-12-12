@@ -11,7 +11,7 @@ namespace MyBookStore.Pages.Genres
     public partial class ManageGenre
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IGenreService GenreService { get; set; } = default!;
 
         #region GenreForm
 
@@ -40,7 +40,7 @@ namespace MyBookStore.Pages.Genres
 
         private async Task LoadGenreData()
         {
-            genres = await BookCatalog.GetGenres();
+            genres = await GenreService.GetGenres();
         }
 
         private void OnAddBtnClick()
@@ -79,11 +79,11 @@ namespace MyBookStore.Pages.Genres
             {
                 if (selectedGenre.Id > 0)
                 {
-                    result = await BookCatalog.UpdateGenre(selectedGenre);
+                    result = await GenreService.UpdateGenre(selectedGenre);
                 }
                 else
                 {
-                    result = await BookCatalog.AddGenre(selectedGenre);
+                    result = await GenreService.AddGenre(selectedGenre);
                 }
 
                 errorList.Add(result.Error);
@@ -108,7 +108,7 @@ namespace MyBookStore.Pages.Genres
         {
             result = Result.Reset();
 
-            result = await BookCatalog.DeleteGenre(selectedGenre.Id);
+            result = await GenreService.DeleteGenre(selectedGenre.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);

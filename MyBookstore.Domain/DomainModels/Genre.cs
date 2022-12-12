@@ -6,7 +6,7 @@ namespace MyBookstore.Domain.DomainModels
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A genre name is required")]
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
 
         public Genre()
         {

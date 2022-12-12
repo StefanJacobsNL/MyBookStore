@@ -19,11 +19,11 @@ namespace MyBookstore.Domain.DomainModels
         public decimal Price { get; set; }
         [Required(ErrorMessage = "A image is required")]
         public string ImagePath { get; set; } = string.Empty;
-        public IBrowserFile FileUpload { get; set; }
+        public IBrowserFile? FileUpload { get; set; }
         public List<Genre> Genres { get; set; } = new List<Genre>();
         public List<Author> Authors { get; set; } = new List<Author>();
         public List<BookStock> BookStocks { get; set; } = new();
-        public Discount Discount { get; set; }
+        public Discount? Discount { get; set; }
 
         public Book()
         {

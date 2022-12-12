@@ -21,9 +21,9 @@ namespace MyBookStore.Test
             List<Genre> getGenreData = GenreData.GetGenresInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenres()).Returns(Task.FromResult(getGenreData));
-            var bookService = new BookCatalog(bookRepo.Object);
+            GenreService genreService = new(bookRepo.Object);
 
-            List<Genre> genres = bookService.GetGenres().Result;
+            List<Genre> genres = genreService.GetGenres().Result;
 
             Assert.NotNull(genres);
             Assert.Equal(getGenreData.Count(), genres.Count());
@@ -36,9 +36,9 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenreByName(It.IsAny<string>())).Returns(Task.FromResult(new Genre()));
             bookRepo.Setup(x => x.AddGenre(It.IsAny<Genre>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            GenreService genreService = new(bookRepo.Object);
 
-            Result response = bookService.AddGenre(setupGenre).Result;
+            Result response = genreService.AddGenre(setupGenre).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);
@@ -52,10 +52,10 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenre(It.IsAny<int>())).Returns(Task.FromResult(setupGenre));
             bookRepo.Setup(x => x.UpdateGenre(It.IsAny<Genre>()));
-            BookCatalog bookService = new(bookRepo.Object);
+            GenreService genreService = new(bookRepo.Object);
 
             updateGenre.Name = "sdasdasda";
-            Result response = bookService.UpdateGenre(updateGenre).Result;
+            Result response = genreService.UpdateGenre(updateGenre).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);
@@ -69,9 +69,9 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenre(It.IsAny<int>())).Returns(Task.FromResult(setupGenre));
             bookRepo.Setup(x => x.DeleteGenre(It.IsAny<int>()));
-            BookCatalog bookService = new(bookRepo.Object);
+            GenreService genreService = new(bookRepo.Object);
 
-            Result response = bookService.DeleteGenre(setupGenre.Id).Result;
+            Result response = genreService.DeleteGenre(setupGenre.Id).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);

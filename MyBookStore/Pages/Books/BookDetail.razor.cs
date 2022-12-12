@@ -16,7 +16,7 @@ namespace MyBookStore.Pages.Books
         [Inject]
         public Cart Cart { get; set; } = default!;
 
-        private Book book;
+        private Book? book;
 
         private Alert? MainAlert { get; set; }
 
@@ -27,8 +27,11 @@ namespace MyBookStore.Pages.Books
 
         private void AddToBasket()
         {
-            Cart.AddBook(book);
-            MainAlert?.Show();
+            if (book != null)
+            {
+                Cart.AddBook(book);
+                MainAlert?.Show();
+            }
         }
     }
 }
