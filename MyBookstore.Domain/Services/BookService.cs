@@ -1,5 +1,6 @@
 ﻿using MyBookstore.Domain.Comparators;
 using MyBookstore.Domain.DomainModels;
+using MyBookstore.Domain.Factory;
 using MyBookstore.Domain.Filters;
 using MyBookstore.Domain.Interfaces;
 using MyBookstore.Domain.Repositories;
@@ -17,33 +18,34 @@ namespace MyBookstore.Domain.Services
 
         public async Task<List<Book>> GetBooks(SearchFilter? bookFilter = null)
         {
-            List<Book> getbooks = await BookRepository.GetBooks();
+            List<Book> books = await BookRepository.GetBooks();
+
+            books = FilterBooks(books, bookFilter);
+
+            books.Sort(new BookNameComparator());
+
+            return books;
+        }
+
+        private List<Book> FilterBooks(List<Book> books, SearchFilter? bookFilter = null)
+        {
             List<Book> filteredBooks = new();
 
             if (bookFilter != null)
             {
-                List<IBookFilter> bookFilters = new()
-                {
-                    new BookFilterBookName(),
-                    new BookFilterBookGenre(),
-                    new BookFilterBookAuthor()
-                };
+                List<IBookFilter> bookFilters = BookFilterFactory.GetAllFilters();
 
                 foreach (var filter in bookFilters)
                 {
-                    var filterBooks = filter.Filter(getbooks, bookFilter);
-
-                    
+                    var filterBooks = filter.Filter(books, bookFilter);
 
                     filteredBooks.AddRange(filterBooks.Where(x => !filteredBooks.Contains(x)));
                 }
             }
             else
             {
-                filteredBooks = getbooks;
+                filteredBooks = books;
             }
-
-            filteredBooks.Sort(new BookNameComparator());
 
             return filteredBooks;
         }

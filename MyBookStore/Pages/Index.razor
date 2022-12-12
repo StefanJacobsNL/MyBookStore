@@ -45,7 +45,16 @@
                                 <img src="@book.ImagePath" class="card-img-top pt-1" alt="@book.Name">
                                 <div class="card-body">
                                     <h5 class="card-title">@book.Name</h5>
-                                    <h6>@book.Authors.First().Name</h6>
+                                    <h6>
+                                        @if (book.Authors.Any())
+                                        {
+                                            @book.Authors.First().Name
+                                        }
+                                        else
+                                        {
+                                            @("-")
+                                        }
+                                    </h6>
                                     <p class="card-text">
                                         @if (book.Genres.Any())
                                         {
@@ -65,7 +74,6 @@
                                                 }
                                                 @book.CalculateDiscountedPrice()
                                             </h5>
-
                                         </div>
                                         <div class="col">
                                             <a href="@($"book/{ book.Id}")" class="btn btn-primary form-control">View</a>

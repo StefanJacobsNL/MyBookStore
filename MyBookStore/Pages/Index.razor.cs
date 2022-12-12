@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using MyBookstore.Domain.Services;
 using MyBookstore.Domain.Comparators;
 using MyBookstore.Domain.DomainModels;
+using MyBookstore.Domain.Factory;
 
 namespace MyBookStore.Pages
 {
@@ -14,15 +15,7 @@ namespace MyBookStore.Pages
         private List<Book>? books;
         private EditContext? searchContext;
         private SearchFilter bookFilter = new();
-        private Dictionary<string, IComparer<Book>> SortDict = new()
-        {
-            { "A => Z", new BookNameComparator() },
-            { "Z => A", new BookNameDescComparator() },
-            { "Lowest to highest Price", new BookPriceComparator() },
-            { "Highest to lowest Price", new BookPriceDescComparator() },
-            { "Lowest to highest discount", new BookDiscountComparator() },
-            { "Highest to lowest discount", new BookDiscountDescComparator() }
-        };
+        private Dictionary<string, IComparer<Book>> SortDict = BookComparerFactory.GetAllComparers();
 
         protected async override Task OnInitializedAsync()
         {
