@@ -1,7 +1,7 @@
 ﻿using Moq;
 using MyBookstore.Database.Entities;
 using MyBookstore.Database.Repositories;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Test.Data;
@@ -21,9 +21,9 @@ namespace MyBookStore.Test
             List<Author> getAuthorData = AuthorData.GetAuthorsInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthors()).Returns(Task.FromResult(getAuthorData));
-            BookCatalog bookService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
-            List<Author> authors = bookService.GetAuthors().Result;
+            List<Author> authors = authorService.GetAuthors().Result;
 
             Assert.NotNull(authors);
             Assert.Equal(getAuthorData.Count(), authors.Count());
@@ -35,9 +35,9 @@ namespace MyBookStore.Test
             Author setupAuthor = AuthorData.GetAuthorInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.AddAuthor(It.IsAny<Author>()));
-            BookCatalog bookService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
-            Result response = bookService.AddAuthor(setupAuthor).Result;
+            Result response = authorService.AddAuthor(setupAuthor).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);
@@ -51,10 +51,10 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthor(It.IsAny<int>())).Returns(Task.FromResult(setupAuthor));
             bookRepo.Setup(x => x.UpdateAuthor(It.IsAny<Author>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
             updateAuthor.Name = "sdasdasda";
-            Result response = bookService.UpdateAuthor(updateAuthor).Result;
+            Result response = authorService.UpdateAuthor(updateAuthor).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);
@@ -68,9 +68,9 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthor(It.IsAny<int>())).Returns(Task.FromResult(setupAuthor));
             bookRepo.Setup(x => x.DeleteAuthor(It.IsAny<int>()));
-            BookCatalog bookService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
-            Result response = bookService.DeleteAuthor(setupAuthor.Id).Result;
+            Result response = authorService.DeleteAuthor(setupAuthor.Id).Result;
 
             Assert.NotNull(response);
             Assert.True(response.Succes, response.Error);

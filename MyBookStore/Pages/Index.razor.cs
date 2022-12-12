@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.Comparators;
 using MyBookstore.Domain.DomainModels;
 
@@ -9,9 +9,9 @@ namespace MyBookStore.Pages
     public partial class Index
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
 
-        private List<Book> books;
+        private List<Book>? books;
         private EditContext? searchContext;
         private SearchFilter bookFilter = new();
         private Dictionary<string, IComparer<Book>> SortDict = new()
@@ -45,7 +45,7 @@ namespace MyBookStore.Pages
                 bookFilter.SortBy = (string)changeEvent.Value;
             }
 
-            if (bookFilter.SortBy != null)
+            if (bookFilter.SortBy != null && books != null)
             {
                 books.Sort(SortDict[bookFilter.SortBy]);
             }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 
@@ -11,12 +11,12 @@ namespace MyBookStore.Pages.Books
         public int BookId { get; set; }
 
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
 
         [Inject]
         public Cart Cart { get; set; } = default!;
 
-        private Book book;
+        private Book? book;
 
         private Alert? MainAlert { get; set; }
 
@@ -27,8 +27,11 @@ namespace MyBookStore.Pages.Books
 
         private void AddToBasket()
         {
-            Cart.AddBook(book);
-            MainAlert?.Show();
+            if (book != null)
+            {
+                Cart.AddBook(book);
+                MainAlert?.Show();
+            }
         }
     }
 }

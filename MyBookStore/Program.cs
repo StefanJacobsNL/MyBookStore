@@ -1,19 +1,14 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using MyBookstore.Database;
 using MyBookstore.Database.MapperProfiles;
 using MyBookstore.Database.Repositories;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Areas.Identity;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,7 +34,10 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
-builder.Services.AddScoped<IBookCatalog, BookCatalog>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
+builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 builder.Services.AddSingleton<Cart>();
 
 var app = builder.Build();

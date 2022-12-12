@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 using MyBookStore.Components.Modal;
@@ -11,7 +11,7 @@ namespace MyBookStore.Pages.Books
     public partial class ManageWarehouse
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IWarehouseService WarehouseService { get; set; } = default!;
 
         #region WarehouseForm
 
@@ -40,7 +40,7 @@ namespace MyBookStore.Pages.Books
 
         private async Task LoadWarehouseData()
         {
-            warehouses = await BookCatalog.GetWarehouses();
+            warehouses = await WarehouseService.GetWarehouses();
         }
 
         private void OnAddBtnClick()
@@ -79,11 +79,11 @@ namespace MyBookStore.Pages.Books
             {
                 if (selectedWarehouse.Id > 0)
                 {
-                    result = await BookCatalog.UpdateWarehouse(selectedWarehouse);
+                    result = await WarehouseService.UpdateWarehouse(selectedWarehouse);
                 }
                 else
                 {
-                    result = await BookCatalog.AddWarehouse(selectedWarehouse);
+                    result = await WarehouseService.AddWarehouse(selectedWarehouse);
                 }
 
                 errorList.Add(result.Error);
@@ -108,7 +108,7 @@ namespace MyBookStore.Pages.Books
         {
             result = Result.Reset();
 
-            result = await BookCatalog.DeleteWarehouse(selectedWarehouse.Id);
+            result = await WarehouseService.DeleteWarehouse(selectedWarehouse.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);

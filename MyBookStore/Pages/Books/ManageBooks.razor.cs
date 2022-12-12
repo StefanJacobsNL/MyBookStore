@@ -3,7 +3,7 @@ using MyBookStore.Components.Modal;
 using MyBookStore.Components;
 using MyBookstore.Domain.DomainModels;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookStore.Helper;
 using MyBookstore.Domain.Comparators;
 
@@ -12,7 +12,16 @@ namespace MyBookStore.Pages.Books
     public partial class ManageBooks
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IBookService BookCatalog { get; set; } = default!;
+
+        [Inject]
+        public IAuthorService AuthorService { get; set; } = default!;
+
+        [Inject]
+        public IGenreService GenreService { get; set; } = default!;
+
+        [Inject]
+        public IWarehouseService WarehouseService { get; set; } = default!;
 
         #region BookForm
 
@@ -62,9 +71,9 @@ namespace MyBookStore.Pages.Books
             books = await BookCatalog.GetBooks();
             books.Sort(new BookNameComparator());
 
-            AllAuthors = await BookCatalog.GetAuthors();
-            AllGenres = await BookCatalog.GetGenres();
-            bookStocks = await BookCatalog.GetBookStocksBasedOnWarehouses();
+            AllAuthors = await AuthorService.GetAuthors();
+            AllGenres = await GenreService.GetGenres();
+            bookStocks = await WarehouseService.GetBookStocksBasedOnWarehouses();
         }
 
         private void OnAddBtnClick()

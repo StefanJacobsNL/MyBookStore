@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Moq;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Test.Data;
@@ -16,7 +16,7 @@ namespace MyBookStore.Test
             List<Book> getBookData = BookData.GetBooksInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetBooks()).Returns(Task.FromResult(getBookData));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             List<Book> books = bookService.GetBooks().Result;
 
@@ -30,7 +30,7 @@ namespace MyBookStore.Test
             Book getBookData = BookData.GetBookInfo();
             var bookRepo = new Mock<IBookRepository>();
             bookRepo.Setup(x => x.GetBook(getBookData.Id)).Returns(Task.FromResult(getBookData));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             Book book = bookService.GetBook(getBookData.Id).Result;
 
@@ -46,7 +46,7 @@ namespace MyBookStore.Test
             var bookRepo = new Mock<IBookRepository>();
             bookRepo.Setup(x => x.GetBookByName(It.IsAny<string>())).Returns(Task.FromResult(new Book()));
             bookRepo.Setup(x => x.AddBook(It.IsAny<Book>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             Result response = bookService.AddBook(setupBook).Result;
 
@@ -61,7 +61,7 @@ namespace MyBookStore.Test
             var bookRepo = new Mock<IBookRepository>();
             bookRepo.Setup(x => x.GetBookByName(It.IsAny<string>())).Returns(Task.FromResult(setupBook));
             bookRepo.Setup(x => x.AddBook(It.IsAny<Book>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             Result response = bookService.AddBook(setupBook).Result;
 
@@ -77,7 +77,7 @@ namespace MyBookStore.Test
             var bookRepo = new Mock<IBookRepository>();
             bookRepo.Setup(x => x.GetBook(It.IsAny<int>())).Returns(Task.FromResult(getBookData));
             bookRepo.Setup(x => x.UpdateBook(It.IsAny<Book>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             editBook.Name = "sdasdasda";
             Result response = bookService.UpdateBook(editBook).Result;
@@ -94,7 +94,7 @@ namespace MyBookStore.Test
             var bookRepo = new Mock<IBookRepository>();
             bookRepo.Setup(x => x.GetBook(It.IsAny<int>())).Returns(Task.FromResult(getBookData));
             bookRepo.Setup(x => x.DeleteBook(It.IsAny<int>()));
-            var bookService = new BookCatalog(bookRepo.Object);
+            var bookService = new BookService(bookRepo.Object);
 
             Result response = bookService.DeleteBook(getBookData.Id).Result;
 

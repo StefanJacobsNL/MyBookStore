@@ -14,18 +14,25 @@ namespace MyBookstore.Domain.Helper
             ErrorMessage = errorMessage;
         }
 
-        protected override ValidationResult? IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var date = (DateTime)value;
-            var minimalDate = DateTime.MinValue.AddDays(1);
-
-            if (DateTime.Compare(date, minimalDate) < 0)
+            if (value != null)
             {
-                return new ValidationResult(ErrorMessage);
+                var date = (DateTime)value;
+                var minimalDate = DateTime.MinValue.AddDays(1);
+
+                if (DateTime.Compare(date, minimalDate) < 0)
+                {
+                    return new ValidationResult(ErrorMessage);
+                }
+                else
+                {
+                    return ValidationResult.Success;
+                }
             }
             else
             {
-                return ValidationResult.Success;
+                return new ValidationResult("Empty values");
             }
         }
     }

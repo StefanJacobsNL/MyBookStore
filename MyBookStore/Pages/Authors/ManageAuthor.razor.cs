@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 using MyBookStore.Components.Modal;
@@ -11,7 +11,7 @@ namespace MyBookStore.Pages.Authors
     public partial class ManageAuthor
     {
         [Inject]
-        public IBookCatalog BookCatalog { get; set; } = default!;
+        public IAuthorService AuthorService { get; set; } = default!;
 
         #region AuthorForm
 
@@ -39,7 +39,7 @@ namespace MyBookStore.Pages.Authors
 
         private async Task LoadAuthorData()
         {
-            authors = await BookCatalog.GetAuthors();
+            authors = await AuthorService.GetAuthors();
         }
 
         private void OnAddBtnClick()
@@ -78,11 +78,11 @@ namespace MyBookStore.Pages.Authors
             {
                 if (selectedAuthor.Id > 0)
                 {
-                    result = await BookCatalog.UpdateAuthor(selectedAuthor);
+                    result = await AuthorService.UpdateAuthor(selectedAuthor);
                 }
                 else
                 {
-                    result = await BookCatalog.AddAuthor(selectedAuthor);
+                    result = await AuthorService.AddAuthor(selectedAuthor);
                 }
 
                 errorList.Add(result.Error);
@@ -107,7 +107,7 @@ namespace MyBookStore.Pages.Authors
         {
             result = Result.Reset();
 
-            result = await BookCatalog.DeleteAuthor(selectedAuthor.Id);
+            result = await AuthorService.DeleteAuthor(selectedAuthor.Id);
 
             errorList.Clear();
             errorList.Add(result.Error);
