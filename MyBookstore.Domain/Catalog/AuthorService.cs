@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.Catalog
 {
-    public class AuthorLogic : IAuthorLogic
+    public class AuthorService : IAuthorService
     {
         private IBookRepository BookRepository;
 
-        public AuthorLogic(IBookRepository bookRepository)
+        public AuthorService(IBookRepository bookRepository)
         {
             BookRepository = bookRepository;
         }

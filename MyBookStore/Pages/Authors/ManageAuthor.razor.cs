@@ -11,7 +11,7 @@ namespace MyBookStore.Pages.Authors
     public partial class ManageAuthor
     {
         [Inject]
-        public IAuthorLogic AuthorLogic { get; set; } = default!;
+        public IAuthorService AuthorLogic { get; set; } = default!;
 
         #region AuthorForm
 

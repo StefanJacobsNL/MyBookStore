@@ -15,7 +15,7 @@ namespace MyBookStore.Pages.Books
         public IBookCatalog BookCatalog { get; set; } = default!;
 
         [Inject]
-        public IAuthorLogic AuthorLogic { get; set; } = default!;
+        public IAuthorService AuthorLogic { get; set; } = default!;
 
         #region BookForm
 

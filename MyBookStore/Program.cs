@@ -40,7 +40,7 @@ builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IBookCatalog, BookCatalog>();
-builder.Services.AddScoped<IAuthorLogic, AuthorLogic>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddSingleton<Cart>();
 
 var app = builder.Build();

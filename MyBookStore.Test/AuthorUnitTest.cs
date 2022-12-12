@@ -21,7 +21,7 @@ namespace MyBookStore.Test
             List<Author> getAuthorData = AuthorData.GetAuthorsInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthors()).Returns(Task.FromResult(getAuthorData));
-            AuthorLogic authorService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
             List<Author> authors = authorService.GetAuthors().Result;
 
@@ -35,7 +35,7 @@ namespace MyBookStore.Test
             Author setupAuthor = AuthorData.GetAuthorInfo();
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.AddAuthor(It.IsAny<Author>()));
-            AuthorLogic authorService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
             Result response = authorService.AddAuthor(setupAuthor).Result;
 
@@ -51,7 +51,7 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthor(It.IsAny<int>())).Returns(Task.FromResult(setupAuthor));
             bookRepo.Setup(x => x.UpdateAuthor(It.IsAny<Author>()));
-            AuthorLogic authorService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
             updateAuthor.Name = "sdasdasda";
             Result response = authorService.UpdateAuthor(updateAuthor).Result;
@@ -68,7 +68,7 @@ namespace MyBookStore.Test
             Mock<IBookRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetAuthor(It.IsAny<int>())).Returns(Task.FromResult(setupAuthor));
             bookRepo.Setup(x => x.DeleteAuthor(It.IsAny<int>()));
-            AuthorLogic authorService = new(bookRepo.Object);
+            AuthorService authorService = new(bookRepo.Object);
 
             Result response = authorService.DeleteAuthor(setupAuthor.Id).Result;
 
