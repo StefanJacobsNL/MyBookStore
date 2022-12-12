@@ -3,7 +3,7 @@ using MyBookStore.Components.Modal;
 using MyBookStore.Components;
 using MyBookstore.Domain.DomainModels;
 using Microsoft.AspNetCore.Components.Forms;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookStore.Helper;
 using MyBookstore.Domain.Comparators;
 

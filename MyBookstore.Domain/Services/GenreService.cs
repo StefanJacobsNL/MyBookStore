@@ -1,7 +1,7 @@
 ﻿using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 
-namespace MyBookstore.Domain.Catalog
+namespace MyBookstore.Domain.Services
 {
     public class GenreService : IGenreService
     {

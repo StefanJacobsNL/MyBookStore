@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
 

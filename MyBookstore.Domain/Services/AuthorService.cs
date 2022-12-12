@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBookstore.Domain.Catalog
+namespace MyBookstore.Domain.Services
 {
     public class AuthorService : IAuthorService
     {

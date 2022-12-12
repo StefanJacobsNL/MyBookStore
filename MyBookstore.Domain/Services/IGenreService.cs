@@ -1,6 +1,6 @@
 ﻿using MyBookstore.Domain.DomainModels;
 
-namespace MyBookstore.Domain.Catalog
+namespace MyBookstore.Domain.Services
 {
     public interface IGenreService
     {

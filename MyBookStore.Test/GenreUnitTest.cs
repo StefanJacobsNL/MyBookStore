@@ -1,7 +1,7 @@
 ﻿using Moq;
 using MyBookstore.Database.Entities;
 using MyBookstore.Database.Repositories;
-using MyBookstore.Domain.Catalog;
+using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Test.Data;
