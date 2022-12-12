@@ -14,6 +14,9 @@ namespace MyBookStore.Pages.Books
         [Inject]
         public IBookCatalog BookCatalog { get; set; } = default!;
 
+        [Inject]
+        public IAuthorLogic AuthorLogic { get; set; } = default!;
+
         #region BookForm
 
         private EditContext? editContext;
@@ -62,7 +65,7 @@ namespace MyBookStore.Pages.Books
             books = await BookCatalog.GetBooks();
             books.Sort(new BookNameComparator());
 
-            AllAuthors = await BookCatalog.GetAuthors();
+            AllAuthors = await AuthorLogic.GetAuthors();
             AllGenres = await BookCatalog.GetGenres();
             bookStocks = await BookCatalog.GetBookStocksBasedOnWarehouses();
         }
