@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBookstore.Domain.DomainModels
 {
-    public class Book : IDiscount
+    public class Book
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "A book name is required")]
@@ -16,7 +16,26 @@ namespace MyBookstore.Domain.DomainModels
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         [Required(ErrorMessage = "A price is required")]
-        public decimal Price { get; set; }
+
+        private decimal price { get; set; }
+
+        public decimal Price
+        {
+            get 
+            { 
+                return price; 
+            }
+            set 
+            {
+                price = value;
+                TotalPrice = value; 
+            }
+        }
+
+        public decimal TotalPrice { get; set; }
+
+        public decimal TotalDiscount { get; set; }
+
         [Required(ErrorMessage = "A image is required")]
         public string ImagePath { get; set; } = string.Empty;
         public IBrowserFile? FileUpload { get; set; }
@@ -29,6 +48,7 @@ namespace MyBookstore.Domain.DomainModels
         {
 
         }
+
         public bool CheckIfBookHasGenres()
         {
             if (Genres.Any())
@@ -87,32 +107,6 @@ namespace MyBookstore.Domain.DomainModels
             }
 
             return amountOfBooks;
-        }
-
-        public decimal CalculateDiscount()
-        {
-            if (Price > 0 && Discount != null && Discount.CheckIfDateIsValid())
-            {
-                return Math.Round((Price / 100) * Discount.Amount, 2);
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public decimal CalculateDiscountedPrice()
-        {
-            decimal getDiscount = CalculateDiscount();
-
-            if (getDiscount > 0)
-            {
-                return Math.Round(Price - getDiscount, 2);
-            }
-            else
-            {
-                return Math.Round(Price, 2);
-            }
         }
     }
 }

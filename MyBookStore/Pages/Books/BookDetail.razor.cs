@@ -2,6 +2,7 @@
 using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookStore.Components;
+using MyBookstore.Domain.Factory;
 
 namespace MyBookStore.Pages.Books
 {
@@ -23,6 +24,7 @@ namespace MyBookStore.Pages.Books
         protected async override Task OnInitializedAsync()
         {
             book = await BookCatalog.GetBook(BookId);
+
         }
 
         private void AddToBasket()
