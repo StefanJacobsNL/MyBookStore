@@ -12,12 +12,32 @@ namespace MyBookstore.Domain.DiscountRules
     {
         public decimal CalculateDiscount(Book book)
         {
-            throw new NotImplementedException();
+            decimal calculateDiscount = 0;
+
+            if (book.Genres.Any())
+            {
+                foreach (var genre in book.Genres)
+                {
+                    if (genre.Discount != null && genre.Discount.CheckIfDateIsValid())
+                    {
+                        calculateDiscount += Math.Round((book.TotalPrice / 100) * genre.Discount.Amount, 2);
+                    }
+                }
+            }
+
+            return calculateDiscount;
         }
 
         public Book CalculateDiscountedPrice(Book book)
         {
-            throw new NotImplementedException();
+            decimal getDiscount = CalculateDiscount(book);
+
+            if (getDiscount > 0 && (book.TotalPrice - getDiscount) >= 0)
+            {
+                book.TotalPrice -= getDiscount;
+            }
+
+            return book;
         }
     }
 }

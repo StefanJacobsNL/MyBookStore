@@ -15,7 +15,7 @@ namespace MyBookstore.Domain.Factory
             return new List<IDiscountNew>()
             {
                 new DiscountRuleBook(),
-                //new DiscountRuleGenre()
+                new DiscountRuleGenre()
             };
         }
 
@@ -24,7 +24,7 @@ namespace MyBookstore.Domain.Factory
             return new List<IDiscountNew>()
             {
                 new DiscountRuleBook(),
-                //new DiscountRuleGenre()
+                new DiscountRuleGenre()
             };
         }
     }

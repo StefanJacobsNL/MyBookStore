@@ -16,7 +16,7 @@ namespace MyBookstore.Domain.DiscountRules
 
             if (book.Discount != null && book.Discount.CheckIfDateIsValid())
             {
-                calculateDiscount = Math.Round((book.TotalPrice / 100) * book.Discount.Amount, 2);
+                calculateDiscount = Math.Round((book.Price / 100) * book.Discount.Amount, 2);
             }
 
             return calculateDiscount;
@@ -28,7 +28,7 @@ namespace MyBookstore.Domain.DiscountRules
 
             if (getDiscount > 0 && (book.TotalPrice - getDiscount) >= 0 )
             {
-                book.TotalPrice = Math.Round(book.TotalPrice - getDiscount, 2);
+                book.TotalPrice -= getDiscount;
             }
 
             return book;
