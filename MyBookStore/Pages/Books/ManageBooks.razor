@@ -32,7 +32,7 @@
                                         <td>@book.Name</td>
                                         <td>@book.ReleaseDate.ToString("dd-MM-yyyy")</td>
                                         <td>€ @book.Price</td>
-                                        <td>€ @Math.Round(book.CalculateDiscount(), 2)</td>
+                                        <td>€ @book.TotalDiscount</td>
                                         <td>
                                             <button type="button" class="btn btn-outline-success" @onclick="@(() => OnEditBtnListClick(book))">
                                                 <i class="@IconString.Edit"></i>

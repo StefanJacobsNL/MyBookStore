@@ -68,11 +68,11 @@
                                         <div class="col">
                                             <h5>
                                                 €
-                                                @if (book.CalculateDiscountedPrice() != book.Price)
+                                                @if (book.TotalPrice != book.Price)
                                                 {
                                                     <del class="me-1 text-danger">@book.Price</del>
                                                 }
-                                                @book.CalculateDiscountedPrice()
+                                                @book.TotalPrice
                                             </h5>
                                         </div>
                                         <div class="col">

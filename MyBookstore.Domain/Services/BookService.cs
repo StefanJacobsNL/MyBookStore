@@ -1,4 +1,5 @@
 ﻿using MyBookstore.Domain.Comparators;
+using MyBookstore.Domain.DiscountRules;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Factory;
 using MyBookstore.Domain.Filters;
@@ -23,6 +24,9 @@ namespace MyBookstore.Domain.Services
             books = FilterBooks(books, bookFilter);
 
             books.Sort(new BookNameComparator());
+
+            books = DiscountService.CalculateBooksDiscounts(books, DiscountFactory.GetAllBookDiscountRules());
+            books = DiscountService.CalculateBooksDiscountPrice(books, DiscountFactory.GetAllBookDiscountRules());
 
             return books;
         }
@@ -59,6 +63,9 @@ namespace MyBookstore.Domain.Services
             if (resultBook != null && resultBook.Id > 0)
             {
                 getBook = resultBook;
+
+                getBook = DiscountService.CalculateBookDiscount(getBook, DiscountFactory.GetAllBookDiscountRules());
+                getBook = DiscountService.CalculateBookDiscountedPrice(getBook, DiscountFactory.GetAllBookDiscountRules());
             }
 
             return getBook;

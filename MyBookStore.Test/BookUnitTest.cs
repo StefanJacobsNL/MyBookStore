@@ -5,6 +5,8 @@ using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Test.Data;
+using MyBookstore.Domain.Factory;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MyBookStore.Test
 {
@@ -118,9 +120,10 @@ namespace MyBookStore.Test
         {
             Book book = BookData.GetBookInfo();
 
-            var getDiscount = book.CalculateDiscount();
+            
+            var getDiscount = DiscountService.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
 
-            Assert.Equal(getDiscount, (decimal)2);
+            Assert.Equal(getDiscount.TotalDiscount, (decimal)2);
         }
 
         [Fact]
@@ -128,9 +131,9 @@ namespace MyBookStore.Test
         {
             Book book = BookData.GetBookInfo();
 
-            var getDiscount = book.CalculateDiscountedPrice();
+            var getDiscount = DiscountService.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
 
-            Assert.Equal(getDiscount, (decimal)8);
+            Assert.Equal(getDiscount.TotalPrice, (decimal)8);
         }
     }
 }

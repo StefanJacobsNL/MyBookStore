@@ -36,15 +36,15 @@ else
                             <li class="list-group-item"><label><strong>Author(s):</strong> @book.GetAuthorsString()</label></li>
                             <li class="list-group-item"><label><strong>Genre(s):</strong> @book.GetGenresString()</label></li>
                             <li class="list-group-item"><label><strong>Description:</strong> @book.Description</label></li>
-                            @if (book.CalculateDiscount() == 0)
+                            @if (book.Discount == null || book.TotalDiscount == 0)
                             {
                                 <li class="list-group-item"><label><strong>Price:</strong>€ @book.Price</label></li>
                             }
                             else
                             {
                                 <li class="list-group-item"><label><strong>Discount:</strong>@book.Discount.Amount%</label></li>
-                                <li class="list-group-item"><label><strong>Total discount:</strong>€ @book.CalculateDiscount()</label></li>
-                                <li class="list-group-item"><label><strong>Price:</strong>€ <del class="me-1 text-danger">@book.Price</del> @book.CalculateDiscountedPrice()</label></li>
+                                <li class="list-group-item"><label><strong>Total discount:</strong>€ @book.TotalDiscount</label></li>
+                                <li class="list-group-item"><label><strong>Price:</strong>€ <del class="me-1 text-danger">@book.Price</del> @book.TotalPrice</label></li>
                             }
                             <li class="list-group-item">
                                 <button type="button" class="btn btn-primary form-control" @onclick="AddToBasket">
