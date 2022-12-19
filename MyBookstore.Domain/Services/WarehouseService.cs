@@ -1,5 +1,6 @@
 ﻿using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
+using MyBookstore.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,27 @@ namespace MyBookstore.Domain.Services
 {
     public class WarehouseService : IWarehouseService
     {
-        private IBookRepository BookRepository;
+        private IWarehouseRepository WarehouseRepository;
 
-        public WarehouseService(IBookRepository bookRepository)
+        public WarehouseService(IWarehouseRepository warehouseRepository)
         {
-            BookRepository = bookRepository;
+            WarehouseRepository = warehouseRepository;
         }
 
         public async Task<Result> AddWarehouse(Warehouse warehouse)
         {
-            await BookRepository.AddWarehouse(warehouse);
+            await WarehouseRepository.AddWarehouse(warehouse);
 
             return Result.OK($"The warehouse '{warehouse.Name}' has been added");
         }
 
         public async Task<Result> DeleteWarehouse(int warehouseId)
         {
-            var getWarehouse = await BookRepository.GetWarehouse(warehouseId);
+            var getWarehouse = await WarehouseRepository.GetWarehouse(warehouseId);
 
             if (getWarehouse != null && getWarehouse.Id > 0)
             {
-                await BookRepository.DeleteWarehouse(getWarehouse.Id);
+                await WarehouseRepository.DeleteWarehouse(getWarehouse.Id);
 
                 return Result.OK($"The warehouse '{getWarehouse.Name}' has been deleted");
             }
@@ -42,12 +43,12 @@ namespace MyBookstore.Domain.Services
 
         public async Task<List<Warehouse>> GetWarehouses()
         {
-            return await BookRepository.GetWarehouses();
+            return await WarehouseRepository.GetWarehouses();
         }
 
         public async Task<Result> UpdateWarehouse(Warehouse warehouse)
         {
-            var getWarehouse = await BookRepository.GetWarehouse(warehouse.Id);
+            var getWarehouse = await WarehouseRepository.GetWarehouse(warehouse.Id);
 
             if (getWarehouse != null)
             {
@@ -55,7 +56,7 @@ namespace MyBookstore.Domain.Services
                 getWarehouse.Address = warehouse.Address;
                 getWarehouse.City = warehouse.City;
 
-                await BookRepository.UpdateWarehouse(getWarehouse);
+                await WarehouseRepository.UpdateWarehouse(getWarehouse);
 
                 return Result.OK($"The warehouse '{getWarehouse.Name}' has been updated");
             }
