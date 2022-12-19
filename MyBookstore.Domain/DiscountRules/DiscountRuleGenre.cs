@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.DiscountRules
 {
-    public class DiscountRuleGenre : IDiscountNew
+    public class DiscountRuleGenre : IDiscount
     {
         public decimal CalculateDiscount(Book book)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyBookstore.Domain.Interfaces
 {
-    public interface IDiscountNew
+    public interface IDiscount
     {
         public decimal CalculateDiscount(Book book);
         public Book CalculateDiscountedPrice(Book book);

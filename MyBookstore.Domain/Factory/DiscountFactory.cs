@@ -10,18 +10,18 @@ namespace MyBookstore.Domain.Factory
 {
     public static class DiscountFactory
     {
-        public static List<IDiscountNew> GetAllDiscountRules()
+        public static List<IDiscount> GetAllDiscountRules()
         {
-            return new List<IDiscountNew>()
+            return new List<IDiscount>()
             {
                 new DiscountRuleBook(),
                 new DiscountRuleGenre()
             };
         }
 
-        public static List<IDiscountNew> GetAllBookDiscountRules()
+        public static List<IDiscount> GetAllBookDiscountRules()
         {
-            return new List<IDiscountNew>()
+            return new List<IDiscount>()
             {
                 new DiscountRuleBook(),
                 new DiscountRuleGenre()

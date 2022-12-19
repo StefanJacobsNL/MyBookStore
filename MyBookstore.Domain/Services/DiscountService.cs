@@ -11,7 +11,7 @@ namespace MyBookstore.Domain.Services
 {
     public static class DiscountService
     {
-        public static Book CalculateBookDiscountedPrice(Book book, List<IDiscountNew> discountRules)
+        public static Book CalculateBookDiscountedPrice(Book book, List<IDiscount> discountRules)
         {
             foreach (var rule in discountRules)
             {
@@ -21,7 +21,7 @@ namespace MyBookstore.Domain.Services
             return book;
         }
 
-        public static List<Book> CalculateBooksDiscountPrice(List<Book> books, List<IDiscountNew> discountRules)
+        public static List<Book> CalculateBooksDiscountPrice(List<Book> books, List<IDiscount> discountRules)
         {
             List<Book> calculatedBooks = new();
 
@@ -33,7 +33,7 @@ namespace MyBookstore.Domain.Services
             return calculatedBooks;
         }
 
-        public static Book CalculateBookDiscount(Book book, List<IDiscountNew> discountRules)
+        public static Book CalculateBookDiscount(Book book, List<IDiscount> discountRules)
         {
             foreach (var rule in discountRules)
             {
@@ -43,7 +43,7 @@ namespace MyBookstore.Domain.Services
             return book;
         }
 
-        public static List<Book> CalculateBooksDiscounts(List<Book> books, List<IDiscountNew> discountRules)
+        public static List<Book> CalculateBooksDiscounts(List<Book> books, List<IDiscount> discountRules)
         {
             List<Book> calculatedBooks = new();
 
