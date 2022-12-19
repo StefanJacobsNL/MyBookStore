@@ -9,6 +9,7 @@ using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
 using MyBookStore.Areas.Identity;
+using MyBookstore.Domain.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,9 @@ IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IGenreService, GenreService>();

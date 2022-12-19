@@ -1,24 +1,25 @@
 ﻿using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
+using MyBookstore.Domain.Repository;
 
 namespace MyBookstore.Domain.Services
 {
     public class GenreService : IGenreService
     {
-        private IBookRepository BookRepository;
+        private IGenreRepository GenreRepository;
 
-        public GenreService(IBookRepository bookRepository)
+        public GenreService(IGenreRepository genreRepository)
         {
-            BookRepository = bookRepository;
+            GenreRepository = genreRepository;
         }
 
         public async Task<Result> AddGenre(Genre genre)
         {
-            var checkIfGenreExist = await BookRepository.GetGenreByName(genre.Name);
+            var checkIfGenreExist = await GenreRepository.GetGenreByName(genre.Name);
 
             if (checkIfGenreExist != null && checkIfGenreExist.Id == 0)
             {
-                await BookRepository.AddGenre(genre);
+                await GenreRepository.AddGenre(genre);
 
                 return Result.OK($"The genre '{genre.Name}' has been added");
             }
@@ -30,11 +31,11 @@ namespace MyBookstore.Domain.Services
 
         public async Task<Result> DeleteGenre(int genreId)
         {
-            var getGenre = await BookRepository.GetGenre(genreId);
+            var getGenre = await GenreRepository.GetGenre(genreId);
 
             if (getGenre != null && getGenre.Id > 0)
             {
-                await BookRepository.DeleteGenre(getGenre.Id);
+                await GenreRepository.DeleteGenre(getGenre.Id);
 
                 return Result.OK($"The genre '{getGenre.Name}' has been deleted");
             }
@@ -46,16 +47,16 @@ namespace MyBookstore.Domain.Services
 
         public async Task<List<Genre>> GetGenres()
         {
-            return await BookRepository.GetGenres();
+            return await GenreRepository.GetGenres();
         }
 
         public async Task<Result> UpdateGenre(Genre genre)
         {
-            Genre getGenre = await BookRepository.GetGenre(genre.Id);
+            Genre getGenre = await GenreRepository.GetGenre(genre.Id);
 
             if (getGenre != null && genre.Id > 0)
             {
-                await BookRepository.UpdateGenre(genre);
+                await GenreRepository.UpdateGenre(genre);
 
                 return Result.OK($"The genre '{getGenre.Name}' has been updated");
             }

@@ -1,12 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
-using Moq;
+﻿using Moq;
 using MyBookstore.Domain.Services;
 using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
+using MyBookstore.Domain.Helper;
 using MyBookStore.Test.Data;
 using MyBookstore.Domain.Factory;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace MyBookStore.Test
 {
@@ -121,7 +119,7 @@ namespace MyBookStore.Test
             Book book = BookData.GetBookInfo();
 
             
-            var getDiscount = DiscountService.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
+            var getDiscount = DiscountCalculator.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
 
             Assert.Equal(getDiscount.TotalDiscount, (decimal)2);
         }
@@ -131,7 +129,7 @@ namespace MyBookStore.Test
         {
             Book book = BookData.GetBookInfo();
 
-            var getDiscount = DiscountService.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
+            var getDiscount = DiscountCalculator.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
 
             Assert.Equal(getDiscount.TotalPrice, (decimal)8);
         }

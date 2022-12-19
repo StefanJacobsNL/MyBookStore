@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MyBookstore.Domain.Repository;
 
 namespace MyBookStore.Test
 {
@@ -19,7 +20,7 @@ namespace MyBookStore.Test
         public void Get_AllGenres()
         {
             List<Genre> getGenreData = GenreData.GetGenresInfo();
-            Mock<IBookRepository> bookRepo = new();
+            Mock<IGenreRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenres()).Returns(Task.FromResult(getGenreData));
             GenreService genreService = new(bookRepo.Object);
 
@@ -33,7 +34,7 @@ namespace MyBookStore.Test
         public void Add_Genre()
         {
             Genre setupGenre = GenreData.GetGenreInfo();
-            Mock<IBookRepository> bookRepo = new();
+            Mock<IGenreRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenreByName(It.IsAny<string>())).Returns(Task.FromResult(new Genre()));
             bookRepo.Setup(x => x.AddGenre(It.IsAny<Genre>()));
             GenreService genreService = new(bookRepo.Object);
@@ -49,7 +50,7 @@ namespace MyBookStore.Test
         {
             Genre setupGenre = GenreData.GetGenreInfo();
             Genre updateGenre = setupGenre;
-            Mock<IBookRepository> bookRepo = new();
+            Mock<IGenreRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenre(It.IsAny<int>())).Returns(Task.FromResult(setupGenre));
             bookRepo.Setup(x => x.UpdateGenre(It.IsAny<Genre>()));
             GenreService genreService = new(bookRepo.Object);
@@ -66,7 +67,7 @@ namespace MyBookStore.Test
         public void Delete_Genre()
         {
             Genre setupGenre = GenreData.GetGenreInfo();
-            Mock<IBookRepository> bookRepo = new();
+            Mock<IGenreRepository> bookRepo = new();
             bookRepo.Setup(x => x.GetGenre(It.IsAny<int>())).Returns(Task.FromResult(setupGenre));
             bookRepo.Setup(x => x.DeleteGenre(It.IsAny<int>()));
             GenreService genreService = new(bookRepo.Object);

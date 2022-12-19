@@ -1,5 +1,6 @@
 ﻿using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Repositories;
+using MyBookstore.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,27 @@ namespace MyBookstore.Domain.Services
 {
     public class AuthorService : IAuthorService
     {
-        private IBookRepository BookRepository;
+        private IAuthorRepository AuthorRepository;
 
-        public AuthorService(IBookRepository bookRepository)
+        public AuthorService(IAuthorRepository authorRepository)
         {
-            BookRepository = bookRepository;
+            AuthorRepository = authorRepository;
         }
 
         public async Task<Result> AddAuthor(Author author)
         {
-            await BookRepository.AddAuthor(author);
+            await AuthorRepository.AddAuthor(author);
 
             return Result.OK($"The author '{author.Name}' has been added");
         }
 
         public async Task<Result> DeleteAuthor(int authorId)
         {
-            var getAuthor = await BookRepository.GetAuthor(authorId);
+            var getAuthor = await AuthorRepository.GetAuthor(authorId);
 
             if (getAuthor != null && getAuthor.Id > 0)
             {
-                await BookRepository.DeleteAuthor(getAuthor.Id);
+                await AuthorRepository.DeleteAuthor(getAuthor.Id);
 
                 return Result.OK($"The author '{getAuthor.Name}' has been deleted");
             }
@@ -42,19 +43,19 @@ namespace MyBookstore.Domain.Services
 
         public async Task<List<Author>> GetAuthors()
         {
-            return await BookRepository.GetAuthors();
+            return await AuthorRepository.GetAuthors();
         }
 
         public async Task<Result> UpdateAuthor(Author author)
         {
-            var getAuthor = await BookRepository.GetAuthor(author.Id);
+            var getAuthor = await AuthorRepository.GetAuthor(author.Id);
 
             if (getAuthor != null)
             {
                 getAuthor.Name = author.Name;
                 getAuthor.BirthDay = author.BirthDay;
 
-                await BookRepository.UpdateAuthor(getAuthor);
+                await AuthorRepository.UpdateAuthor(getAuthor);
 
                 return Result.OK($"The author '{getAuthor.Name}' has been updated");
             }

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyBookstore.Domain.Services
+namespace MyBookstore.Domain.Helper
 {
-    public static class DiscountService
+    public static class DiscountCalculator
     {
         public static Book CalculateBookDiscountedPrice(Book book, List<IDiscount> discountRules)
         {
