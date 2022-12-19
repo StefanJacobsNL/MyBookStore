@@ -5,6 +5,7 @@ using MyBookstore.Domain.Factory;
 using MyBookstore.Domain.Filters;
 using MyBookstore.Domain.Interfaces;
 using MyBookstore.Domain.Repositories;
+using MyBookstore.Domain.Helper;
 
 namespace MyBookstore.Domain.Services
 {
@@ -25,8 +26,8 @@ namespace MyBookstore.Domain.Services
 
             books.Sort(new BookNameComparator());
 
-            books = DiscountService.CalculateBooksDiscounts(books, DiscountFactory.GetAllBookDiscountRules());
-            books = DiscountService.CalculateBooksDiscountPrice(books, DiscountFactory.GetAllBookDiscountRules());
+            books = DiscountCalculator.CalculateBooksDiscounts(books, DiscountFactory.GetAllBookDiscountRules());
+            books = DiscountCalculator.CalculateBooksDiscountPrice(books, DiscountFactory.GetAllBookDiscountRules());
 
             return books;
         }
@@ -64,8 +65,8 @@ namespace MyBookstore.Domain.Services
             {
                 getBook = resultBook;
 
-                getBook = DiscountService.CalculateBookDiscount(getBook, DiscountFactory.GetAllBookDiscountRules());
-                getBook = DiscountService.CalculateBookDiscountedPrice(getBook, DiscountFactory.GetAllBookDiscountRules());
+                getBook = DiscountCalculator.CalculateBookDiscount(getBook, DiscountFactory.GetAllBookDiscountRules());
+                getBook = DiscountCalculator.CalculateBookDiscountedPrice(getBook, DiscountFactory.GetAllBookDiscountRules());
             }
 
             return getBook;

@@ -1,11 +1,6 @@
 ﻿using MyBookstore.Domain.DomainModels;
 using MyBookstore.Domain.Factory;
-using MyBookstore.Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyBookstore.Domain.Helper;
 
 namespace MyBookstore.Domain.Comparators
 {
@@ -29,7 +24,7 @@ namespace MyBookstore.Domain.Comparators
                     booktwo
                 };
 
-                books = DiscountService.CalculateBooksDiscounts(books, DiscountFactory.GetAllBookDiscountRules());
+                books = DiscountCalculator.CalculateBooksDiscounts(books, DiscountFactory.GetAllBookDiscountRules());
 
                 return books[0].TotalDiscount.CompareTo(books[1].TotalDiscount);
             }

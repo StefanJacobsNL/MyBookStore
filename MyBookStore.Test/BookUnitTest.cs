@@ -121,7 +121,7 @@ namespace MyBookStore.Test
             Book book = BookData.GetBookInfo();
 
             
-            var getDiscount = DiscountService.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
+            var getDiscount = DiscountCalculator.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
 
             Assert.Equal(getDiscount.TotalDiscount, (decimal)2);
         }
@@ -131,7 +131,7 @@ namespace MyBookStore.Test
         {
             Book book = BookData.GetBookInfo();
 
-            var getDiscount = DiscountService.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
+            var getDiscount = DiscountCalculator.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
 
             Assert.Equal(getDiscount.TotalPrice, (decimal)8);
         }
