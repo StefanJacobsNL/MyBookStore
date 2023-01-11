@@ -131,7 +131,27 @@ namespace MyBookStore.Test
 
             var getDiscount = DiscountCalculator.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
 
-            Assert.Equal(getDiscount.TotalPrice, (decimal)8);
+            Assert.Equal((decimal)8, getDiscount.TotalPrice);
+        }
+
+        [Fact]
+        public void Calculate_GetTotalAmountBooks()
+        {
+            Book book = BookData.GetBookInfo();
+
+            int totalAmountOfBooks = book.GetTotalAmountBooks();
+
+            Assert.Equal(14, totalAmountOfBooks);
+        }
+
+        [Fact]
+        public void Calculate_GetTotalAmountBooks_NullBookStocks()
+        {
+            Book book = new();
+
+            int totalAmountOfBooks = book.GetTotalAmountBooks();
+
+            Assert.Equal(0, totalAmountOfBooks);
         }
     }
 }
