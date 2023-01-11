@@ -116,5 +116,10 @@ namespace MyBookStore.Pages.Genres
             Modal?.Close();
             await LoadGenreData();
         }
+
+        private void CreateDiscountObject()
+        {
+            selectedGenre.Discount = new();
+        }
     }
 }

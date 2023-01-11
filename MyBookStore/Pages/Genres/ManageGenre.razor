@@ -61,7 +61,46 @@
                                     <FormAlert @ref="FormAlert" EditContext="context"
                                        ErrorList="errorList" formSucces="@((result != null && result.Succes) ? true : false)" />
                                     <label>Genre name</label>
-                                    <InputText class="form-control" @bind-Value="selectedGenre.Name" />
+                                    <InputText class="form-control mb-3" @bind-Value="selectedGenre.Name" />
+
+                                    @if (selectedGenre.Discount != null)
+                                    {
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label>Discount percentage</label>
+                                            </div>
+                                            <div class="col input-group">
+                                                <InputNumber class="form-control" min="0" @bind-Value="selectedGenre.Discount.Amount" />
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label>Start date</label>
+                                            </div>
+                                            <div class="col">
+                                                <InputDate class="form-control" @bind-Value="selectedGenre.Discount.StartDate" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col">
+                                                <label>End date</label>
+                                            </div>
+                                            <div class="col">
+                                                <InputDate class="form-control" @bind-Value="selectedGenre.Discount.EndDate" />
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="button" class="btn btn-primary form-control" @onclick="CreateDiscountObject">
+                                                    <i class="@IconString.Add"></i> Add discount
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
                                     <button type="submit" class="btn btn-primary form-control mt-3">
                                         <span class="@FormAddEditIcon" aria-hidden="true"></span> @FormAddEditText genre
                                     </button>
