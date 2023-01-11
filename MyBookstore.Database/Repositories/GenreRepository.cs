@@ -23,7 +23,8 @@ namespace MyBookstore.Database.Repositories
         /// <returns></returns>
         public async Task<List<Genre>> GetGenres()
         {
-            var getGenres = await dbContext.Genres.ToListAsync();
+            var getGenres = await dbContext.Genres
+                                .Include(x => x.Discount).ToListAsync();
             List<Genre> genres = Mapper.Map<List<Genre>>(getGenres);
 
             return genres;
@@ -33,7 +34,8 @@ namespace MyBookstore.Database.Repositories
         {
             Genre genre = new();
 
-            GenreDTO getGenre = await dbContext.Genres.FirstOrDefaultAsync(x => x.Id == genreId);
+            GenreDTO getGenre = await dbContext.Genres
+                                .Include(x => x.Discount).FirstOrDefaultAsync(x => x.Id == genreId);
 
             if (getGenre != null)
             {
