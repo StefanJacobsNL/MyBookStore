@@ -20,7 +20,8 @@ namespace MyBookStore.Test.Data
                 Price = (decimal)10,
                 ImagePath = "img/test",
                 BookStocks = BookStockData.GetBookStocksInfo(),
-                Discount = DiscountData.GetDiscountInfo()
+                Discount = DiscountData.GetDiscountInfo(),
+                Genres = GenreData.GetGenresInfo()
             };
         }
         internal static List<Book> GetBooksInfo()

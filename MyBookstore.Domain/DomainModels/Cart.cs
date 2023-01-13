@@ -10,7 +10,6 @@ namespace MyBookstore.Domain.DomainModels
     {
         public Dictionary<Book, int> AddedBooks { get; set; } = new();
 
-
         public void AddBook(Book book)
         {
             if (!AddedBooks.Any())
