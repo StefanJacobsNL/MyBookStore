@@ -14,7 +14,8 @@ namespace MyBookStore.Test.Data
             return new Genre()
             {
                 Id = 1,
-                Name = "Action"
+                Name = "Action",
+                Discount = DiscountData.GetDiscountInfo()
             };
         }
         internal static List<Genre> GetGenresInfo()

@@ -1,0 +1,55 @@
+﻿@page "/ShoppingCart"
+<PageTitle>Shopping cart</PageTitle>
+
+<div class="row">
+    <div class="col">
+        <h1 class="display-5 text-center">Shopping Cart</h1>
+    </div>
+</div>
+<div class="card">
+    @if (Cart.GetTotalAmountOfBooks() == 0)
+    {
+        <div class="row">
+            <div class="col text-center p-5">
+                <label class="">No books added yet</label>
+            </div>
+        </div>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Book name</th>
+                    <th scope="col">Price a book</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var addedBook in Cart.AddedBooks)
+                {
+                    <tr>
+                        <th scope="row"><img src="@addedBook.Key.ImagePath" class="card-img-top pt-1 basketImg" alt="@addedBook.Key.Name"></th>
+                        <td>@addedBook.Key.Name</td>
+                        <td>
+                            @if (addedBook.Key.Price != addedBook.Key.TotalPrice)
+                            {
+                                <del class="me-1 text-danger">@addedBook.Key.Price</del>
+                            }
+                            @addedBook.Key.TotalPrice
+                        </td>
+                        <td>@addedBook.Value</td>
+                        <td>@addedBook.Key.CalculatePriceWithAmountOfBooks(addedBook.Value)</td>
+                    </tr>
+                }
+                <tr>
+                    <th colspan="3"></th>
+                    <td>TotalPrice</td>
+                    <td>@Cart.GetTotalPriceBooks()</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

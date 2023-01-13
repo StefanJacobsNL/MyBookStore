@@ -108,5 +108,15 @@ namespace MyBookstore.Domain.DomainModels
 
             return amountOfBooks;
         }
+
+        public decimal CalculatePriceWithAmountOfBooks(int amount)
+        {
+            if (amount > 0)
+            {
+                return TotalPrice * amount;
+            }
+
+            return 0;
+        }
     }
 }

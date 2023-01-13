@@ -5,6 +5,8 @@ using MyBookstore.Domain.Repositories;
 using MyBookstore.Domain.Helper;
 using MyBookStore.Test.Data;
 using MyBookstore.Domain.Factory;
+using MyBookstore.Domain.DiscountRules;
+using MyBookstore.Domain.Interfaces;
 
 namespace MyBookStore.Test
 {
@@ -114,24 +116,43 @@ namespace MyBookStore.Test
         }
 
         [Fact]
-        public void Calculate_Discount()
+        public void Calculate_GetTotalAmountBooks()
         {
             Book book = BookData.GetBookInfo();
 
-            
-            var getDiscount = DiscountCalculator.CalculateBookDiscount(book, DiscountFactory.GetAllBookDiscountRules());
+            int totalAmountOfBooks = book.GetTotalAmountBooks();
 
-            Assert.Equal(getDiscount.TotalDiscount, (decimal)2);
+            Assert.Equal(14, totalAmountOfBooks);
         }
 
         [Fact]
-        public void Calculate_DiscountedPrice()
+        public void Calculate_GetTotalAmountBooks_NullBookStocks()
+        {
+            Book book = new();
+
+            int totalAmountOfBooks = book.GetTotalAmountBooks();
+
+            Assert.Equal(0, totalAmountOfBooks);
+        }
+
+        [Fact]
+        public void Calculate_PriceWithAmountOfBooks()
         {
             Book book = BookData.GetBookInfo();
 
-            var getDiscount = DiscountCalculator.CalculateBookDiscountedPrice(book, DiscountFactory.GetAllBookDiscountRules());
+            decimal totalAmountOfBooks = book.CalculatePriceWithAmountOfBooks(3);
 
-            Assert.Equal(getDiscount.TotalPrice, (decimal)8);
+            Assert.Equal(30, totalAmountOfBooks);
+        }
+
+        [Fact]
+        public void Calculate_PriceWithAmountOfBooks_WithZero()
+        {
+            Book book = BookData.GetBookInfo();
+
+            decimal totalAmountOfBooks = book.CalculatePriceWithAmountOfBooks(0);
+
+            Assert.Equal(0, totalAmountOfBooks);
         }
     }
 }

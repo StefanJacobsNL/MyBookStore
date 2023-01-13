@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MyBookstore.Domain.DomainModels;
 
 namespace MyBookStore.Shared
 {
@@ -6,6 +7,9 @@ namespace MyBookStore.Shared
     {
         [Inject]
         public NavigationManager NavigationManager { get; set; } = default!;
+
+        [Inject]
+        public Cart Cart { get; set; } = default!;
 
         private bool collapseNavMenu = true;
         private bool collapseAdminMenu;

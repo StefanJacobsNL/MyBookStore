@@ -24,7 +24,7 @@ namespace MyBookstore.Database.Repositories
         {
             List<Book> books = new();
 
-            var getBooks = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+            var getBooks = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre).ThenInclude(x => x.Discount)
                                          .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
                                          .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse)
                                          .Include(x => x.Discount).ToListAsync();

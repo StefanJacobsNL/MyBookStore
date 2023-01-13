@@ -8,3 +8,7 @@
     max-height: 400px;
     object-fit: contain;
 }
+
+.basketImg {
+    height: 50px;
+}
