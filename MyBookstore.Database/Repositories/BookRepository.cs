@@ -38,7 +38,7 @@ namespace MyBookstore.Database.Repositories
         {
             Book book = new Book();
 
-            var getBook = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre)
+            var getBook = await dbContext.Books.Include(x => x.BookGenres).ThenInclude(g => g.Genre).ThenInclude(x => x.Discount)
                                                  .Include(x => x.BookAuthors).ThenInclude(a => a.Author)
                                                  .Include(x => x.BookWarehouses).ThenInclude(x => x.Warehouse).FirstOrDefaultAsync(x => x.Id == bookId);
 
